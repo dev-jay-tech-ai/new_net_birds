@@ -1,0 +1,29 @@
+/legacy
+/build
+/assets/images
+
+/legacygit
+
+# Ignore system-generated files
+Thumbs.db
+.DS_Store
+
+# Ignore PHPStorm files
+/.idea
+
+# Ignore Composer dependencies
+/vendor
+
+# Ignore log files and error reports
+/error.log
+/logs/
+
+# Ignore configuration files that might contain sensitive information
+/config.php
+
+# Ignore environment configuration files
+.env
+
+# Ignore user uploads and other temporary files
+/uploads/
+/temp/
