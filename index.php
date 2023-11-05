@@ -55,7 +55,7 @@ if($_POST) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Stock Management System</title>
+	<title>Newnetbirds</title>
 
 	<!-- bootstrap -->
 	<link rel="stylesheet" href="assests/bootstrap/css/bootstrap.min.css">

@@ -33,8 +33,8 @@ if($result->num_rows > 0) {
 	  </ul>
 	</div>';
 
-	$imageUrl = substr($row[2], 3);
-	$userImage = "<img class='img-round' src='".$imageUrl."' style='height:30px; width:50px;'  />";
+	$imageUrl = $row[4];
+	$userImage = "<img class='img-round' src='".$imageUrl."' style='height:35px; width:35px;'  />";
 
  	$output['data'][] = array( 		
  		// image

@@ -54,7 +54,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
       <div class="nav navbar-nav navbar-left logo">Newnetbirds</div>
-      <ul id="logged-in-menu" class="nav navbar-nav navbar-right">
+      <ul style='display: none' id="logged-in-menu" class="nav navbar-nav navbar-right">
         <li class="notifications dropdown text-center hidden-xs" component="notifications">
         <a href="/notifications" title="" class="dropdown-toggle" data-toggle="dropdown" id="notif_dropdown" data-ajaxify="false" role="button" data-original-title="Notifications">
         <i component="notifications/icon" class="fa fa-fw fa-bell-o unread-count" data-content="0"></i>
@@ -152,26 +152,16 @@
           </ul>
         </li>
       </ul>
-        
-        <ul class="nav navbar-nav navbar-right">        
 
-          <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
-
-          <li id="navBrand"><a href="agent.php">Agent</a></li>        
-
-          <li id="navPrivate"><a href="private.php">Private</a></li>        
-
-          <li id="navReivew"><a href="review.php">Review</a></li>     
-          <!-- <li class="dropdown" id="navOrder">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders <span class="caret"></span></a>
-            <ul class="dropdown-menu">            
-              <li id="topNavAddOrder"><a href="orders.php?o=add"> <i class="glyphicon glyphicon-plus"></i> Add Orders</a></li>            
-              <li id="topNavManageOrder"><a href="orders.php?o=manord"> <i class="glyphicon glyphicon-edit"></i> Manage Orders</a></li>            
-            </ul>
-          </li>  -->
-          <li id="navContact"><a href="contact.php">Contact</a></li>      
-          <li id="navMember"><a href="users.php">Member</a></li>      
-          </ul>
+      <ul class="nav navbar-nav navbar-right">        
+        <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
+        <li id="navBrand"><a href="agent.php">Agent</a></li>        
+        <li id="navPrivate"><a href="private.php">Private</a></li>        
+        <li id="navReivew"><a href="review.php">Review</a></li>     
+        <li id="navContact"><a href="contact.php">Contact</a></li>      
+        <li id="navMember"><a href="users.php">Member</a></li>  
+        <li id="navLogin"><a href="login.php">Login</a></li>    
+      </ul>
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

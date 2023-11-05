@@ -16,6 +16,4 @@
 </div>
 <!-- /row -->
 
-<script src="custom/js/contact.js"></script>
-
 <?php require_once 'includes/footer.php'; ?>
