@@ -1,7 +1,7 @@
 </div> <!-- container -->
 	
 	<footer class="footer mt-auto py-3 bg-light">
-		<div class="container">
+		<div class="container text-center">
 			<span class="text-muted"></span>
 			This website is only for the UK, please be sure to comply with UK laws when posting.
 			<br>	

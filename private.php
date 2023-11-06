@@ -1,14 +1,8 @@
 <?php 
 	require_once 'php_action/db_connect.php';
 	require_once 'includes/header.php'; 
-
-	if (isset($_SESSION['userId'])) {
-    $user_id = $_SESSION['userId'];
-    $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
-    $query = $connect->query($sql);
-    $result = $query->fetch_assoc();
-  }
 ?>
+
 <div class="row">
 	<div class="col-md-12">
 		<ol class="breadcrumb">
@@ -38,14 +32,19 @@
 				<table class="table" id="manageProductTable">
 					<thead>
 						<tr>
-							<th style="width:10%;">Photo</th>							
-							<th>Product Name</th>
+							<th style="width:10%;">Profile</th>							
+							<th>Title</th>
 							<th>Rate</th>							
 							<th>Quantity</th>
 							<th>Brand</th>
 							<th>Category</th>
 							<th>Status</th>
-							<th style="width:15%;">Options</th>
+							<?php
+								if ($result['status'] == 1) {
+									// Display this link only when the user is not logged in
+									echo '<th style="width:15%;">Options</th>';
+								}
+							?>
 						</tr>
 					</thead>
 				</table>
@@ -55,7 +54,6 @@
 		</div> <!-- /panel -->		
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
-
 
 <!-- add product -->
 <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog">
@@ -170,8 +168,6 @@
   </div> <!-- /modal-dailog -->
 </div> 
 <!-- /add categories -->
-
-
 <!-- edit categories brand -->
 <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
@@ -339,7 +335,6 @@
 </div>
 <!-- /categories brand -->
 
-<!-- categories brand -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeProductModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -360,7 +355,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!-- /categories brand -->
-<script src="custom/js/private.js"></script>
 
+<script src="custom/js/private.js"></script>
 <?php require_once 'includes/footer.php'; ?>
