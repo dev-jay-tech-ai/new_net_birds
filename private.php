@@ -1,9 +1,16 @@
-<?php require_once 'php_action/db_connect.php' ?>
-<?php require_once 'includes/header.php'; ?>
+<?php 
+	require_once 'php_action/db_connect.php';
+	require_once 'includes/header.php'; 
 
+	if (isset($_SESSION['userId'])) {
+    $user_id = $_SESSION['userId'];
+    $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
+    $query = $connect->query($sql);
+    $result = $query->fetch_assoc();
+  }
+?>
 <div class="row">
 	<div class="col-md-12">
-
 		<ol class="breadcrumb">
 		  <li><a href="dashboard.php">Home</a></li>		  
 		  <li class="active">Private</li>
@@ -16,11 +23,18 @@
 			<div class="panel-body">
 
 				<div class="remove-messages"></div>
-
-				<div class="div-action pull pull-right" style="padding-bottom:20px;">
-					<button class="btn btn-default button1" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal"> <i class="glyphicon glyphicon-plus-sign"></i> Add Product </button>
-				</div> <!-- /div-action -->				
-				
+				<?php 
+				if($result['active'] == 1) {
+					echo '<div class="div-action pull pull-right" style="padding-bottom:20px;">
+						<button class="btn btn-default button1" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal"> <i class="glyphicon glyphicon-plus-sign"></i> Add Product </button>
+					</div>';		
+				} else {
+					echo '<div class="alert alert-danger" role="alert">
+					<i class="glyphicon glyphicon-exclamation-sign"></i>
+					You are required to pay for the utilisation of this service
+					</div>';	
+				}
+				?>
 				<table class="table" id="manageProductTable">
 					<thead>
 						<tr>

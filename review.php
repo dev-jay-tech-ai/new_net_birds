@@ -15,10 +15,21 @@
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 				<div class="remove-messages"></div>
-				<div class="div-action pull pull-right" style="padding-bottom:20px;">
+
+				<?php 
+				if($result['active'] == 1) {
+					echo '<div class="div-action pull pull-right" style="padding-bottom:20px;">
 					<button class="btn btn-default button1" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal"> 
 						<i class="glyphicon glyphicon-plus-sign"></i>Add Review</button>
-				</div> <!-- /div-action -->				
+					</div>';		
+				} else {
+					echo '<div class="alert alert-danger" role="alert">
+					<i class="glyphicon glyphicon-exclamation-sign"></i>
+					You are required to pay for the utilisation of this service
+					</div>';	
+				}
+				?>
+		
 				<table class="table" id="manageProductTable">
 					<thead>
 						<tr>
