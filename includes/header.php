@@ -17,6 +17,7 @@
 
 	  <title>Newnetbirds</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- bootstrap -->
     <link rel="stylesheet" href="assests/bootstrap/css/bootstrap.min.css">
     <!-- bootstrap theme-->
@@ -44,14 +45,30 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
 
     <link href="https://fonts.cdnfonts.com/css/copperplate" rel="stylesheet">
 
+    <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+    <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+    <script type="text/javascript" charset="UTF-8">
+    document.addEventListener('DOMContentLoaded', function () {
+    cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Newnetbirds"});
+    });
+    </script>
+
+    <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript>
+    <!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+    <!-- Below is the link that users can use to open Preferences Center to change their preferences. Do not modify the ID parameter. Place it where appropriate, style it as needed. -->
+
+    <!-- include summernote css/js-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
   </head>
 <body>
-	<nav class="navbar navbar-default navbar-static-top">
+	<nav class="navbar navbar-static-top">
 		<div class="container">  
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -67,7 +84,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
         <div class="nav navbar-nav navbar-left logo">
-          <a href='/newnetbirds/dashboard.php'>Newnetbirds</a>
+          <a href='/newnetbirds/dashboard.php'>
+            <img class='logo_img' src='/newnetbirds/assets/images/logo/logo.png' alt='logo' />
+            Newnetbirds
+          </a>
         </div>
         <?php
           if (isset($_SESSION['userId'])) {
@@ -171,28 +191,30 @@
             </ul>';
         }
         ?>
-        <ul class="nav navbar-nav navbar-right">        
+        <ul class="nav navbar-nav navbar-left">        
           <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
           <li id="navBrand"><a href="agent.php">Agent</a></li>        
           <li id="navPrivate"><a href="private.php">Private</a></li>        
           <li id="navReivew"><a href="review.php">Review</a></li>     
+          <li id="navReivew"><a href="board.php">Board</a></li>     
           <li id="navContact"><a href="contact.php">Contact</a></li> 
-          <?php
-            if ($result['status'] == 1) {
-              // Display this link only when the user is not logged in
-              echo '<li id="navMember"><a href="users.php">Member</a></li> ';
-            }
-    
-            if (!isset($_SESSION['userId'])) {
-              // Display this link only when the user is not logged in
-              echo '<li id="navLogin"><a href="login.php">Login</a></li>';
-            }
-          ?>
         </ul>
-
+        <ul class="nav navbar-nav navbar-right"> 
+        <?php
+          if ($result['status'] == 1) {
+            // Display this link only when the user is not logged in
+            echo '<li id="navMember"><a href="users.php">Member</a></li> ';
+          }
+  
+          if (!isset($_SESSION['userId'])) {
+            // Display this link only when the user is not logged in
+            echo '<li id="navLogin"><a href="login.php">Login</a></li>';
+          }
+        ?>
+        </ul>
       </div><!-- /.navbar-collapse -->
     
     </div><!-- /.container-fluid -->
 	</nav>
 
-	<div class="container">
+	<div>

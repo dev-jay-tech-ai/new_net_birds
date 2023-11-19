@@ -27,3 +27,5 @@ Thumbs.db
 # Ignore user uploads and other temporary files
 /uploads/
 /temp/
+
+/php_action/db_connect

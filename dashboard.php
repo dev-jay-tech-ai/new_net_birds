@@ -1,39 +1,106 @@
 <?php require_once 'includes/header.php'; ?>
 
 <div class="row">
-	<div class="main panel panel-default col-md-12 text-center" style='height: 200px'>
+	<div class="main panel col-md-12 text-center" style='height: 200px'>
 		<div class='panel-heading text-data'>
-			Welcome to newnetbirds
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">welcome!</font></font></h3></div>
-		<div class="panel-body">
-			<div class="global-text-box-wrapper">
-				<div class="global-text-box-1">
-					<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">This website is only for the UK, please be sure to comply with UK laws when posting.</font></font></p>
-					<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Site Affairs Statement: </font></font><a href="https://www.uknetbirds.com/topic/113/%E7%AB%99%E5%8A%A1%E5%A3%B0%E6%98%8E"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Site Affairs Statement</font></font></a></p>
-					<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-							To register, please visit: </font></font><a href="https://www.uknetbirds.com/register"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quick Registration</font></font></a>
-					</p>
-					<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-					View all sections: </font></font><a href="https://www.uknetbirds.com/categories"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sections</font></font></a>
-					</p>
-					<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posting Tutorial: </font></font><a href="https://www.uknetbirds.com/topic/136/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E4%BB%8E%E6%B3%A8%E5%86%8C%E5%88%B0%E5%8F%91%E5%B8%96"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tutorial</font></font></a></p>
-					<p></p>
+			<div class="Hero_wrapper">
+				<div class="container">
+					<div class="Hero_innerWrapper">
+						<div class="text_wrapper__1wumA text_hero___ByfE">
+							<h1 class="heading_1">Reviews and Loyalty</h1>
+							<p>Combine Reviews and Loyalty to build trust and give your customers a voice.</p>
+							<a href="/account/signup?appType=all" class="button_btn__L6SHM button_fill-pg__FSiK3">Sign Up Free</a>
+						</div>
+						<div class="FullSuiteHeroSection_icon__3bxSb"><div class="Intersection_wrapper" data-intersect="boxShadow" style="transition-delay: 0ms;">
+						<div class="LogoCube_wrapper__1zRZD LogoCube_lg__MMKJu LogoCube_suite__1PiP7">
+
+						</div>
+					</div>
 				</div>
-				<div class="global-text-box-2">
-						<h3 style="
-							margin-top: 0px;
-							"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to join the customer Telegram discussion group:</font></font></h3>
-						<a href="https://t.me/uknetbirds2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Invitation link</font></font></a>
-					<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to support the operation of this site through donations: </font></font><a href="/donation" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
-				</div>
+				<div class="Hero_dots__e1Tsv">
+					<img src="https://d2oupip9s5ltdo.cloudfront.net/cdn/webassets/img/hero-dots.png" alt=""></div></div></div>
+					<div class="Hero_triangle__t_hGV"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 698 844" fill="none"><rect x="622.165" y="-485.604" width="1000.24" height="879.874" transform="rotate(45 622.165 -485.604)" fill="#F3F3F5"></rect>
+				</svg>
 			</div>
 		</div>
 	</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">welcome!</font></font></h3></div>
+			<div class="panel-body">
+				<div class="global-text-box-wrapper">
+					<div class="global-text-box-1">
+						<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">This website is only for the UK, please be sure to comply with UK laws when posting.</font></font></p>
+						<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Site Affairs Statement: </font></font><a href="https://www.uknetbirds.com/topic/113/%E7%AB%99%E5%8A%A1%E5%A3%B0%E6%98%8E"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Site Affairs Statement</font></font></a></p>
+						<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+								To register, please visit: </font></font><a href="https://www.uknetbirds.com/register"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quick Registration</font></font></a>
+						</p>
+						<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+						View all sections: </font></font><a href="https://www.uknetbirds.com/categories"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sections</font></font></a>
+						</p>
+						<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posting Tutorial: </font></font><a href="https://www.uknetbirds.com/topic/136/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E4%BB%8E%E6%B3%A8%E5%86%8C%E5%88%B0%E5%8F%91%E5%B8%96"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tutorial</font></font></a></p>
+						<p></p>
+					</div>
+					<div class="global-text-box-2">
+							<h3 style="
+								margin-top: 0px;
+								"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to join the customer Telegram discussion group:</font></font></h3>
+							<a href="https://t.me/uknetbirds2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Invitation link</font></font></a>
+						<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to support the operation of this site through donations: </font></font><a href="/donation" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
 </div> <!--/row-->
+
+<div class="container">
+			<div class="row">
+				<div class="col-lg-10 col-12">
+					<div class="section-heading-style-three m-b-64">
+						<div class="prefix-icon"><svg xmlns="http://www.w3.org/2000/svg" width="54" height="31" viewBox="0 0 54 31" fill="none"><path d="M43.0311 0.00363056V0H53.546C53.985 0 54.1675 0.542282 53.8123 0.791317L37.9387 11.9238C37.9355 11.926 37.9323 11.9284 37.9291 11.9307L26.7575 19.7665C26.7494 19.7714 26.7415 19.7766 26.7337 19.7821L10.86 30.9144C10.5049 31.1636 10.0271 30.8284 10.1627 30.4255C11.2612 27.162 14.6741 16.8719 15.8391 13.3577C16.0763 12.6425 15.8184 11.8727 15.1919 11.4275C12.0442 9.19093 2.6941 2.54912 0.187676 0.791317C-0.16748 0.542282 0.015035 0 0.454021 0H9.16922V0.00363056H43.0311Z" fill="#FFA105"></path></svg></div>
+						<p class="heading-desc">Stamped is the reviews and loyalty platform for Ecommerce, helping you establish brand credibility by building trust and giving your customers a voice. We are partners in your brand growth with multiple product offerings that are easy to set up and use for you and your customers.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-12">
+					<div class="marketing-solution-item" style="display:flex;flex-direction:column;height:100%">
+					<div class="marketing-solution-item__icon">
+						<img style="width:80px;height:80px" alt="Icon" src="https://d2oupip9s5ltdo.cloudfront.net/cdn/webassets/img/marketing-solution-1.svg"></div>
+						<h3 class="heading">Reviews</h3>
+						<p class="desc" style="flex-grow:1">Product reviews, ratings, and user generated content help you to give your customers a voice and acquire new customers. Smart integrations allow you to showcase your reviews where it counts.</p>
+						<a class="btn orangeBtn" data-target="new" style="width:fit-content" href="/review-management-software">Explore Reviews</a>
+					</div>
+				</div>
+				<div class="col-lg-6 col-12">
+					<div class="marketing-solution-item" style="display:flex;flex-direction:column;height:100%">
+					<div class="marketing-solution-item__icon">
+						<img style="width:80px;height:80px" alt="Icon" src="https://d2oupip9s5ltdo.cloudfront.net/cdn/webassets/img/marketing-solution-2.svg"></div>
+						<h4 class="heading">Loyalty</h4>
+						<p class="desc" style="flex-grow:1">Points programs, VIP tiers, and referrals build trust with your customers and reward them for engaging with you.</p>
+						<a class="btn purpleBtn" data-target="new" style="width:fit-content" href="/customer-loyalty-software">Explore Loyalty</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="cta-style-one">
+			<div class="container">
+				<div class="content-wrapper">
+					<div class="row align-items-center no-gutters">
+						<div class="col-md-2 col-12" style="max-height:80px">
+						<img style="width:143px" alt="Icon" src="https://d2oupip9s5ltdo.cloudfront.net/cdn/webassets/img/cta-1-icon.png"></div>
+						<div class="col-md-8 col-12">
+							<h4 class="heading">Reviews and Loyalty</h4>
+							<p class="desc">Stamped Reviews and Loyalty are fully integrated, working together to automate every step of your brand credibility journey.</p>
+						</div>
+						<div class="col-md-2 col-12">
+							<a class="btn" data-target="new" href="/pricing">View Pricing</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 <script type="text/javascript">
 	$(function () {
