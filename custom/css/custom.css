@@ -229,10 +229,17 @@ footer .copyright {
   background-color: #777 !important;
 }
 
-
 .Hero_wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 300px;
+}
+
+.us-cursor {
+  cursor: pointer;
+}
+
+#bbs_content img  {
+  max-width: 100%;
 }

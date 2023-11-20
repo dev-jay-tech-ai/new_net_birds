@@ -2,22 +2,14 @@
 	require_once 'php_action/db_connect.php';
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
+	include 'component/config.php'; 
 
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
-	$code = (isset($_GET['code']) && $_GET['code'] != '') ? $_GET['code'] : '';
-	switch($code) {
-		case 'private' : $board_title = 'Private'; 
-		break;
-		case 'notice' : $board_title = 'Review'; 
-		break;
-		default : $code = 'private';
-		$board_title = 'Private'; 
-	}
 
   $limit = 10;
   $page_limit = 10;
-  $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page']) ? $_GET['page'] : 1);
+  $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
   
   // Query to get total count
@@ -99,7 +91,7 @@
               </tr>
             </thead>
             <?php foreach($rs AS $row) { ?>
-            <tr class='view_detail' data-idx='<?= $row['idx'] ?>' data-code='<?= $code ?>'>
+            <tr class='view_detail us-cursor' data-idx='<?= $row['idx'] ?>' data-code='<?= $code ?>'>
               <td class='text-center'><?= $row['idx']; ?></td>
               <td><?= $row['subject']; ?></td>
               <td class='text-center'><?= $row['name']; ?></td>

@@ -195,8 +195,7 @@
           <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
           <li id="navBrand"><a href="agent.php">Agent</a></li>        
           <li id="navPrivate"><a href="private.php">Private</a></li>        
-          <li id="navReivew"><a href="review.php">Review</a></li>     
-          <li id="navReivew"><a href="board.php">Board</a></li>     
+          <li id="navReivew"><a href="review.php">Review</a></li>       
           <li id="navContact"><a href="contact.php">Contact</a></li> 
         </ul>
         <ul class="nav navbar-nav navbar-right"> 

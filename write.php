@@ -1,16 +1,8 @@
 <?php 
 	require_once 'php_action/db_connect.php';
 	require_once 'includes/header.php'; 
-
-	$code = (isset($_GET['code']) && $_GET['code'] != '') ? $_GET['code'] : '';
-	switch($code) {
-		case 'private' : $board_title = 'Private'; 
-		break;
-		case 'notice' : $board_title = 'Review'; 
-		break;
-		default : $code = 'free';
-		$board_title = 'Free borad'; 
-	}
+	include 'component/pagination.php'; 
+	include 'component/config.php'; 
 ?>
 
 <div class="row">
@@ -55,9 +47,13 @@
         <div id="summernote"></div>
 				<div class="mt-2 d-flex gap-2 justify-content-end">
 					<button id='btn_submit' class='btn btn-primary'>OK</button>
-					<button class='btn btn-secondary'>LIST</button>
+					<button id='btn_list' class='btn btn-secondary'>LIST</button>
 				</div>
         <script>
+					const aa = window.location.search.replace('?','').split(/[=?&]/)
+					let param = {}
+					for(let i=0; i<aa.length; i++) param[aa[i]] = aa[++i]
+
 					const btn_submit = document.querySelector('#btn_submit');
 					btn_submit.addEventListener('click', () => {
 						const id_name = document.querySelector('#id_name');
@@ -85,10 +81,6 @@
 							return false;
 						}
 
-						const aa = window.location.search.replace('?','').split(/[=?&]/)
-						let param = {}
-						for(let i=0; i<aa.length; i++) param[aa[i]] = aa[++i]
-
 						const f1 = new FormData()
 						f1.append('name', id_name.value)
 						f1.append('pw', id_pw.value)
@@ -111,9 +103,10 @@
 							} else alert(xhr.status)
 						}
 					})
-
-
-
+					const btn_list = document.querySelector('#btn_list');
+					btn_list.addEventListener('click', () => {
+						self.location.href='./list.php?code=' + param['code'];
+					})
           $('#summernote').summernote({
             placeholder: 'Market yourself',
             tabsize: 2,
@@ -130,26 +123,6 @@
           });
         </script>
 
-
-				<table class="table" id="manageProductTable">
-					<thead>
-						<tr>
-							<th style="width:10%;">Profile</th>							
-							<th>Title</th>
-							<th>Rate</th>							
-							<th>Quantity</th>
-							<th>Brand</th>
-							<th>Category</th>
-							<th>Status</th>
-							<?php
-								if ($result['status'] == 1) {
-									// Display this link only when the user is not logged in
-									echo '<th style="width:15%;">Options</th>';
-								}
-							?>
-						</tr>
-					</thead>
-				</table>
 				<!-- /table -->
 
 			</div> <!-- /panel-body -->
