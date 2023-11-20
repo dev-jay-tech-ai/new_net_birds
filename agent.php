@@ -1,30 +1,30 @@
 <?php require_once 'includes/header.php'; ?>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
 
-<div class="row">
-	<div class="col-md-12">
+			<ol class="breadcrumb">
+				<li><a href="dashboard.php">Home</a></li>		  
+				<li class="active">Agent</li>
+			</ol>
 
-		<ol class="breadcrumb">
-		  <li><a href="dashboard.php">Home</a></li>		  
-		  <li class="active">Agent</li>
-		</ol>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="page-heading">Manage Brand</div>
-			</div> <!-- /panel-heading -->
-			<div class="panel-body">
-				<div class='banner-container'>
-					<div><img src='assests/images/banner/banner_0.jpeg' alt='' /></div>
-					<hr>
-					<div><img src='assests/images/banner/banner_1.jpeg' alt='' /></div>
-				</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="page-heading">Manage Brand</div>
+				</div> <!-- /panel-heading -->
+				<div class="panel-body">
+					<div class='banner-container'>
+						<div><img src='assests/images/banner/banner_0.jpeg' alt='' /></div>
+						<hr>
+						<div><img src='assests/images/banner/banner_1.jpeg' alt='' /></div>
+					</div>
 
 
-			</div> <!-- /panel-body -->
-		</div> <!-- /panel -->		
-	</div> <!-- /col-md-12 -->
-</div> <!-- /row -->
-
+				</div> <!-- /panel-body -->
+			</div> <!-- /panel -->		
+		</div> <!-- /col-md-12 -->
+	</div> <!-- /row -->
+</div>
 <div class="modal fade" id="addBrandModel" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -31,10 +31,10 @@ foreach ($matches[1] as $key => $val) {
   $rs_code = base64_decode($base64_decode_data);
   $targetPath = '../assets/images/private/' . $filename;
   if (file_put_contents($targetPath, $rs_code) !== false) {
-      echo 'File saved successfully.';
+    // echo 'File saved successfully.';
   } else {
-      echo 'Error saving the file. Check file permissions and path.';
-      echo 'file_put_contents error: ' . error_get_last()['message'];
+    echo 'Error saving the file. Check file permissions and path.';
+    echo 'file_put_contents error: ' . error_get_last()['message'];
   }
 
   $img_array[] = $targetPath;

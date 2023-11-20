@@ -1,6 +1,7 @@
 <?php require_once 'php_action/db_connect.php' ?>
 <?php require_once 'includes/header.php'; ?>
 
+<div class="container">
 <div class="row">
 	<div class="col-md-12">
 
@@ -11,7 +12,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Manage Review</div>
+				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Manage users</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 
@@ -38,7 +39,7 @@
 		</div> <!-- /panel -->		
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
-
+</div>
 
 <!-- add review -->
 <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog">

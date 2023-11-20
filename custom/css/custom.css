@@ -243,3 +243,17 @@ footer .copyright {
 #bbs_content img  {
   max-width: 100%;
 }
+
+.pagination>li>a, .pagination>li>span {
+  color: #17173a;
+}
+
+.pagination>.active>a, 
+.pagination>.active>a:focus, 
+.pagination>.active>a:hover, 
+.pagination>.active>span, 
+.pagination>.active>span:focus, 
+.pagination>.active>span:hover {
+  background-color: #17173a;
+  border-color: #17173a;
+}

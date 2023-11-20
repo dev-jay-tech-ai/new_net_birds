@@ -25,64 +25,62 @@
   $row = $result->fetch_assoc();  
 ?>
 
-<div class="row">
-	<div class="col-md-12">
-		<ol class="breadcrumb">
-		  <li><a href="dashboard.php">Home</a></li>		  
-		  <li class="active"><?= $board_title ?></li>
-		</ol>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<ol class="breadcrumb">
+				<li><a href="dashboard.php">Home</a></li>		  
+				<li class="active"><?= $board_title ?></li>
+			</ol>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Bullet Board Write</div>
-			</div> <!-- /panel-heading -->
-			<div class="panel-body">
-				<div class="remove-messages"></div>
-				<div class="container mt-3 w-50">
-					<h1 class='h1'><?= $board_title ?></h1>
-				</div>
-				<div class="container border border-1 w-50 vstack">
-					<div class='p-3'>
-						<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Bullet Board Write</div>
+				</div> <!-- /panel-heading -->
+				<div class="panel-body">
+					<div class="remove-messages"></div>
+					<div class="container border border-1 w-50 vstack">
+						<div class='p-3'>
+							<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
+						</div>
+						<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
+							<span><?= $row['name'] ?></span>
+							<span class='ms-5 me-auto'><?= $row['hit'] ?></span>
+							<span><?= $row['rdate'] ?></span>
+						</div>
+						<div id='bbs_content' class='p-3'>
+							<?= $row['content'] ?><br>
+						</div>
+						<div class="mt-3 d-flex gap-2 p-3">
+							<button id='btn_list' class="btn btn-secondary me-auto">List</button>
+							<button id='btn_edit' class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
+							<button id='btn_delete' class="btn btn-danger" data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>
+						</div>
 					</div>
-					<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
-						<span><?= $row['name'] ?></span>
-						<span class='ms-5 me-auto'><?= $row['hit'] ?></span>
-						<span><?= $row['rdate'] ?></span>
-					</div>
-					<div id='bbs_content' class='p-3'>
-          	<?= $row['content'] ?><br>
-					</div>
-					<div class="mt-3 d-flex gap-2 p-3">
-						<button id='btn_list' class="btn btn-secondary me-auto">List</button>
-						<button id='btn_edit' class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
-						<button id='btn_delete' class="btn btn-danger" data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>
-        	</div>
-				</div>
 
-				<!-- Modal -->
-				<div id='modal' class="modal" tabindex="-1">
-					<div class="modal-dialog">
-						<form method='post' name='modal_form' action='./php_action/fetchView.php'>
-							<input type='hidden' name='mode' value=''>
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 id='modal_title' class="modal-title">Modal title</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<!-- Modal -->
+					<div id='modal' class="modal" tabindex="-1">
+						<div class="modal-dialog">
+							<form method='post' name='modal_form' action='./php_action/fetchView.php'>
+								<input type='hidden' name='mode' value=''>
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 id='modal_title' class="modal-title">Modal title</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<input id='password' type='password' name='password' class='form-control' placeholder='Input your password' >
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<button id='btn_pw_check' type="button" class="btn btn-primary">Check</button>
+									</div>
 								</div>
-								<div class="modal-body">
-									<input id='password' type='password' name='password' class='form-control' placeholder='Input your password' >
-
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									<button id='btn_pw_check' type="button" class="btn btn-primary">Check</button>
-								</div>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
-
 				<script>
 				const splited = window.location.search.replace('?','').split(/[=?&]/);
 				let param = {};

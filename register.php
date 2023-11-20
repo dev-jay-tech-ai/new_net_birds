@@ -1,13 +1,13 @@
 <?php require_once 'includes/header.php'; ?>
 
-<div class="row vertical">
+<div class="d-flex justify-content-center row vertical">
   <div class="row col-lg-9 col-sm-12">
     <div class="col-md-12">
       <div class="register-bxlock">
       
         <form class="form-horizontal" id='submitRegisterForm' action="php_action/createUser.php" method="POST">
           <div class="form-group">
-            <label for="username" class="col-lg-4 control-label">Username</label>
+            <label for="username" class="col-lg-2 control-label">Username</label>
             <div class="col-lg-8">
               <input class="form-control" type="text" placeholder="Enter Username" name="username" id="username" autocorrect="off" autocapitalize="off" autocomplete="off">
               <!-- <span class="register-feedback" id="username-notify"></span> -->
@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="password" class="col-lg-4 control-label">Password</label>
+            <label for="password" class="col-lg-2 control-label">Password</label>
             <div class="col-lg-8">
               <input class="form-control" type="password" placeholder="Enter Password" name="password" id="password">
               <span class="register-feedback" id="password-notify"></span>
@@ -26,14 +26,14 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="password-confirm" class="col-lg-4 control-label">Confirm Password</label>
+            <label for="password-confirm" class="col-lg-2 control-label">Confirm Password</label>
             <div class="col-lg-8">
               <input class="form-control" type="password" placeholder="Confirm Password" name="passwordConfirm" id="passwordConfirm">
               <!-- <span class="register-feedback" id="password-confirm-notify"></span> -->
             </div>
           </div>
           <div class="form-group">
-            <div class="col-lg-offset-4 col-lg-8">
+            <div class="col-lg-offset-2 col-lg-8 mt-3">
               <button 
                 class="btn btn-primary btn-lg btn-block" id="createAccountBtn" type="submit"
                 id="createAccountBtn" data-loading-text="Loading..." autocomplete="off">Create Account</button>

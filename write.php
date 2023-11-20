@@ -98,14 +98,14 @@
 								const data = JSON.parse(xhr.responseText)
 								if(data.result == 'success') {
 									alert('Success!')
-									self.location.href = '/newnetbirds/list.php?code=private';
+									self.location.href = '/newnetbirds/private.php?code=private';
 								} else alert('Failed')
 							} else alert(xhr.status)
 						}
 					})
 					const btn_list = document.querySelector('#btn_list');
 					btn_list.addEventListener('click', () => {
-						self.location.href='./list.php?code=' + param['code'];
+						self.location.href='./private.php?code=' + param['code'];
 					})
           $('#summernote').summernote({
             placeholder: 'Market yourself',
