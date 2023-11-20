@@ -113,12 +113,7 @@
               <li role="presentation" class="divider"></li>
               <li>
                 <a component="header/profilelink/edit" href="/user/dev-jay-tech-ai/edit">
-                <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">프로필 수정</font></font></span>
-                </a>
-              </li>
-              <li>
-                <a component="header/profilelink/settings" href="/user/dev-jay-tech-ai/settings">
-                <i class="fa fa-fw fa-gear"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">설정</font></font></span>
+                <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
                 </a>
               </li>
               <li role="presentation" class="divider"></li>

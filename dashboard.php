@@ -8,7 +8,6 @@
 						<div class="text_wrapper__1wumA text_hero___ByfE">
 							<h1 class="heading_1">Loyalty and Reviews</h1>
 							<p>Combine Reviews and Loyalty to build trust and give your customers a voice.</p>
-							<a href="/account/signup?appType=all" class="button_btn__L6SHM button_fill-pg__FSiK3">Sign Up Free</a>
 						</div>
 						<div class="row">
 							<div class="col-lg-6 col-12">

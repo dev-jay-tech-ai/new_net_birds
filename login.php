@@ -1,38 +1,37 @@
 <?php
 require_once 'includes/header.php';
 
-session_start();
+if(isset($_SESSION['userId'])) {
+	echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
+}
 
 $errors = [];
 if ($_POST) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    if (empty($username) || empty($password)) {
-        $errors[] = "Username and Password are required.";
-    } else {
-        // Implement proper SQL prepared statements instead of direct concatenation
-        $stmt = $connect->prepare("SELECT user_id, password FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows == 1) {
-            $user = $result->fetch_assoc();
-            $hashedPassword = $user['password'];
-            // Use password_verify() instead of md5()
-            if (password_verify($password, $hashedPassword)) {
-                $_SESSION['userId'] = $user['user_id'];
-								$errors[] = $user['user_id'];
-
-                header('location: /newnetbirds/dashboard.php');
-                // exit;
-            } else {
-                $errors[] = "Incorrect username/password combination";
-            }
-        } else {
-            $errors[] = "Username does not exist";
-        }
-    }
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+	if (empty($username) || empty($password)) {
+		$errors[] = "Username and Password are required.";
+	} else {
+		$stmt = $connect->prepare("SELECT user_id, password FROM users WHERE username = ?");
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if($result->num_rows == 1) {
+				$user = $result->fetch_assoc();
+				$hashedPassword = $user['password'];
+				// Use password_verify() instead of md5()
+				if (password_verify($password, $hashedPassword)) {
+						$_SESSION['userId'] = $user['user_id'];
+						// $errors[] = $user['user_id'];
+						echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
+						// exit;
+				} else {
+						$errors[] = "Incorrect username/password combination";
+				}
+		} else {
+				$errors[] = "Username does not exist";
+		}
+	}
 }
 ?>
 <div class='container'>
@@ -91,4 +90,5 @@ if ($_POST) {
 		</div>
 	</div>
 </div>
+
 <?php require_once 'includes/footer.php'; ?>

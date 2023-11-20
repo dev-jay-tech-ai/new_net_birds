@@ -257,3 +257,7 @@ footer .copyright {
   background-color: #17173a;
   border-color: #17173a;
 }
+
+.breadcrumb a {
+  color: #17173a;
+}

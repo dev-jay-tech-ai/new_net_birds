@@ -59,9 +59,16 @@
 					<div class="remove-messages"></div>
 					<?php 
 					if(isset($_SESSION['userId']) && $result['active'] == 1) {
-						echo "<div class='d-flex justify-content-end'>
-						<button id='btn-write' class='btn btn-primary'>Write</button>
-						</div>";		
+						if($result['status'] == 1) {
+							echo "<div class='d-flex gap-2 justify-content-end'>
+							<button id='btn-write' class='btn btn-primary'>Write</button>
+							<button id='btn-write' class='btn btn-secondary'>Delete</button>
+							</div>";		
+						} else {
+							echo "<div class='d-flex justify-content-end'>
+							<button id='btn-write' class='btn btn-primary'>Write</button>
+							</div>";		
+						}
 					} else {
 						echo '<div class="alert alert-danger" role="alert">
 						<i class="glyphicon glyphicon-exclamation-sign"></i>
@@ -73,38 +80,56 @@
 					<div class="mb-2 d-flex gap-2">
 						<table class='table table-bordered table-hover'>
 							<colgroup>
-								<col width='7%' />
-								<col width='63%' />
-								<col width='10%' />
-								<col width='10%' />
-								<col width='10%' />
+								<?php 
+										if(isset($_SESSION['userId']) && $result['status'] == 1) {
+											echo "
+											<col width='4%' />
+											<col width='6%' />
+											<col width='50%' />
+											<col width='10%' />
+											<col width='10%' />
+											<col width='10%' />";		
+										} else {
+											echo "
+											<col width='7%' />
+											<col width='63%' />
+											<col width='10%' />
+											<col width='10%' />
+											<col width='10%' />";
+										}
+								?>
+						
 							</colgroup>
 							<thead class='text-bg-primary text-center'>
 								<tr>
-									<th class='text-center'>Index</th>
-									<th class='text-center'>Title</th>
-									<th class='text-center'>User</th>
-									<th class='text-center'>Date</th>
-									<th class='text-center'>Views</th>
 									<?php 
 										if(isset($_SESSION['userId']) && $result['status'] == 1) {
-											echo "<th class='text-center'>-</th>";		
+											echo "<th class='text-center'></th>";		
 										} 
 									?>
+									<th class='text-center'></th>
+									<th class='text-center'>Title</th>
+									<th class='text-center'>User</th>
+									<th class='text-center'>Views</th>
+									<th class='text-center'>Date</th>
 								</tr>
 							</thead>
-							<?php foreach($rs AS $row) { ?>
-							<tr class='view_detail us-cursor' data-idx='<?= $row['idx'] ?>' data-code='<?= $code ?>'>
-								<td class='text-center'><?= $row['idx']; ?></td>
-								<td><?= $row['subject']; ?></td>
-								<td class='text-center'><?= $row['name']; ?></td>
-								<td class='text-center'><?= substr($row['rdate'],0,10); ?></td>
-								<td class='text-center'><?= $row['hit']; ?></td>
+							<?php 
+								$totalRows = count($rs);
+								foreach($rs AS $i => $row) { 
+								$descIdx = $totalRows - $i;
+							?>
+							<tr class='view_detail us-cursor' data-idx='<?= $descIdx; ?>' data-code='<?= $code ?>'>
 								<?php 
 									if(isset($_SESSION['userId']) && $result['status'] == 1) {
-										echo "<td class='text-center'><button class='btn btn-secondary'>Delete</button></td>";		
+										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
 									} 
 								?>
+								<td class='text-center'><?= $descIdx; ?></td>
+								<td><?= $row['subject']; ?></td>
+								<td class='text-center'><?= $row['name']; ?></td>
+								<td class='text-center'><?= $row['hit']; ?></td>
+								<td class='text-center' style='font-size: 14px;'><?= substr($row['rdate'],0,10); ?></td>
 							</tr>
 							<?php } ?>
 						</table>    

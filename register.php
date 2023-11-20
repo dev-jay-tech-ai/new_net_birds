@@ -1,10 +1,17 @@
-<?php require_once 'includes/header.php'; ?>
+<?php 
+  require_once 'includes/header.php'; 
+  
+  session_start();
+ 
+  if(isset($_SESSION['userId'])) {
+    echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
+  }
+?>
 
 <div class="d-flex justify-content-center row vertical">
   <div class="row col-lg-9 col-sm-12">
     <div class="col-md-12">
       <div class="register-bxlock">
-      
         <form class="form-horizontal" id='submitRegisterForm' action="php_action/createUser.php" method="POST">
           <div class="form-group">
             <label for="username" class="col-lg-2 control-label">Username</label>
