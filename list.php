@@ -7,13 +7,32 @@
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
 
+  $sn = (isset($_GET['sn']) && $_GET['sn'] != '') ? $_GET['sn'] : '';
+  $sf = (isset($_GET['sf']) && $_GET['sf'] != '') ? $_GET['sf'] : '';
+	$code  = (isset($_GET['code']) && $_GET['code'] != '') ? $_GET['code']: 'private';
+
+	if($code == '') die('Missing code');
+	$where = ""; // Initialize $where
+	if($sn != '' && $sf !='') {
+		switch($sn) {
+			case 1: $where .= " AND (subject LIKE '%".$sf."%' OR content LIKE '%".$sf."%' )";
+			break;
+			case 2: $where .= " AND (subject LIKE '%".$sf."%' )";
+			break;
+			case 3: $where .= " AND (content LIKE '%".$sf."%' )";
+			break;
+			case 4: $where .= " AND (name LIKE '%".$sf."%' )";
+			break;
+		}
+	}
+
   $limit = 10;
   $page_limit = 10;
   $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
   
   // Query to get total count
-  $sqlCount = "SELECT COUNT(*) as cnt FROM pboard WHERE code='".$code."'";
+  $sqlCount = "SELECT COUNT(*) as cnt FROM pboard WHERE code='".$code."' " . $where;
   $stmtCount = $connect->prepare($sqlCount);
   
   if ($stmtCount) {
@@ -27,7 +46,7 @@
       die($connect->error);
   }
   // Query to get paginated data
-  $sqlData = "SELECT * FROM pboard WHERE code='".$code."'ORDER BY idx DESC LIMIT $start, $limit";
+	$sqlData = "SELECT * FROM pboard WHERE code='".$code."' " . $where . " ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
       $stmtData->execute();
@@ -57,18 +76,7 @@
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 				<div class="remove-messages"></div>
-				<?php 
-				if($result['active'] == 1) {
-					echo '<div class="div-action pull pull-right" style="padding-bottom:20px;">
-						<button class="btn btn-default button1" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal"> <i class="glyphicon glyphicon-plus-sign"></i> Add Product </button>
-					</div>';		
-				} else {
-					echo '<div class="alert alert-danger" role="alert">
-					<i class="glyphicon glyphicon-exclamation-sign"></i>
-					You are required to pay for the utilisation of this service
-					</div>';	
-				}
-				?>
+
 				<div class="mt-4 mb-3">
 					<h1><?= $board_title ?></h1>
 				</div>
@@ -101,16 +109,28 @@
             <?php } ?>
           </table>    
 				</div>
+				<div class='container mt-3 d-flex gap-2 w-50'>
+					<select name="" id="sn" class="form-select">
+						<option value="1"<?= ($sn == 1) ? ' selected' : ''; ?>>Title+content</option>
+						<option value="2"<?= ($sn == 2) ? ' selected' : ''; ?>>Title</option>
+						<option value="3"<?= ($sn == 3) ? ' selected' : ''; ?>>Content</option>
+						<option value="4"<?= ($sn == 4) ? ' selected' : ''; ?>>Writer</option>
+					</select>
+					<input type='text' id='sf' class='form-control w-2' value='<?= $sf ?>'>
+					<button class='btn btn-primary' id='btn_search'>Search</button>		
+				</div>
 				<div class="mt-3 d-flex gap-2 justify-content-between align-items-start">
         <?php 
           $param = '&code='.$code;
+					if($sn != '') $param .= '$sn='.$sn;
+					if($sf != '') $param .= '$sf='.$sf;
           $rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
           echo $rs_str;
         ?> 
-        <button id='btn-write' class="btn btn-primary">Write</button>
+        <button id='btn_write' class="btn btn-primary">Write</button>
         </div>
         <script>
-          const btn_write = document.querySelector('#btn-write');
+          const btn_write = document.querySelector('#btn_write');
           btn_write.addEventListener('click', () => {
             self.location.href='./write.php?code<?= $code; ?>'
           })
@@ -120,6 +140,17 @@
               self.location.href='./view.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;
             })
           })
+					const btn_search = document.querySelector('#btn_search');
+					btn_search.addEventListener('click', () => {
+						const sn = document.querySelector('#sn').value;
+						const sf = document.querySelector('#sf').value;
+						if(sf.value == '') {
+							alert('Input search');
+							sf.focus()
+							return false;
+						}
+						self.location.href = './list.php?code=private&sn=' + sn + '&sf=' + sf;
+					})
         </script>      
 				<!-- /table -->   
 			</div> <!-- /panel-body -->
