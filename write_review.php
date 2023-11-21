@@ -22,7 +22,7 @@
 				<div class="panel-body">
 					<div class="remove-messages"></div>
 					<div class="mb-2 d-flex gap-2">
-						<input id="username" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
+						<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
 						<input id='id_pw' type='password' name='password' class='form-control w-25' 
 							placeholder='Password' autocomplete='off'>
 						<div>Rating: </div>

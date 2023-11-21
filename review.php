@@ -151,7 +151,7 @@
 					<script>
 						const btn_write = document.querySelector('#btn-write');
 						btn_write.addEventListener('click', () => {
-							self.location.href='./write_review.php?code<?= $code; ?>'
+							self.location.href='./write_review.php'
 						})
 						const view_detail = document.querySelectorAll('.view_detail');
 						view_detail.forEach((box) => {

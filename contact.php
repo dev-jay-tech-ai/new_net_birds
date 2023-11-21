@@ -8,6 +8,7 @@
 				<div class="panel-body">
 					<div>Wechat ID</div>
 					<div>hachimitsu-mimi</div>
+					<br>
 					<div>Telegram ID</div>
 					<div>@hachimitsumimi</div>
 

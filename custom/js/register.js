@@ -1,12 +1,12 @@
 $(document).ready(function(){	
 	// submit brand form function
 	$("#submitRegisterForm").unbind('submit').bind('submit',function(e) {
-		console.log('클릭댐')
 		// remove the error text
 		$(".text-danger").remove();
 		// remove the form error
 		$('.form-group').removeClass('has-error');			
 		let userName = $("#username").val();
+		let email = $("#email").val();
 		let password = $("#password").val();
 		let passwordConfirm = $("#passwordConfirm").val();
 
@@ -16,6 +16,15 @@ $(document).ready(function(){
 		} else {
 			// remov error text field
 			$("#username").find('.text-danger').remove();
+ 	
+		}
+
+		if(email == "") {
+			$("#email").after('<p class="text-danger">Email field is required</p>');
+			$('#email').closest('.form-group').addClass('has-error');
+		} else {
+			// remov error text field
+			$("#email").find('.text-danger').remove();
  	
 		}
 
@@ -44,7 +53,7 @@ $(document).ready(function(){
 			$("#passwordConfirm").find('.text-danger').remove();
 		}
 
-		if(username && password && passwordConfirm) {
+		if(username && email && password && passwordConfirm) {
 			e.preventDefault();
 			const form = $(this);
 			// button loading
