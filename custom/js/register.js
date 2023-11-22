@@ -19,13 +19,15 @@ $(document).ready(function(){
  	
 		}
 
+		let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if(email == "") {
-			$("#email").after('<p class="text-danger">Email field is required</p>');
-			$('#email').closest('.form-group').addClass('has-error');
+				$("#email").after('<p class="text-danger">Email field is required</p>');
+				$('#email').closest('.form-group').addClass('has-error');
+		} else if (!emailRegex.test(email)) {
+				$("#email").after('<p class="text-danger">Please enter a valid email address</p>');
+				$('#email').closest('.form-group').addClass('has-error');
 		} else {
-			// remov error text field
-			$("#email").find('.text-danger').remove();
- 	
+				$("#email").find('.text-danger').remove();
 		}
 
 		if(password == "") {
@@ -80,21 +82,25 @@ $(document).ready(function(){
 							// Redirect to another page after successful registration
 							window.location.replace('/newnetbirds/login.php');
 					} else {
-						// Handle unsuccessful response (errors from server)
-						console.log(response.messages)
+						if (response.messages.includes('Duplicate')) {
+							if(response.messages.includes('email')) alert("Error: This email address is already registered. If you have an existing account, please log in. If you've forgotten your password, you can reset it using the 'Forgot Password' option. If this email does not belong to you or if you continue to experience issues, please contact our support team for assistance.");
+							else if(response.messages.includes('username')) alert('Username is already taken. Please choose a different username.');
+							
+						} else {
+								// Display a generic error message
+								alert('An error occurred. Please try again.');
+						}
 					}
 				},
 				error: (jqXHR, textStatus, errorThrown) => {
 					// Handle other AJAX errors, such as network issues
+					console.log(jqXHR.responseText)
 					console.error('AJAX Error: ' + textStatus, errorThrown);
 					// Optionally, display an error message to the user
 					// Show a message to the user informing about the failure
 				}
 			}); // ajax
-		
 		} // if
-
 		return false;
 	}); // /submit brand form function
-
 });

@@ -109,32 +109,42 @@
 									<th class='text-center'>Date</th>
 								</tr>
 							</thead>
+							
 							<?php 
-								$totalRows = count($rs);
-								foreach($rs AS $i => $row) { 
-								$descIdx = $totalRows - $i;
+							$totalRows = count($rs);
+							$activeRowCount = 0;
+
+							foreach($rs AS $i => $row) { 
+							// Check if $row['active'] is equal to 1
+							if ($row['active'] == 1) {
+									$activeRowCount++;
 							?>
-							<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
-								<?php 
-									if(isset($_SESSION['userId']) && $result['status'] == 1) {
-										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
-									} 
-								?>
-								<td class='text-center'><?= $descIdx ?></td>
-								<td><?= $row['subject']; ?></td>
-								<td class='text-center'><?= $row['name']; ?></td>
-								<td class='text-center'>
-								<?php
-									$rating = $row['rate'];
-									for ($i = 1; $i <= 5; $i++) {
-											$starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
-											echo "<i class='$starClass'></i>";
-									}
+            	<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
+                <?php 
+                    if(isset($_SESSION['userId']) && $result['status'] == 1) {
+                        echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
+                    } 
                 ?>
-								</td>
-								<td class='text-center' style='font-size: 14px;'><?= substr($row['rdate'],0,10); ?></td>
-							</tr>
-							<?php } ?>
+                <td class='text-center'><?= $activeRowCount ?></td>
+                <td><?= $row['subject']; ?></td>
+                <td class='text-center'><?= $row['name']; ?></td>
+                <td class='text-center'>
+                <?php
+                    $rating = $row['rate'];
+                    for ($i = 1; $i <= 5; $i++) {
+                        $starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
+                        echo "<i class='$starClass'></i>";
+                    }
+                ?>
+                </td>
+                <td class='text-center' style='font-size: 14px;'><?= substr($row['rdate'], 0, 10); ?></td>
+           		 </tr>
+							<?php
+										} // End of if ($row['active'] == 1)
+								} // End of foreach
+							?>
+
+
 						</table>    
 					</div>
 					<div class="mt-3 d-flex gap-2 justify-content-center">

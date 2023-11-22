@@ -14,10 +14,9 @@
 <!DOCTYPE html>
   <html>
   <head>
-
 	  <title>Newnetbirds</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- bootstrap -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -56,83 +55,75 @@
   </head>
 <body class='d-flex flex-column min-vh-100'>
 	<nav class="navbar navbar-static-top">
-		<div class="container">  
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <!-- <a class="navbar-brand" href="#">Brand</a> -->
+    <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="logo">
+        <a href='/newnetbirds/dashboard.php'>
+          <img class='logo_img' src='/newnetbirds/assets/images/logo/logo.png' alt='logo' />
+        </a>
       </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
-        <div class="nav navbar-nav navbar-left logo">
-          <a href='/newnetbirds/dashboard.php'>
-            <img class='logo_img' src='/newnetbirds/assets/images/logo/logo.png' alt='logo' />
-            Newnetbirds
-          </a>
-        </div>
-        <?php
-          if (isset($_SESSION['userId'])) {
-            // Display this link only when the user is not logged in
-            echo '
-            <ul id="logged-in-menu" class="nav navbar-nav navbar-right">
-              <li id="user_label" class="dropdown">
-                <label for="user-control-list-check" class="dropdown-toggle" data-toggle="dropdown" id="user_dropdown" title="" role="button" data-original-title="Profile">
-                  <span class="avatar  avatar-md avatar-rounded" alt="' . $result['username'] . '" title="' . $result['username'] . '" data-uid="2438" loading="lazy" component="avatar/icon" style="background-color: #17173a;"><font style="vertical-align: inherit;">' . $initial . '</font></span>
-                  <span id="user-header-name" class="visible-xs-inline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' . $result['username'] . '</font></font></span>
-                </label>
-                <input type="checkbox" class="hidden" id="user-control-list-check" aria-hidden="true">
-                <ul id="user-control-list" component="header/usercontrol" class="dropdown-menu" aria-labelledby="user_dropdown">
-              <li>
-                <a component="header/profilelink" href="./profile.php?username=' . $result['username'] . '">
-                  <i component="user/status" class="fa fa-fw fa-circle status online"></i> 
-                  <span component="header/username"><font style="vertical-align: inherit;">
-                  <font style="vertical-align: inherit;">
-                  ' . $result['username'] . '
-                  </font></font></span>
-                </a>
-              </li>
-              <li role="presentation" class="divider"></li>
-              <li>
-                <a component="header/profilelink/edit" href="./editProfile.php?username=' . $result['username'] . '">
-                <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
-                </a>
-              </li>
-              <li role="presentation" class="divider"></li>
-              <li component="user/logout">
-                <a href="logout.php">Log out</a>
-              </li>
-            </ul>
-          </li>
-        </ul>';
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">      
+      <ul class="nav navbar-nav">        
+        <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
+        <li id="navBrand"><a href="agent.php">Agent</a></li>        
+        <li id="navPrivate"><a href="private.php">Private</a></li>        
+        <li id="navReivew"><a href="review.php">Review</a></li>       
+        <li id="navContact"><a href="contact.php">Contact</a></li> 
+      <?php
+        if ($result['status'] == 1) {
+        // Display this link only when the user is not logged in
+        echo '<li id="navMember"><a href="users.php">Member</a></li>';
         }
-        ?>
-        <ul class="nav navbar-nav navbar-left">        
-          <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
-          <li id="navBrand"><a href="agent.php">Agent</a></li>        
-          <li id="navPrivate"><a href="private.php">Private</a></li>        
-          <li id="navReivew"><a href="review.php">Review</a></li>       
-          <li id="navContact"><a href="contact.php">Contact</a></li> 
-        </ul>
-        <ul class="nav navbar-nav navbar-right"> 
-        <?php
-          if ($result['status'] == 1) {
-            // Display this link only when the user is not logged in
-            echo '<li id="navMember"><a href="users.php">Member</a></li> ';
-          }
+      ?>
+      </ul>
+      <ul id="logged-in-menu" class="nav navbar-nav navbar-right">
+      <?php
+        if (isset($_SESSION['userId'])) {
+          // Display this link only when the user is not logged in
+          echo '
+            <li id="user_label" class="dropdown">
+              <label for="user-control-list-check" class="dropdown-toggle" data-toggle="dropdown" id="user_dropdown" title="" role="button" data-original-title="Profile">
+                <span class="avatar  avatar-md avatar-rounded" alt="' . $result['username'] . '" title="' . $result['username'] . '" data-uid="2438" loading="lazy" component="avatar/icon" style="background-color: #17173a;"><font style="vertical-align: inherit;">' . $initial . '</font></span>
+                <span id="user-header-name" class="visible-xs-inline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' . $result['username'] . '</font></font></span>
+              </label>
+              <input type="checkbox" class="hidden" id="user-control-list-check" aria-hidden="true">
+              <ul id="user-control-list" component="header/usercontrol" class="dropdown-menu" aria-labelledby="user_dropdown">
+            <li>
+              <a component="header/profilelink" href="/newnetbirds/profile.php?username=' . $result['username'] . '">
+                <i component="user/status" class="fa fa-fw fa-circle status online"></i> 
+                <span component="header/username"><font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">
+                ' . $result['username'] . '
+                </font></font></span>
+              </a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li>
+              <a component="header/profilelink/edit" href="/newnetbirds/editProfile.php?username=' . $result['username'] . '">
+              <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
+              </a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li component="user/logout">
+              <a href="logout.php">Log out</a>
+            </li>
+          </ul>
+          </li>';
+        }  else  {
+          // Display this link only when the user is not logged in
+          echo '<li id="navLogin"><a href="login.php">Login</a></li>';
+        }
+      ?>
+      </ul>
+    </div><!-- /.navbar-collapse -->
   
-          if (!isset($_SESSION['userId'])) {
-            // Display this link only when the user is not logged in
-            echo '<li id="navLogin"><a href="login.php">Login</a></li>';
-          }
-        ?>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    
     </div><!-- /.container-fluid -->
 	</nav>

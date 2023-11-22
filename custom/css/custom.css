@@ -75,33 +75,28 @@ div.kv-avatar div.file-input div.file-preview {
 }
 
 /**  header */
-
 .logo {
-  height: 50px;
-  line-height: 50px;
-  font-size: 25px;
-  font-weight: 600;
-  margin-right: 28px;
-}
-
-.logo > a {
-  color: #17173a;
-  font-family: 'Ubuntu', sans-serif;      
-  font-size: 28px;   
-  font-weight: bold;
-  letter-spacing: -1px;
-}
-
-.logo > a:focus, a:hover {
-  text-decoration: none;
+  margin-left: 10px;
 }
 
 .logo_img {
-  width: 28px;
-  vertical-align: unset;
-  margin-right: 2px;
+  width: 200px;
 }
 
+@media (max-width: 768px) {
+  .logo {
+    margin-top: 10px;
+  }
+
+  .logo_img {
+    width: 150px;
+  }
+
+  .container-fluid>.navbar-collapse, .container-fluid>.navbar-header, 
+  .container>.navbar-collapse, .container>.navbar-header {
+    margin: 0;
+  }
+}
 
 /**  navbar */
 
@@ -110,8 +105,14 @@ nav .container {
   /* padding-bottom: 15px; */
 }
 
-.navbar-nav {
-  flex-direction: unset;
+@media (min-width: 768px) {
+  .navbar-nav {
+    flex-direction: row;
+  }
+}
+
+.nav > li > a {
+  padding-left: 15px;
 }
 
 .navbar-nav > li > a {
@@ -131,6 +132,37 @@ nav .container {
   color: gainsboro;
 }
 
+
+.navbar-header {
+  width: 100%;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: #000;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  position: absolute;
+}
+
+@media (min-width: 768px) {
+  .navbar-right .dropdown-menu {
+    right: 25px;
+  }
+
+  #navbar-collapse-1 {
+    flex: 4;
+  }
+
+  .container-fluid > div {
+    flex: 1;
+  }
+}
+
+#navLogin {
+  padding-right: 25px;
+}
+
 .avatar {
   display: inline-block;
   text-align: center;
@@ -140,6 +172,13 @@ nav .container {
   overflow: hidden;
   white-space: nowrap;
 }
+
+@media (max-width: 768px) {
+  .avatar {
+    display: none;
+  }
+}
+
 
 .avatar.avatar-md {
   border-radius: inherit;
@@ -153,8 +192,19 @@ nav .container {
 }
 
 #user_label {
-  line-height: 45px;
+  padding-top:  10px;
   padding-left:  10px;
+  padding-right: 25px;
+}
+
+@media (max-width: 768px) {
+  #user_label {
+    padding-left:  0;
+  }
+
+  #user-header-name {
+    padding-left:  15px;
+  }
 }
 
 /** text rules */
@@ -200,6 +250,13 @@ footer {
   background-color: #17173a;
 }
 
+@media (max-width: 768px) {
+  footer {
+    flex-direction: column-reverse;
+    gap: 50px;
+  }
+}
+
 footer > div  {
   flex: 1;
 }
@@ -214,14 +271,6 @@ footer .copyright {
   line-height: 20px;
 }
 
-.footer_logo {
-  color: #fff;
-  font-family: 'Ubuntu', sans-serif;      
-  font-size: 28px;   
-  font-weight: bold;
-  letter-spacing: -1px;
-}
-
 /** free-cookie-consent */
 .freeprivacypolicy-com---palette-light .cc-nb-okagree,
 .freeprivacypolicy-com---palette-light .cc-nb-reject {
@@ -231,7 +280,7 @@ footer .copyright {
 .Hero_wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   min-height: 300px;
 }
 
@@ -259,8 +308,4 @@ footer .copyright {
 
 .breadcrumb a {
   color: #17173a;
-}
-
-.navbar-nav > li > .dropdown-menu {
-  position: absolute;
 }
