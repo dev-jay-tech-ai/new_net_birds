@@ -1,4 +1,7 @@
-<?php require_once 'includes/header.php'; ?>
+<?php 
+	require_once 'includes/header.php'; 
+	include 'component/popup.php'; 
+?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -153,6 +156,6 @@
 </div><!-- /.modal -->
 <!-- /remove brand -->
 
-<script src="custom/js/agent.js"></script>
+
 
 <?php require_once 'includes/footer.php'; ?>

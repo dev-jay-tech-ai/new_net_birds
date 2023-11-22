@@ -165,7 +165,6 @@ nav .container {
 
 .main .text-data {
   font-size: 30px;
-  font-weight: 600;
   padding: 40px;
   height: 100%;
   background: none;
@@ -260,4 +259,8 @@ footer .copyright {
 
 .breadcrumb a {
   color: #17173a;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  position: absolute;
 }

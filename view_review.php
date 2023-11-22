@@ -7,6 +7,13 @@
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
 
+	if (isset($_SESSION['userId'])) {
+    $user_id = $_SESSION['userId'];
+    $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
+    $query = $connect->query($sql);
+    $user_result = $query->fetch_assoc();
+  }
+
   $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx']) ? $_GET['idx'] : '');
   if($idx == '') {
     exit('Not allow to the abnormal access');
@@ -48,8 +55,11 @@
 						</div>
 						<div class="mt-3 d-flex gap-2 p-3">
 							<button id='btn_list' class="btn btn-secondary me-auto">List</button>
-							<button id='btn_edit' class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
-							<button id='btn_delete' class="btn btn-danger" data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>
+							<?php 
+							if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
+								echo "<button id='btn_edit' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
+								<button id='btn_delete' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>";
+							} ?>
 						</div>
 					</div>
 
@@ -83,22 +93,25 @@
 					param[splited[i]] = splited[++i];
 				}
 
+				const btn_list = document.querySelector('#btn_list');
+				btn_list && btn_list.addEventListener('click', () => {
+					self.location.href='./review.php?code=' + param['code'];
+				})
+
 				const btn_edit = document.querySelector('#btn_edit'); 
-				btn_edit.addEventListener('click', () => {
+				btn_edit && btn_edit.addEventListener('click', () => {
 					const modal_title = document.querySelector('#modal_title'); 
 					modal_title.textContent = 'Edit';
 					document.modal_form.mode.value = 'edit';
 				})
-				const btn_list = document.querySelector('#btn_list');
-				btn_list.addEventListener('click', () => {
-					self.location.href='./review.php?code=' + param['code'];
-				})
+
 				const btn_delete = document.querySelector('#btn_delete'); 
-				btn_delete.addEventListener('click', () => {
+				btn_delete && btn_delete.addEventListener('click', () => {
 					const modal_title = document.querySelector('#modal_title'); 
 					modal_title.textContent = 'Delete';
 					document.modal_form.mode.value = 'delete';
 				})
+
 				const btn_pw_check = document.querySelector('#btn_pw_check'); 
 				btn_pw_check.addEventListener('click', () => {
 					const password = document.querySelector('#password'); 
@@ -109,7 +122,7 @@
 					}
 					// 비밀번호, code, 게시물 번호등을 가지고 비밀 번호 비교
 					const xhr = new XMLHttpRequest();
-					xhr.open('POST', './php_action/fetchView.php', true);
+					xhr.open('POST', './php_action/fetchView_review.php', true);
 					const f1 = new FormData(document.modal_form);
 					f1.append('idx', param['idx']);
 					f1.append('code', param['code']);
@@ -117,7 +130,7 @@
 					xhr.onload = () => {
 						if(xhr.status == 200) {
 							const data = JSON.parse(xhr.responseText);
-							if(data.result == 'edit_success') self.location.href = './edit.php?idx=' + param['idx'] + '&code=' + param['code'];  
+							if(data.result == 'edit_success') self.location.href = './editReview.php?idx=' + param['idx']; 
 							else if(data.result == 'delete_success') {
 								alert('Deleted');
 								self.location.href='./review.php?code=' + param['code'];
@@ -137,5 +150,4 @@
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
 
-<script src="custom/js/board.js"></script>
 <?php require_once 'includes/footer.php'; ?>

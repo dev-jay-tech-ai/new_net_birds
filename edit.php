@@ -20,7 +20,7 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 ?>
-
+<div class='container'>
 <div class="row">
 	<div class="col-md-12">
 		<ol class="breadcrumb">
@@ -30,7 +30,7 @@ $row = $result->fetch_assoc();
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Bullet Board Write</div>
+				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Private write</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 
@@ -140,5 +140,5 @@ $row = $result->fetch_assoc();
 		</div> <!-- /panel -->		
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
-
+</div>
 <?php require_once 'includes/footer.php'; ?>

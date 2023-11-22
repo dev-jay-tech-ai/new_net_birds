@@ -70,12 +70,8 @@
 							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posting Tutorial: </font></font><a href="https://www.uknetbirds.com/topic/136/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E4%BB%8E%E6%B3%A8%E5%86%8C%E5%88%B0%E5%8F%91%E5%B8%96"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tutorial</font></font></a></p>
 							<p></p>
 						</div>
-						<div class="global-text-box-2">
-								<h3 style="
-									margin-top: 0px;
-									"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to join the customer Telegram discussion group:</font></font></h3>
-								<a href="https://t.me/uknetbirds2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Invitation link</font></font></a>
-							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to support the operation of this site through donations: </font></font><a href="/donation" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
+						<div class="global-text-box-2 pt-3">
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to support the operation of this site through donations: </font></font><a href="https://www.paypal.com/donate/?hosted_button_id=6J37AL6UMNR9C" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
 						</div>
 					</div>
 				</div>

@@ -3,6 +3,7 @@
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 
+	include 'component/popup.php'; 
 
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
@@ -43,6 +44,7 @@
   }
 
 ?>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -69,12 +71,7 @@
 							<button id='btn-write' class='btn btn-primary'>Write</button>
 							</div>";		
 						}
-					} else {
-						echo '<div class="alert alert-danger" role="alert">
-						<i class="glyphicon glyphicon-exclamation-sign"></i>
-						You are required to pay for the utilisation of this service
-						</div>';	
-					}
+					} 
 					?>
 					<div class="mt-4 mb-3"></div>
 					<div class="mb-2 d-flex gap-2">
@@ -119,7 +116,7 @@
 								foreach($rs AS $i => $row) { 
 								$descIdx = $totalRows - $i;
 							?>
-							<tr class='view_detail us-cursor' data-idx='<?= $descIdx; ?>' data-code='<?= $code ?>'>
+							<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
 								<?php 
 									if(isset($_SESSION['userId']) && $result['status'] == 1) {
 										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
@@ -143,19 +140,21 @@
 
 					</div>
 					<script>
-					
-						const btn_write = document.querySelector('#btn-write');
-						btn_write.addEventListener('click', () => {
-							self.location.href='./write.php?code<?= $code; ?>'
-						})
-						const view_detail = document.querySelectorAll('.view_detail');
-						view_detail.forEach((box) => {
-							box.addEventListener('click', () => {
-							
-								self.location.href='./view.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;
-							})
-						})
-					</script>      
+						<?php 
+						if(isset($_SESSION['userId'])) {
+							echo "const btn_write = document.querySelector('#btn-write');";
+							echo "btn_write && btn_write.addEventListener('click', () => {";
+							echo "self.location.href='./write.php?code=$code';";
+							echo "});";
+							echo "const view_detail = document.querySelectorAll('.view_detail');";
+							echo "view_detail.forEach((box) => {";
+							echo "box.addEventListener('click', () => {";
+							echo "self.location.href='./view.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
+							echo "});";
+							echo "});";
+						} 
+						?>
+					</script>   
 					<!-- /table -->   
 				</div> <!-- /panel-body -->
 			</div> <!-- /panel -->		
@@ -163,5 +162,4 @@
 	</div> <!-- /row -->
 </div>
 
-<script src="custom/js/board.js"></script>
 <?php require_once 'includes/footer.php'; ?>

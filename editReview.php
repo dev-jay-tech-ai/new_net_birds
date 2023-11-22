@@ -12,39 +12,45 @@ if($edit_idx != $idx) {
   die('<script>alert("You don\'t have a permission to edit"); history.go(-1);</script>');
 }
 
-$sql = "SELECT * FROM pboard WHERE idx=?";
+$sql = "SELECT * FROM rboard WHERE idx=?";
 $stmt = $connect->prepare($sql);
 $stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-
 ?>
-
+<div class='container'>
 <div class="row">
 	<div class="col-md-12">
 		<ol class="breadcrumb">
 		  <li><a href="dashboard.php">Home</a></li>		  
-		  <li class="active"><?= $board_title ?></li>
+		  <li class="active">Review</li>
 		</ol>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Bullet Board Write</div>
+				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Review Edit</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 
 				<div class="remove-messages"></div>
 
         <div class="container w-50">
-          <div class="mt-4 mb-3">
-            <h2><?= $board_title ?></h2>
-          </div>
+          <div class="mt-4 mb-3"></div>
           <div class="mb-2 d-flex gap-2">
             <input id='id_name' type='text' name='name' class='form-control w-25' 
               value="<?=  $row['name'] ?>" placeholder='Writer' autocomplete='off'>
             <input id='id_pw' type='password' name='password' class='form-control w-25' 
               placeholder='Password' autocomplete='off'>
+							<div>Rating: </div>
+							<h4 class="text-center m-auto">
+								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
+								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
+								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
+								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
+								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
+							</h4>	
+							<input type="hidden" id="id_rate" name="rating" value="">
           </div>
           <div>
             <input id='id_sub' type='text' name='subject' class='form-control mb-2' 
@@ -88,12 +94,12 @@ $row = $result->fetch_assoc();
 						f1.append('pw', id_pw.value)
 						f1.append('title', id_sub.value)
 						f1.append('content', markupstr)
-						f1.append('code', '<?= $code ?>')
 						f1.append('idx', param['idx'])
+						f1.append('rate', id_rate.value)
 
 						// ajax
 						const xhr = new XMLHttpRequest()
-						xhr.open('POST', './php_action/fetchEdit.php', 'true')
+						xhr.open('POST', './php_action/fetchEditReview.php', 'true')
 						xhr.send(f1)
 						btn_submit.disabled = true
 						xhr.onload = () => {
@@ -140,5 +146,6 @@ $row = $result->fetch_assoc();
 		</div> <!-- /panel -->		
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
-
+</div>
+<script src="custom/js/review.js"></script>
 <?php require_once 'includes/footer.php'; ?>

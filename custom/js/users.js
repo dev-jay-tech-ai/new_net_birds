@@ -5,8 +5,7 @@ $(document).ready(() => {
 	$('#navReview').addClass('active');
 	// manage product data table
 	manageProductTable = $('#manageProductTable').DataTable({
-		'ajax': 'php_action/fetchUsers.php',
-		'order': []
+		'ajax': 'php_action/fetchUsers.php'
 	});
 	
 	// add product modal btn clicked

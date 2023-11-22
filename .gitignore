@@ -28,4 +28,6 @@ Thumbs.db
 /uploads/
 /temp/
 
-/php_action/db_connect
+/php_action/db_connect.php
+
+password_forgot.php

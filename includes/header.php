@@ -16,6 +16,7 @@
   <head>
 
 	  <title>Newnetbirds</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- bootstrap -->
@@ -46,26 +47,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
-
     <link href="https://fonts.cdnfonts.com/css/copperplate" rel="stylesheet">
 
-    <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-    <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
-    <script type="text/javascript" charset="UTF-8">
-    document.addEventListener('DOMContentLoaded', function () {
-    cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Newnetbirds"});
-    });
-    </script>
-
-    <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript>
-    <!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-    <!-- Below is the link that users can use to open Preferences Center to change their preferences. Do not modify the ID parameter. Place it where appropriate, style it as needed. -->
-
     <!-- include summernote css/js-->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-
+    <script src="https://app.enzuzo.com/apps/enzuzo/static/js/__enzuzo-cookiebar.js?uuid=106ed868-8917-11ee-958e-5fed1e6d4d07"></script>
   </head>
 <body class='d-flex flex-column min-vh-100'>
 	<nav class="navbar navbar-static-top">
@@ -96,13 +83,13 @@
             <ul id="logged-in-menu" class="nav navbar-nav navbar-right">
               <li id="user_label" class="dropdown">
                 <label for="user-control-list-check" class="dropdown-toggle" data-toggle="dropdown" id="user_dropdown" title="" role="button" data-original-title="Profile">
-                  <span class="avatar  avatar-md avatar-rounded" alt="' . $result['username'] . '" title="' . $result['username'] . '" data-uid="2438" loading="lazy" component="avatar/icon" style="background-color: #f44336;"><font style="vertical-align: inherit;">' . $initial . '</font></span>
+                  <span class="avatar  avatar-md avatar-rounded" alt="' . $result['username'] . '" title="' . $result['username'] . '" data-uid="2438" loading="lazy" component="avatar/icon" style="background-color: #17173a;"><font style="vertical-align: inherit;">' . $initial . '</font></span>
                   <span id="user-header-name" class="visible-xs-inline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' . $result['username'] . '</font></font></span>
                 </label>
                 <input type="checkbox" class="hidden" id="user-control-list-check" aria-hidden="true">
                 <ul id="user-control-list" component="header/usercontrol" class="dropdown-menu" aria-labelledby="user_dropdown">
               <li>
-                <a component="header/profilelink" href="/user/' . $result['username'] . '">
+                <a component="header/profilelink" href="./profile.php?username=' . $result['username'] . '">
                   <i component="user/status" class="fa fa-fw fa-circle status online"></i> 
                   <span component="header/username"><font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">
@@ -112,7 +99,7 @@
               </li>
               <li role="presentation" class="divider"></li>
               <li>
-                <a component="header/profilelink/edit" href="/user/dev-jay-tech-ai/edit">
+                <a component="header/profilelink/edit" href="./editProfile.php?username=' . $result['username'] . '">
                 <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
                 </a>
               </li>

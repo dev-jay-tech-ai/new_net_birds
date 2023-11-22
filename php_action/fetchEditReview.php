@@ -10,8 +10,8 @@ $name  = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name']: '';
 $pw  = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw']: '';
 $title  = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title']: '';
 $content  = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content']: '';
-$code  = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code']: '';
 $idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'] : '';
+$rate  = (isset($_POST['rate']) && $_POST['rate'] != '') ? $_POST['rate']: 0;
 
 if($idx == '') {
   $arr = ['result' => 'empty_idx'];
@@ -37,42 +37,44 @@ foreach ($matches[1] as $key => $row) {
     $img_array[] = $row;
     continue;
   }
+  // 외부 링크 이미지는 skip
   if(substr($row,0,5) != 'data:') {
     continue;
   }
   [$type, $data] = explode(';', $row);
+  [, $data] = explode(',', $data);
+  $data = base64_decode($data);
+  // 확장자 구하기
   [, $ext] = explode('/', $type);
   $ext = ($ext === 'jpeg') ? 'jpg' : $ext;
-  [, $base64_decode_data] = explode(',', $data);
-  $rs_code = base64_decode($base64_decode_data);
+  // 파일명 만들기
   $filename = date('YmdHis') . '_' . $key . '.' . $ext;
   $targetPath = '../assets/images/private/' . $filename;
-  if (file_put_contents($targetPath,  $rs_code) !== false) {
-      // echo 'File saved successfully.';
-  } else {
-      echo 'Error saving the file. Check file permissions and path.';
-      echo 'file_put_contents error: ' . error_get_last()['message'];
-  }
-
-  $img_array[] = $targetPath;
+  // if (file_put_contents($targetPath, $data) !== false) {
+  //     echo 'File saved successfully.';
+  // } else {
+  //     echo 'Error saving the file. Check file permissions and path.';
+  //     echo 'file_put_contents error: ' . error_get_last()['message'];
+  // }
   $content = str_replace($row, $targetPath, $content);
+  $img_array[] = $targetPath;
 }
-
 $imglist = implode('|', $img_array); // 배열을 구분자 기준으로 문자열로 바꿔쥼
+
 if($pwd_hash != '') {
-  $sql = 'UPDATE pboard SET name=?, subject=?, content=?, imglist=?, password=? WHERE idx=?';
+  $sql = 'UPDATE rboard SET name=?, subject=?, content=?, imglist=?, rate=?, password=? WHERE idx=?';
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
     die($connect->error);
   }
-  $stmt->bind_param('sssssi', $name, $title, $content, $imglist, $pwd_hash, $idx);
+  $stmt->bind_param('sssssi', $name, $title, $content, $imglist, $rate, $pwd_hash, $idx);
 } else {
-  $sql = 'UPDATE pboard SET name=?, subject=?, content=?, imglist=? WHERE idx=?';
+  $sql = 'UPDATE rboard SET name=?, subject=?, content=?, imglist=?, rate=? WHERE idx=?';
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
     die($connect->error);
   }
-  $stmt->bind_param('ssssi', $name, $title, $content, $imglist, $idx);
+  $stmt->bind_param('ssssi', $name, $title, $content, $imglist, $rate, $idx);
 }
 
 $stmt->execute();

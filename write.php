@@ -82,7 +82,7 @@
 								if(xhr.status == 200) {
 									const data = JSON.parse(xhr.responseText)
 									if(data.result == 'success') {
-										alert('Success!')
+										alert('Success!<br>You can only edit this post within 24 hours.')
 										self.location.href = '/newnetbirds/private.php?code=private';
 									} else alert('Failed')
 								} else alert(xhr.status)
@@ -416,5 +416,4 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="custom/js/board.js"></script>
 <?php require_once 'includes/footer.php'; ?>
