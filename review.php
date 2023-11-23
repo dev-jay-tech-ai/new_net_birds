@@ -113,9 +113,7 @@
 							<?php 
 							$totalRows = count($rs);
 							$activeRowCount = 0;
-
 							foreach($rs AS $i => $row) { 
-							// Check if $row['active'] is equal to 1
 							if ($row['active'] == 1) {
 									$activeRowCount++;
 							?>
@@ -128,7 +126,7 @@
                 <td class='text-center'><?= $activeRowCount ?></td>
                 <td><?= $row['subject']; ?></td>
                 <td class='text-center'><?= $row['name']; ?></td>
-                <td class='text-center'>
+                <td class='text-center rate'>
                 <?php
                     $rating = $row['rate'];
                     for ($i = 1; $i <= 5; $i++) {
@@ -137,7 +135,7 @@
                     }
                 ?>
                 </td>
-                <td class='text-center' style='font-size: 14px;'><?= substr($row['rdate'], 0, 10); ?></td>
+                <td class='text-center rdate'><?= substr($row['rdate'], 0, 10); ?></td>
            		 </tr>
 							<?php
 										} // End of if ($row['active'] == 1)

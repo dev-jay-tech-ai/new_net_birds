@@ -112,9 +112,11 @@
 								</tr>
 							</thead>
 							<?php 
-								$totalRows = count($rs);
-								foreach($rs AS $i => $row) { 
-								$descIdx = $totalRows - $i;
+							$totalRows = count($rs);
+							$activeRowCount = 0;
+							foreach($rs AS $i => $row) { 
+							if ($row['active'] == 1) {
+								$activeRowCount++;
 							?>
 							<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
 								<?php 
@@ -122,13 +124,16 @@
 										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
 									} 
 								?>
-								<td class='text-center'><?= $descIdx; ?></td>
+								<td class='text-center'><?= $activeRowCount; ?></td>
 								<td><?= $row['subject']; ?></td>
 								<td class='text-center'><?= $row['name']; ?></td>
 								<td class='text-center'><?= $row['hit']; ?></td>
-								<td class='text-center' style='font-size: 14px;'><?= substr($row['rdate'],0,10); ?></td>
+								<td class='rdate text-center'><?= substr($row['rdate'],0,10); ?></td>
 							</tr>
-							<?php } ?>
+							<?php
+										} // End of if ($row['active'] == 1)
+								} // End of foreach
+							?>
 						</table>    
 					</div>
 					<div class="mt-3 d-flex gap-2 justify-content-center">

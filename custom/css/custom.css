@@ -309,3 +309,25 @@ footer .copyright {
 .breadcrumb a {
   color: #17173a;
 }
+
+.rdate {
+  font-size: 14px;
+}
+
+.rate {
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .table {
+    font-size: 14px;
+  }
+
+  .rdate {
+    font-size: 10px;
+  }
+
+  .rate {
+    font-size: 8px;
+  }
+}

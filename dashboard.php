@@ -15,14 +15,9 @@
 							</div>
 							<div class="col-lg-6 col-12">
 							</div>
-		
 						</div>
-
-
 						<div class="FullSuiteHeroSection_icon__3bxSb"><div class="Intersection_wrapper" data-intersect="boxShadow" style="transition-delay: 0ms;">
-						<div class="LogoCube_wrapper__1zRZD LogoCube_lg__MMKJu LogoCube_suite__1PiP7">
-
-						</div>
+						<div class="LogoCube_wrapper__1zRZD LogoCube_lg__MMKJu LogoCube_suite__1PiP7"></div>
 					</div>
 				
 					<div class="Hero_dots__e1Tsv">
@@ -45,6 +40,9 @@
 							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">This website is only for the UK, please be sure to comply with UK laws when posting.</font></font></p>
 						</div>
 						<div class="global-text-box-2 pt-3">
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Join the discussion group in Telegram: </font></font><a href="https://t.me/+tgwnKZITcEYzMmJk" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">telegram link</font></font></a></p>
+						</div>
+						<div class="global-text-box-3 pt-3">
 							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to support the operation of this site through donations: </font></font><a href="https://www.paypal.com/donate/?hosted_button_id=6J37AL6UMNR9C" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
 						</div>
 					</div>
