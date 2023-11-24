@@ -8,7 +8,7 @@
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
 
-  $limit = 10;
+  $limit = 20;
   $page_limit = 10;
   $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
@@ -31,16 +31,16 @@
   $sqlData = "SELECT * FROM pboard WHERE code='".$code."'ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
-      $stmtData->execute();
-      // Get the result set
-      $resultData = $stmtData->get_result();
-      $rs = [];
-      while ($row = $resultData->fetch_assoc()) {
-          $rs[] = $row;
-      }
+		$stmtData->execute();
+		// Get the result set
+		$resultData = $stmtData->get_result();
+		$rs = [];
+		while ($row = $resultData->fetch_assoc()) {
+			$rs[] = $row;
+		}
   } else {
-      // Handle the case where the preparation failed
-      die($connect->error);
+		// Handle the case where the preparation failed
+		die($connect->error);
   }
 
 ?>
@@ -60,7 +60,7 @@
 				<div class="panel-body">
 					<div class="remove-messages"></div>
 					<?php 
-					if(isset($_SESSION['userId']) && $result['active'] == 1) {
+					if(isset($_SESSION['userId']) /** && $result['active'] == 1 */) {
 						if($result['status'] == 1) {
 							echo "<div class='d-flex gap-2 justify-content-end'>
 							<button id='btn-write' class='btn btn-primary'>Write</button>
@@ -73,27 +73,33 @@
 						}
 					} 
 					?>
-					<div class="mt-4 mb-3"></div>
+					<div class='mb-2 text-center' style='color: #783ff1'>
+					<?php 
+					if (!isset($_SESSION['userId'])) {
+						echo "Login is required to write";		
+					} 
+					?>
+					</div>
 					<div class="mb-2 d-flex gap-2">
 						<table class='table table-bordered table-hover'>
 							<colgroup>
 								<?php 
-										if(isset($_SESSION['userId']) && $result['status'] == 1) {
-											echo "
-											<col width='4%' />
-											<col width='6%' />
-											<col width='50%' />
-											<col width='10%' />
-											<col width='10%' />
-											<col width='10%' />";		
-										} else {
-											echo "
-											<col width='7%' />
-											<col width='63%' />
-											<col width='10%' />
-											<col width='10%' />
-											<col width='10%' />";
-										}
+								if(isset($_SESSION['userId']) && $result['status'] == 1) {
+									echo "
+									<col width='4%' />
+									<col width='6%' />
+									<col width='50%' />
+									<col width='10%' />
+									<col width='10%' />
+									<col width='10%' />";		
+								} else {
+									echo "
+									<col width='7%' />
+									<col width='63%' />
+									<col width='10%' />
+									<col width='10%' />
+									<col width='10%' />";
+								}
 								?>
 						
 							</colgroup>
@@ -113,26 +119,26 @@
 							</thead>
 							<?php 
 							$totalRows = count($rs);
-							$activeRowCount = 0;
-							foreach($rs AS $i => $row) { 
+							$activeRowCount = ($page - 1) * $limit;
+							foreach ($rs as $i => $row) {
 							if ($row['active'] == 1) {
 								$activeRowCount++;
-							?>
-							<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
-								<?php 
-									if(isset($_SESSION['userId']) && $result['status'] == 1) {
-										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
-									} 
-								?>
-								<td class='text-center'><?= $activeRowCount; ?></td>
-								<td><?= $row['subject']; ?></td>
-								<td class='text-center'><?= $row['name']; ?></td>
-								<td class='text-center'><?= $row['hit']; ?></td>
-								<td class='rdate text-center'><?= substr($row['rdate'],0,10); ?></td>
-							</tr>
-							<?php
-										} // End of if ($row['active'] == 1)
-								} // End of foreach
+									?>
+									<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
+										<?php
+										if (isset($_SESSION['userId']) && $result['status'] == 1) {
+												echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
+										}
+										?>
+										<td class='text-center'><?= $activeRowCount; ?></td>
+										<td><?= $row['subject']; ?></td>
+										<td class='text-center'><?= $row['name']; ?></td>
+										<td class='text-center'><?= $row['hit']; ?></td>
+										<td class='rdate text-center'><?= substr($row['rdate'], 0, 10); ?></td>
+									</tr>
+									<?php
+								}
+							}
 							?>
 						</table>    
 					</div>
@@ -142,22 +148,21 @@
 						$rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
 						echo $rs_str;
 					?> 
-
 					</div>
 					<script>
 						<?php 
-						if(isset($_SESSION['userId'])) {
+						// if(isset($_SESSION['userId'])) {
 							echo "const btn_write = document.querySelector('#btn-write');";
 							echo "btn_write && btn_write.addEventListener('click', () => {";
-							echo "self.location.href='./write.php?code=$code';";
+							echo "self.location.href='./write_private.php?code=$code';";
 							echo "});";
 							echo "const view_detail = document.querySelectorAll('.view_detail');";
 							echo "view_detail.forEach((box) => {";
 							echo "box.addEventListener('click', () => {";
-							echo "self.location.href='./view.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
+							echo "self.location.href='./view_private.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
 							echo "});";
 							echo "});";
-						} 
+						// } 
 						?>
 					</script>   
 					<!-- /table -->   

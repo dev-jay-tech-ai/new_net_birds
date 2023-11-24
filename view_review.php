@@ -7,7 +7,7 @@
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
 
-	if (isset($_SESSION['userId'])) {
+	if(isset($_SESSION['userId'])) {
     $user_id = $_SESSION['userId'];
     $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
     $query = $connect->query($sql);
@@ -32,7 +32,7 @@
 		<div class="col-md-12">
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">Home</a></li>		  
-				<li class="active">Private</li>
+				<li class="active">Review</li>
 			</ol>
 
 			<div class="panel panel-default">
@@ -46,9 +46,9 @@
 							<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
 						</div>
 						<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
-							<span><?= $row['name'] ?></span>
-							<span class='ms-5 me-auto'></span>
-							<span><?= $row['rdate'] ?></span>
+							<span class='fs-12'><?= $row['name'] ?></span>
+							<span class='ms-5 me-auto fs-12'></span>
+							<span class='rdate'><?= $row['rdate'] ?></span>
 						</div>
 						<div id='bbs_content' class='p-3'>
 							<?= $row['content'] ?><br>
@@ -56,17 +56,19 @@
 						<div class="mt-3 d-flex gap-2 p-3">
 							<button id='btn_list' class="btn btn-secondary me-auto">List</button>
 							<?php 
-							if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-								echo "<button id='btn_edit' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
-								<button id='btn_delete' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>";
-							} ?>
+							if(isset($_SESSION['userId'])) {
+								if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
+									echo "<button id='btn_edit' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
+									<button id='btn_delete' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>";
+								} 
+							}?>
 						</div>
 					</div>
 
 					<!-- Modal -->
 					<div id='modal' class="modal" tabindex="-1">
 						<div class="modal-dialog">
-							<form method='post' name='modal_form' action='./php_action/fetchView.php'>
+							<form method='post' name='modal_form' action='./php_action/fetchViewReview.php'>
 								<input type='hidden' name='mode' value=''>
 								<div class="modal-content">
 									<div class="modal-header">
@@ -86,6 +88,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<script>
 				const splited = window.location.search.replace('?','').split(/[=?&]/);
 				let param = {};
@@ -122,7 +125,7 @@
 					}
 					// 비밀번호, code, 게시물 번호등을 가지고 비밀 번호 비교
 					const xhr = new XMLHttpRequest();
-					xhr.open('POST', './php_action/fetchView_review.php', true);
+					xhr.open('POST', './php_action/fetchViewReview.php', true);
 					const f1 = new FormData(document.modal_form);
 					f1.append('idx', param['idx']);
 					f1.append('code', param['code']);

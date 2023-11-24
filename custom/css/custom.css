@@ -1,29 +1,47 @@
 body, html {
   font-size: 16px;
   font-family: Lato,Outfit,helvetica neue,Helvetica,Arial,sans-serif;
-
+  background-color: #181826;
+  color: #c0c0cf;
 }
 
+a {
+  color:#783ff1;
+}
 
 hr {
   margin-top: 50px;
   margin-bottom: 50px;
   border: 0;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #a2a2b0;
   box-sizing: content-box;
   width: 100%;
   height: 0;
 }
 
+label {
+  color:#c0c0cf;
+}
 
 .btn-primary {
   display: inline-block;
   color: #fff;
   font-size: 15px;
   text-align: center;
-  background: #17173a;
-  border: 1px solid #17173a;
+  background: #783ff1;
+  border: 1px solid #783ff1;
   border-radius: 5px;
+}
+
+.btn-secondary {
+  color: #fff;
+  background: #4A4A6A;
+}
+
+.btn-danger {
+  color: #fff;
+  background: #ffa105;
+  border-color: #ffa105;
 }
 
 
@@ -92,11 +110,23 @@ div.kv-avatar div.file-input div.file-preview {
     width: 150px;
   }
 
+  .navbar-collapse {
+    box-shadow: unset;
+    -webkit-box-shadow: unset;
+  }
+
   .container-fluid>.navbar-collapse, .container-fluid>.navbar-header, 
   .container>.navbar-collapse, .container>.navbar-header {
     margin: 0;
   }
+
+  .panel-body  > .w-50 {
+    width: auto !important;
+  }
+
 }
+
+
 
 /**  navbar */
 
@@ -105,10 +135,8 @@ nav .container {
   /* padding-bottom: 15px; */
 }
 
-@media (min-width: 768px) {
-  .navbar-nav {
-    flex-direction: row;
-  }
+.navbar-nav {
+  flex-direction: row;
 }
 
 .nav > li > a {
@@ -118,7 +146,7 @@ nav .container {
 .navbar-nav > li > a {
   font-weight: 700;
   font-size: 15px;
-  color: #17173a;
+  color: #c0c0cf;
 }
 
 .navbar-default .navbar-nav > li > a {
@@ -163,6 +191,10 @@ nav .container {
   padding-right: 25px;
 }
 
+#navLogin a {
+  color: #ffa105;
+}
+
 .avatar {
   display: inline-block;
   text-align: center;
@@ -176,6 +208,12 @@ nav .container {
 @media (max-width: 768px) {
   .avatar {
     display: none;
+  }
+
+  #logged-in-menu {
+    position: absolute;
+    right: 15px;
+    top: 4px;
   }
 }
 
@@ -198,12 +236,16 @@ nav .container {
 }
 
 @media (max-width: 768px) {
-  #user_label {
-    padding-left:  0;
+  .navbar-nav .open .dropdown-menu {
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    background-color: #fff;
   }
 
   #user-header-name {
-    padding-left:  15px;
+    /** padding-left:  50px; */
   }
 }
 
@@ -247,7 +289,7 @@ footer {
   padding: 40px;
   color: #a2a2b0;
   font-size: 14px;
-  background-color: #17173a;
+  background-color: #212134;
 }
 
 @media (max-width: 768px) {
@@ -282,6 +324,7 @@ footer .copyright {
   align-items: center;
   justify-content: center;
   min-height: 300px;
+  color: #fff;
 }
 
 .us-cursor {
@@ -302,9 +345,16 @@ footer .copyright {
 .pagination>.active>span, 
 .pagination>.active>span:focus, 
 .pagination>.active>span:hover {
-  background-color: #17173a;
-  border-color: #17173a;
+  background-color: #783ff1;
+  border-color: #4A4A6A;
 }
+
+.pagination>li>a, .pagination>li>span {
+  background-color: #181826;
+  color: #c0c0cf;
+  border-color: #4A4A6A;
+}
+
 
 .breadcrumb a {
   color: #17173a;
@@ -318,9 +368,26 @@ footer .copyright {
   font-size: 12px;
 }
 
+.table-bordered {
+  border-color: #c0c0cf;
+}
+
+.table>:not(caption)>*>* {
+  background-color: #181826;
+  color: #f3f3f3;
+}
+
+.table>thead {
+  border-color: #4A4A6A;
+}
+
+td.text-center.rate {
+  color: #4A4A6A;
+}
+
 @media (max-width: 768px) {
   .table {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .rdate {
@@ -330,4 +397,53 @@ footer .copyright {
   .rate {
     font-size: 8px;
   }
+
+  .fs-12 {
+    font-size: 12px;
+  }
+}
+
+/** Dark Mode */
+.panel {
+  background-color: #181826;
+}
+
+.panel-default {
+  border-color:#4A4A6A;
+}
+
+.panel-default>.panel-heading {
+  background: #212134;
+  color: #c0c0cf; 
+  border-color: #4A4A6A; 
+}
+
+.panel-body > div {
+  color: #fff;
+}
+
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+  border: 1px solid #4A4A6A;
+}
+
+
+
+.breadcrumb {
+  background-color: #212134;
+}
+
+.breadcrumb a {
+  color: #c0c0cf;
+}
+
+.breadcrumb>.active {
+  color: #783ff1;
+}
+
+.border {
+  border-color: #4A4A6A  !important;
+}
+
+.note-editor .note-editing-area .note-editable {
+  background-color: #fff;
 }

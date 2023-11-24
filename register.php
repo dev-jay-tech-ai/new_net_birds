@@ -5,8 +5,13 @@
  
   if(isset($_SESSION['userId'])) {
     echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
+    exit();
   }
+  
 ?>
+<div class="alert alert-success" style="display: none;">
+    <strong>Success!</strong> Your account has been successfully created.
+</div>
 
 <div class="d-flex justify-content-center row vertical">
   <div class="row col-lg-9 col-sm-12">

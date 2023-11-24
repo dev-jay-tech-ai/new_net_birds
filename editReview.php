@@ -110,17 +110,17 @@ $row = $result->fetch_assoc();
 								const data = JSON.parse(xhr.responseText)
 								if(data.result == 'success') {
 									alert('Success!')
-									self.location.href = '/newnetbirds/view.php?code=private' + '&idx=' + param['idx'];
+									self.location.href = '/newnetbirds/view_review.php?code=private' + '&idx=' + param['idx'];
                 } else if(data.result == 'denied') {
                   alert('No permission to edit');
-                  self.location.href = '/newnetbirds/list.php?code=private';
+                  self.location.href = '/newnetbirds/review.php?code=private';
 								} else alert('Failed')
 							} else alert(xhr.status)
 						}
 					})
 					const btn_list = document.querySelector('#btn_list');
 					btn_list.addEventListener('click', () => {
-						self.location.href='./list.php?code=' + param['code'];
+						self.location.href='./review.php?code=review';
 					})
           $('#summernote').summernote({
             placeholder: 'Market yourself',

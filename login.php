@@ -24,8 +24,9 @@ if ($_POST) {
 				if (password_verify($password, $hashedPassword)) {
 						$_SESSION['userId'] = $user['user_id'];
 						// $errors[] = $user['user_id'];
-						echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
-						// exit;
+						echo "<script>alert('Login successful.');</script>";
+						echo "<script>window.location.href=' /newnetbirds/dashboard.php'</script>";
+						exit;
 				} else {
 						$errors[] = "Incorrect username/password combination";
 				}

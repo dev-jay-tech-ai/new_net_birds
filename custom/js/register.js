@@ -74,13 +74,11 @@ $(document).ready(function(){
 							$(".text-danger").remove();
 							// Remove the form error
 							$('.form-group').removeClass('has-error');
-							$(".alert-success").delay(500).show(10, function() {
-									$(this).delay(3000).hide(10, () => {
-											$(this).remove();
-									});
-							}); // /.alert
-							// Redirect to another page after successful registration
+
+							alert('Registration successful. Please proceed to log in.');
+				
 							window.location.replace('/newnetbirds/login.php');
+				
 					} else {
 						if (response.messages.includes('Duplicate')) {
 							if(response.messages.includes('email')) alert("Error: This email address is already registered. If you have an existing account, please log in. If you've forgotten your password, you can reset it using the 'Forgot Password' option. If this email does not belong to you or if you continue to experience issues, please contact our support team for assistance.");

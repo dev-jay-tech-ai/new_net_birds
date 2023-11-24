@@ -28,8 +28,8 @@ foreach ($matches[1] as $key => $val) {
   if (file_put_contents($targetPath, $rs_code) !== false) {
     // echo 'File saved successfully.';
   } else {
-    echo 'Error saving the file. Check file permissions and path.';
-    echo 'file_put_contents error: ' . error_get_last()['message'];
+    //  echo 'Error saving the file. Check file permissions and path.';
+    //  echo 'file_put_contents error: ' . error_get_last()['message'];
   }
 
   $img_array[] = $targetPath;
@@ -37,34 +37,14 @@ foreach ($matches[1] as $key => $val) {
 }
 
 $imglist = implode('|', $img_array);
-$sql = "INSERT INTO rboard (name, subject, password, content, rate, ip, rdate) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+$sql = "INSERT INTO rboard (name, subject, password, content, imglist, rate, ip, rdate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
 $ip = $_SERVER['REMOTE_ADDR'];
 $stmt = $connect->prepare($sql);
-
-if ($stmt) {
-    // Assuming your parameters are, in order, name, subject, password, content, rate, ip
-    $stmt->bind_param("ssssis", $name, $subject, $pwd_hash, $content, $rate, $ip);
-    // Assign values to parameters
-    $name = $_POST['name']; // Replace with your actual input variable
-    $subject = $_POST['title']; // Replace with your actual input variable
-    $password = $_POST['pw']; // Replace with your actual input variable
-    $content = $_POST['content']; // Replace with your actual input variable
-    $rate = $_POST['rate']; // Replace with your actual input variable
-    // Execute the statement
-    $stmt->execute();
-
-    // Check for success or handle errors
-    if ($stmt->affected_rows > 0) {
-        // echo "Record inserted successfully";
-    } else {
-        echo "Error inserting record: " . $stmt->error;
-    }
-
-    // Close the statement
-    $stmt->close();
-} else {
-    echo "Error in preparing statement: " . $connect->error;
+if (!$stmt) {
+  die($connect->error);
 }
+$stmt->bind_param('sssssss', $name, $title, $pwd_hash, $content, $imglist, $rate, $ip);
+$stmt->execute();
 $arr = ['result' => 'success'];
 $j = json_encode($arr);
 die($j);

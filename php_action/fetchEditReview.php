@@ -10,8 +10,8 @@ $name  = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name']: '';
 $pw  = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw']: '';
 $title  = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title']: '';
 $content  = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content']: '';
-$idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'] : '';
 $rate  = (isset($_POST['rate']) && $_POST['rate'] != '') ? $_POST['rate']: 0;
+$idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'] : '';
 
 if($idx == '') {
   $arr = ['result' => 'empty_idx'];
@@ -49,7 +49,7 @@ foreach ($matches[1] as $key => $row) {
   $ext = ($ext === 'jpeg') ? 'jpg' : $ext;
   // 파일명 만들기
   $filename = date('YmdHis') . '_' . $key . '.' . $ext;
-  $targetPath = '../assets/images/private/' . $filename;
+  $targetPath = '../assets/images/reivew/' . $filename;
   // if (file_put_contents($targetPath, $data) !== false) {
   //     echo 'File saved successfully.';
   // } else {
@@ -65,14 +65,14 @@ if($pwd_hash != '') {
   $sql = 'UPDATE rboard SET name=?, subject=?, content=?, imglist=?, rate=?, password=? WHERE idx=?';
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
-    die($connect->error);
+      die($connect->error);
   }
-  $stmt->bind_param('sssssi', $name, $title, $content, $imglist, $rate, $pwd_hash, $idx);
+  $stmt->bind_param('ssssssi', $name, $title, $content, $imglist, $rate, $pwd_hash, $idx);
 } else {
   $sql = 'UPDATE rboard SET name=?, subject=?, content=?, imglist=?, rate=? WHERE idx=?';
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
-    die($connect->error);
+      die($connect->error);
   }
   $stmt->bind_param('ssssi', $name, $title, $content, $imglist, $rate, $idx);
 }

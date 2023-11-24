@@ -8,7 +8,7 @@
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
 
-  $limit = 10;
+  $limit = 20;
   $page_limit = 10;
   $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
@@ -36,7 +36,7 @@
       $resultData = $stmtData->get_result();
       $rs = [];
       while ($row = $resultData->fetch_assoc()) {
-          $rs[] = $row;
+        $rs[] = $row;
       }
   } else {
       // Handle the case where the preparation failed
@@ -59,7 +59,7 @@
 				<div class="panel-body">
 					<div class="remove-messages"></div>
 					<?php 
-					if(isset($_SESSION['userId']) && $result['active'] == 1) {
+					if(isset($_SESSION['userId']) /** && $result['active'] == 1 */) {
 						if($result['status'] == 1) {
 							echo "<div class='d-flex gap-2 justify-content-end'>
 							<button id='btn-write' class='btn btn-primary'>Write</button>
@@ -72,7 +72,13 @@
 						}	
 					}
 					?>
-					<div class="mt-4 mb-3"></div>
+					<div class='mb-2 text-center' style='color: #783ff1'>
+					<?php 
+					if (!isset($_SESSION['userId'])) {
+						echo "Login is required to write";		
+					} 
+					?>
+					</div>
 					<div class="mb-2 d-flex gap-2">
 						<table class='table table-bordered table-hover'>
 							<colgroup>
@@ -112,10 +118,10 @@
 							
 							<?php 
 							$totalRows = count($rs);
-							$activeRowCount = 0;
+							$activeRowCount = ($page - 1) * $limit;
 							foreach($rs AS $i => $row) { 
 							if ($row['active'] == 1) {
-									$activeRowCount++;
+								$activeRowCount++;
 							?>
             	<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
                 <?php 
@@ -141,8 +147,6 @@
 										} // End of if ($row['active'] == 1)
 								} // End of foreach
 							?>
-
-
 						</table>    
 					</div>
 					<div class="mt-3 d-flex gap-2 justify-content-center">
@@ -154,7 +158,7 @@
 					</div>
 					<script>
 					<?php 
-						if(isset($_SESSION['userId']) && $result['active'] == 1) {
+						/**if(isset($_SESSION['userId']) && $result['active'] == 1 ) {*/
 							echo "const btn_write = document.querySelector('#btn-write');";
 							echo "btn_write && btn_write.addEventListener('click', () => {";
 							echo "self.location.href='./write_review.php?code=$code';";
@@ -165,7 +169,7 @@
 							echo "self.location.href='./view_review.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
 							echo "});";
 							echo "});";
-						} 
+						// } 
 					?>
 					</script>      
 					<!-- /table -->   

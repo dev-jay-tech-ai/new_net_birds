@@ -58,25 +58,18 @@
     <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <div class="logo">
         <a href='/newnetbirds/dashboard.php'>
-          <img class='logo_img' src='/newnetbirds/assets/images/logo/logo.png' alt='logo' />
+          <img class='logo_img' src='/newnetbirds/assets/images/logo/logo_w.png' alt='logo' />
         </a>
       </div>
     </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">      
-      <ul class="nav navbar-nav">        
-        <li id="navDashboard"><a href="index.php">Dashboard</a></li>        
-        <li id="navBrand"><a href="agent.php">Agent</a></li>        
+    <div class="collapse navbar-collapse in" id="navbar-collapse-1">      
+      <ul class="nav navbar-nav">               
+        <li id="navAgent"><a href="agent.php">Agent</a></li>        
         <li id="navPrivate"><a href="private.php">Private</a></li>        
         <li id="navReivew"><a href="review.php">Review</a></li>       
-        <li id="navContact"><a href="contact.php">Contact</a></li> 
+        <li id="navContact"><a href="notice.php">Notice</a></li> 
       <?php
         if ($result['status'] == 1) {
         // Display this link only when the user is not logged in
@@ -91,7 +84,7 @@
           echo '
             <li id="user_label" class="dropdown">
               <label for="user-control-list-check" class="dropdown-toggle" data-toggle="dropdown" id="user_dropdown" title="" role="button" data-original-title="Profile">
-                <span class="avatar  avatar-md avatar-rounded" alt="' . $result['username'] . '" title="' . $result['username'] . '" data-uid="2438" loading="lazy" component="avatar/icon" style="background-color: #17173a;"><font style="vertical-align: inherit;">' . $initial . '</font></span>
+                <span class="avatar  avatar-md avatar-rounded" alt="' . $result['username'] . '" title="' . $result['username'] . '" data-uid="2438" loading="lazy" component="avatar/icon" style="background-color: #c65ac2;"><font style="vertical-align: inherit;">' . $initial . '</font></span>
                 <span id="user-header-name" class="visible-xs-inline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' . $result['username'] . '</font></font></span>
               </label>
               <input type="checkbox" class="hidden" id="user-control-list-check" aria-hidden="true">

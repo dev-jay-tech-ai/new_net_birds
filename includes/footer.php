@@ -10,7 +10,7 @@
 		<span class="text-muted"></span>
 		This website is only for the UK, please be sure to comply with UK laws when posting.
 		<br>	
-		<br>For cooperation, please contact: info@newnetbirds.com
+		
 		</span>
 	</div>
 </footer>

@@ -1,11 +1,53 @@
 <?php 
+	require_once 'php_action/db_connect.php';
 	require_once 'includes/header.php'; 
+	include 'component/pagination.php'; 
+	include 'component/config.php'; 
 	include 'component/popup.php'; 
+
+  error_reporting(E_ALL); 
+  ini_set('display_errors', '1'); 
+
+  $limit = 20;
+  $page_limit = 10;
+  $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+  $start = ($page - 1) * $limit;
+  
+  // Query to get total count
+  $sqlCount = "SELECT COUNT(*) as cnt FROM aboard WHERE code='".$code."'";
+  $stmtCount = $connect->prepare($sqlCount);
+  
+  if ($stmtCount) {
+      $stmtCount->execute();
+      // Get the result set
+      $resultCount = $stmtCount->get_result();
+      $row = $resultCount->fetch_assoc();
+      $total = $row['cnt'];
+  } else {
+      // Handle the case where the preparation failed
+      die($connect->error);
+  }
+  // Query to get paginated data
+  $sqlData = "SELECT * FROM aboard WHERE code='".$code."'ORDER BY idx DESC LIMIT $start, $limit";
+  $stmtData = $connect->prepare($sqlData);
+  if($stmtData) {
+      $stmtData->execute();
+      // Get the result set
+      $resultData = $stmtData->get_result();
+      $rs = [];
+      while ($row = $resultData->fetch_assoc()) {
+        $rs[] = $row;
+      }
+  } else {
+      // Handle the case where the preparation failed
+      die($connect->error);
+  }
+
 ?>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">Home</a></li>		  
 				<li class="active">Agent</li>
@@ -13,149 +55,122 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="page-heading">Manage Brand</div>
+					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Agent Bullet Board</div>
 				</div> <!-- /panel-heading -->
 				<div class="panel-body">
-					<div class='banner-container'>
-						<div><img src='assests/images/banner/banner_0.jpeg' alt='' /></div>
-						<hr>
-						<div><img src='assests/images/banner/banner_1.jpeg' alt='' /></div>
+					<div class="remove-messages"></div>
+					<?php 
+					if(isset($_SESSION['userId']) /** && $result['active'] == 1 */) {
+						if($result['status'] == 1) {
+							echo "<div class='d-flex gap-2 justify-content-end'>
+							<button id='btn-write' class='btn btn-primary'>Write</button>
+							<button id='btn-write' class='btn btn-secondary'>Delete</button>
+							</div>";		
+						} else {
+							echo "<div class='d-flex justify-content-end'>
+							<button id='btn-write' class='btn btn-primary'>Write</button>
+							</div>";		
+						}
+					} 
+					?>
+					<div class='mb-2 text-center' style='color: #783ff1'>
+					<?php 
+					if (!isset($_SESSION['userId'])) {
+						echo "Login is required to write";		
+					} 
+					?>
 					</div>
+					<div class="mb-2 d-flex gap-2">
+						<table class='table table-bordered table-hover'>
+							<colgroup>
+								<?php 
+										if(isset($_SESSION['userId']) && $result['status'] == 1) {
+											echo "
+											<col width='4%' />
+											<col width='6%' />
+											<col width='50%' />
+											<col width='10%' />
+											<col width='10%' />
+											<col width='10%' />";		
+										} else {
+											echo "
+											<col width='7%' />
+											<col width='63%' />
+											<col width='10%' />
+											<col width='10%' />
+											<col width='10%' />";
+										}
+								?>
+						
+							</colgroup>
+							<thead class='text-bg-primary text-center'>
+								<tr>
+									<?php 
+										if(isset($_SESSION['userId']) && $result['status'] == 1) {
+											echo "<th class='text-center'></th>";		
+										} 
+									?>
+									<th class='text-center'></th>
+									<th class='text-center'>Title</th>
+									<th class='text-center'>User</th>
+									<th class='text-center'>Views</th>
+									<th class='text-center'>Date</th>
+								</tr>
+							</thead>
+							<?php 
+							$totalRows = count($rs);
+							$activeRowCount = ($page - 1) * $limit;
+							foreach ($rs as $i => $row) {
+							if ($row['active'] == 1) {
+								$activeRowCount++;
+									?>
+									<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
+											<?php
+											if (isset($_SESSION['userId']) && $result['status'] == 1) {
+													echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
+											}
+											?>
+											<td class='text-center'><?= $activeRowCount; ?></td>
+											<td><?= $row['subject']; ?></td>
+											<td class='text-center'><?= $row['name']; ?></td>
+											<td class='text-center'><?= $row['hit']; ?></td>
+											<td class='rdate text-center'><?= substr($row['rdate'], 0, 10); ?></td>
+									</tr>
+									<?php
+								}
+							}
+							?>
+						</table>    
+					</div>
+					<div class="mt-3 d-flex gap-2 justify-content-center">
+					<?php 
+						$param = '&code='.$code;
+						$rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
+						echo $rs_str;
+					?> 
 
-
+					</div>
+					<script>
+						<?php 
+						// if(isset($_SESSION['userId'])) {
+							echo "const btn_write = document.querySelector('#btn-write');";
+							echo "btn_write && btn_write.addEventListener('click', () => {";
+							echo "self.location.href='./write_agent.php?code=$code';";
+							echo "});";
+							echo "const view_detail = document.querySelectorAll('.view_detail');";
+							echo "view_detail.forEach((box) => {";
+							echo "box.addEventListener('click', () => {";
+							echo "self.location.href='./view_agent.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
+							echo "});";
+							echo "});";
+						// } 
+						?>
+					</script>   
+					<!-- /table -->   
 				</div> <!-- /panel-body -->
 			</div> <!-- /panel -->		
 		</div> <!-- /col-md-12 -->
 	</div> <!-- /row -->
 </div>
-<div class="modal fade" id="addBrandModel" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    	
-    	<form class="form-horizontal" id="submitBrandForm" action="php_action/createBrand.php" method="POST">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title"><i class="fa fa-plus"></i> Add Brand</h4>
-	      </div>
-	      <div class="modal-body">
-
-	      	<div id="add-brand-messages"></div>
-
-	        <div class="form-group">
-	        	<label for="brandName" class="col-sm-3 control-label">Brand Name: </label>
-	        	<label class="col-sm-1 control-label">: </label>
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="brandName" placeholder="Brand Name" name="brandName" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	         	        
-	        <div class="form-group">
-	        	<label for="brandStatus" class="col-sm-3 control-label">Status: </label>
-	        	<label class="col-sm-1 control-label">: </label>
-				    <div class="col-sm-8">
-				      <select class="form-control" id="brandStatus" name="brandStatus">
-				      	<option value="">~~SELECT~~</option>
-				      	<option value="1">Available</option>
-				      	<option value="2">Not Available</option>
-				      </select>
-				    </div>
-	        </div> <!-- /form-group-->	         	        
-
-	      </div> <!-- /modal-body -->
-	      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        
-	        <button type="submit" class="btn btn-primary" id="createBrandBtn" data-loading-text="Loading..." autocomplete="off">Save Changes</button>
-	      </div>
-	      <!-- /modal-footer -->
-     	</form>
-	     <!-- /.form -->
-    </div>
-    <!-- /modal-content -->
-  </div>
-  <!-- /modal-dailog -->
-</div>
-<!-- / add modal -->
-
-<!-- edit brand -->
-<div class="modal fade" id="editBrandModel" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    	
-    	<form class="form-horizontal" id="editBrandForm" action="php_action/editBrand.php" method="POST">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title"><i class="fa fa-edit"></i> Edit Brand</h4>
-	      </div>
-	      <div class="modal-body">
-
-	      	<div id="edit-brand-messages"></div>
-
-	      	<div class="modal-loading div-hide" style="width:50px; margin:auto;padding-top:50px; padding-bottom:50px;">
-						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-						<span class="sr-only">Loading...</span>
-					</div>
-
-		      <div class="edit-brand-result">
-		      	<div class="form-group">
-		        	<label for="editBrandName" class="col-sm-3 control-label">Brand Name: </label>
-		        	<label class="col-sm-1 control-label">: </label>
-					    <div class="col-sm-8">
-					      <input type="text" class="form-control" id="editBrandName" placeholder="Brand Name" name="editBrandName" autocomplete="off">
-					    </div>
-		        </div> <!-- /form-group-->	         	        
-		        <div class="form-group">
-		        	<label for="editBrandStatus" class="col-sm-3 control-label">Status: </label>
-		        	<label class="col-sm-1 control-label">: </label>
-					    <div class="col-sm-8">
-					      <select class="form-control" id="editBrandStatus" name="editBrandStatus">
-					      	<option value="">~~SELECT~~</option>
-					      	<option value="1">Available</option>
-					      	<option value="2">Not Available</option>
-					      </select>
-					    </div>
-		        </div> <!-- /form-group-->	
-		      </div>         	        
-		      <!-- /edit brand result -->
-
-	      </div> <!-- /modal-body -->
-	      
-	      <div class="modal-footer editBrandFooter">
-	        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-	        
-	        <button type="submit" class="btn btn-success" id="editBrandBtn" data-loading-text="Loading..." autocomplete="off"> <i class="glyphicon glyphicon-ok-sign"></i> Save Changes</button>
-	      </div>
-	      <!-- /modal-footer -->
-     	</form>
-	     <!-- /.form -->
-    </div>
-    <!-- /modal-content -->
-  </div>
-  <!-- /modal-dailog -->
-</div>
-<!-- / add modal -->
-<!-- /edit brand -->
-
-<!-- remove brand -->
-<div class="modal fade" tabindex="-1" role="dialog" id="removeMemberModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><i class="glyphicon glyphicon-trash"></i> Remove Brand</h4>
-      </div>
-      <div class="modal-body">
-        <p>Do you really want to remove ?</p>
-      </div>
-      <div class="modal-footer removeBrandFooter">
-        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-        <button type="button" class="btn btn-primary" id="removeBrandBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- /remove brand -->
-
-
 
 <?php require_once 'includes/footer.php'; ?>

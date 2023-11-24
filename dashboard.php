@@ -8,12 +8,10 @@
 						<h1 class="heading_1 mt-5 mb-5">网鸟 您在英国的幸福源泉</h1> 
 						<div class="text_wrapper__1wumA text_hero___ByfE">
 							<h1 class="heading_1"></h1>
-							<p></p>
+							<p>广告位招租</p>
 						</div>
 						<div class="row">
-							<div class="col-lg-6 col-12">
-							</div>
-							<div class="col-lg-6 col-12">
+							<div class="col-12">网鸟，您在英国的幸福源泉
 							</div>
 						</div>
 						<div class="FullSuiteHeroSection_icon__3bxSb"><div class="Intersection_wrapper" data-intersect="boxShadow" style="transition-delay: 0ms;">
@@ -40,11 +38,24 @@
 							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">This website is only for the UK, please be sure to comply with UK laws when posting.</font></font></p>
 						</div>
 						<div class="global-text-box-2 pt-3">
-							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Join the discussion group in Telegram: </font></font><a href="https://t.me/+tgwnKZITcEYzMmJk" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">telegram link</font></font></a></p>
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quick registration: </font></font><a href="https://t.me/+tgwnKZITcEYzMmJk" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">telegram link</font></font></a></p>
+						</div>
+						<div class="global-text-box-2 pt-3">
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">欢迎您加入独立的Telegram讨论群。: </font></font><a href="https://t.me/+tgwnKZITcEYzMmJk" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">telegram link</font></font></a></p>
 						</div>
 						<div class="global-text-box-3 pt-3">
-							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome to support the operation of this site through donations: </font></font><a href="https://www.paypal.com/donate/?hosted_button_id=6J37AL6UMNR9C" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
+							<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Support the website: </font></font><a href="https://www.paypal.com/donate/?hosted_button_id=6J37AL6UMNR9C" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">donation link</font></font></a></p>
 						</div>
+						<div class="global-text-box-3 pt-3">
+						<p>For cooperation, please contact: </p>
+						<div>info@newnetbirds.com</div>
+						<br>
+						<div>Wechat ID</div>
+						<div>hachimitsu-mimi</div>
+						<br>
+						<div>Telegram ID</div>
+						<div>@hachimitsumimi</div>
+					</div>
 					</div>
 				</div>
 			</div>
