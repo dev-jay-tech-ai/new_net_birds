@@ -10,7 +10,6 @@
   }
 ?>
 
-
 <!DOCTYPE html>
   <html>
   <head>
@@ -59,14 +58,14 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <div class="logo">
-        <a href='/newnetbirds/dashboard.php'>
-          <img class='logo_img' src='/newnetbirds/assets/images/logo/logo_w.png' alt='logo' />
+        <a href='/dashboard.php'>
+          <img class='logo_img' src='/assets/images/logo/logo_w.png' alt='logo' />
         </a>
       </div>
     </div>
     <div class="collapse navbar-collapse in" id="navbar-collapse-1">      
       <ul class="nav navbar-nav">               
-        <li id="navAgent"><a href="agent.php">Agent</a></li>        
+        <li id="navAgent"><a href="agent.php">Club</a></li>        
         <li id="navPrivate"><a href="private.php">Private</a></li>        
         <li id="navReivew"><a href="review.php">Review</a></li>       
         <li id="navContact"><a href="notice.php">Notice</a></li> 
@@ -90,7 +89,7 @@
               <input type="checkbox" class="hidden" id="user-control-list-check" aria-hidden="true">
               <ul id="user-control-list" component="header/usercontrol" class="dropdown-menu" aria-labelledby="user_dropdown">
             <li>
-              <a component="header/profilelink" href="/newnetbirds/profile.php?username=' . $result['username'] . '">
+              <a component="header/profilelink" href="/profile.php?username=' . $result['username'] . '">
                 <i component="user/status" class="fa fa-fw fa-circle status online"></i> 
                 <span component="header/username"><font style="vertical-align: inherit;">
                 <font style="vertical-align: inherit;">
@@ -100,7 +99,7 @@
             </li>
             <li role="presentation" class="divider"></li>
             <li>
-              <a component="header/profilelink/edit" href="/newnetbirds/editProfile.php?username=' . $result['username'] . '">
+              <a component="header/profilelink/edit" href="/editProfile.php?username=' . $result['username'] . '">
               <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
               </a>
             </li>

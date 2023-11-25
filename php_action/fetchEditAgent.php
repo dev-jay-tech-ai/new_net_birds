@@ -3,8 +3,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1'); 
 require_once 'core.php';
 
-$edit_idx = (isset($_SESSION['edit_idx']) && $_SESSION['edit_idx'] != '' && is_numeric($_SESSION['edit_idx'])) ? $_SESSION['edit_idx'] : '';
-
 // print_r($_POST)
 $name  = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name']: '';
 $pw  = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw']: '';
@@ -15,11 +13,6 @@ $idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])
 
 if($idx == '') {
   $arr = ['result' => 'empty_idx'];
-  exit(json_encode($arr));
-}
-
-if($edit_idx != $idx) {
-  $arr = ['result' => 'denied'];
   exit(json_encode($arr));
 }
 

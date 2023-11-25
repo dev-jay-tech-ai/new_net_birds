@@ -2,7 +2,7 @@
 require_once 'includes/header.php';
 
 if(isset($_SESSION['userId'])) {
-	echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
+	echo "<script>window.location.href=' /dashboard.php';</script>";
 }
 
 $errors = [];
@@ -25,7 +25,7 @@ if ($_POST) {
 						$_SESSION['userId'] = $user['user_id'];
 						// $errors[] = $user['user_id'];
 						echo "<script>alert('Login successful.');</script>";
-						echo "<script>window.location.href=' /newnetbirds/dashboard.php'</script>";
+						echo "<script>window.location.href=' /dashboard.php'</script>";
 						exit;
 				} else {
 						$errors[] = "Incorrect username/password combination";
@@ -73,8 +73,8 @@ if ($_POST) {
 						<div class="form-group">
 							<button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
 							<div class='mt-3'>
-								<span>Don't have an account? <a href="register.php">Register</a></span>
-								<br><a id="reset-link" href="/newnetbirds/password_forgot.php">Forgot Password?</a>
+								<span>Don't have an account? <a href="register.php" style='color: #ffa105;'>Register</a></span>
+								<br><a id="reset-link" href="/password_forgot.php">Forgot Password?</a>
 							</div>					
 						</div>
 					</form>

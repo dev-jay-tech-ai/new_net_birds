@@ -44,6 +44,9 @@ label {
   border-color: #ffa105;
 }
 
+#cookie-manager-button {
+  display: none !important;
+}
 
 /** font */
 
@@ -401,6 +404,10 @@ td.text-center.rate {
   .fs-12 {
     font-size: 12px;
   }
+
+  .fs-10 {
+    font-size: 10px;
+  }
 }
 
 /** Dark Mode */
@@ -446,4 +453,16 @@ td.text-center.rate {
 
 .note-editor .note-editing-area .note-editable {
   background-color: #fff;
+}
+
+.modal-content {
+  background-color: #181826;
+}
+
+#id_name, #id_pw {
+  display: none;
+}
+
+.note-editable {
+  color:#000;
 }

@@ -3,15 +3,10 @@ require_once 'php_action/db_connect.php';
 require_once 'includes/header.php'; 
 include 'component/config.php'; 
 
-session_start();
-$edit_idx = (isset($_SESSION['edit_idx']) && $_SESSION['edit_idx'] != '' && is_numeric($_SESSION['edit_idx'])) ? $_SESSION['edit_idx'] : '';
+error_reporting(E_ALL); 
+ini_set('display_errors', '1'); 
+
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
-
-if($idx == '') die('<script>alert("Not any number"); history.go(-1);</script>');
-if($edit_idx != $idx) {
-  die('<script>alert("You don\'t have a permission to edit"); history.go(-1);</script>');
-}
-
 $sql = "SELECT * FROM aboard WHERE idx=?";
 $stmt = $connect->prepare($sql);
 $stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)
@@ -25,12 +20,12 @@ $row = $result->fetch_assoc();
 	<div class="col-md-12">
 		<ol class="breadcrumb">
 		  <li><a href="dashboard.php">Home</a></li>		  
-		  <li class="active">Agent</li>
+		  <li class="active"><?= $board_title ?></li>
 		</ol>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Agent write</div>
+				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> <?= $board_title ?> write</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 
@@ -98,16 +93,15 @@ $row = $result->fetch_assoc();
 						btn_submit.disabled = true
 						xhr.onload = () => {
 							if(xhr.status == 200) {
-                console.log(xhr.responseText)
-                console.log(JSON.parse(xhr.responseText))
-
+                // console.log(xhr.responseText)
+                // console.log(JSON.parse(xhr.responseText))
 								const data = JSON.parse(xhr.responseText)
 								if(data.result == 'success') {
 									alert('Success!')
-									self.location.href = '/newnetbirds/view_agent.php?code=Agent' + '&idx=' + param['idx'];
+									self.location.href = '/newnetbirds/view_agent.php?code=agent' + '&idx=' + param['idx'];
                 } else if(data.result == 'denied') {
                   alert('No permission to edit');
-                  self.location.href = '/newnetbirds/agent.php?code=Agent';
+                  self.location.href = '/newnetbirds/agent.php?code=agent';
 								} else alert('Failed')
 							} else alert(xhr.status)
 						}

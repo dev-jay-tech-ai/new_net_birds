@@ -11,9 +11,7 @@ $title  = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title']: '
 $content  = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content']: '';
 $code  = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code']: '';
 
-if($code == 'undefined') {
-  $code = 'Private';
-}
+if($code == 'undefined') $code = 'private';
 
 // 비밀번호 단방향 암호화
 $pwd_hash = password_hash($pw, PASSWORD_BCRYPT);

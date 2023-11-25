@@ -26,15 +26,12 @@ $row = $result->fetch_assoc();
 		  <li><a href="dashboard.php">Home</a></li>		  
 		  <li class="active">Review</li>
 		</ol>
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Review Edit</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
-
 				<div class="remove-messages"></div>
-
         <div class="container w-50">
           <div class="mt-4 mb-3"></div>
           <div class="mb-2 d-flex gap-2">
@@ -43,13 +40,15 @@ $row = $result->fetch_assoc();
             <input id='id_pw' type='password' name='password' class='form-control w-25' 
               placeholder='Password' autocomplete='off'>
 							<div>Rating: </div>
-							<h4 class="text-center m-auto">
-								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
-								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
-								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
-								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
-								<i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
-							</h4>	
+							<?php
+								$rating = $row['rate']; // Assuming $row['rate'] contains the rating value
+								echo '<h4 class="text-center m-auto">';
+								for ($i = 1; $i <= 5; $i++) {
+										$class = ($i <= $rating) ? 'text-warning' : '';
+										echo '<i class="fas fa-star submit_star mr-1 star-light ' . $class . '" id="submit_star_' . $i . '" data-rating="' . $i . '"></i>';
+								}
+								echo '</h4>';
+							?>
 							<input type="hidden" id="id_rate" name="rating" value="">
           </div>
           <div>
@@ -66,29 +65,21 @@ $row = $result->fetch_assoc();
 					const aa = window.location.search.replace('?','').split(/[=?&]/)
 					let param = {}
 					for(let i=0; i<aa.length; i++) param[aa[i]] = aa[++i]
-
 					const btn_submit = document.querySelector('#btn_submit');
 					btn_submit.addEventListener('click', () => {
 						const id_name = document.querySelector('#id_name');
 						const id_pw = document.querySelector('#id_pw');
 						const id_sub = document.querySelector('#id_sub');
-						if(id_name.value == '') {
-							alert('Input the writer')
-							id_name.focus();
-							return false;
-						}
 						if(id_sub.value == '') {
 							alert('Input the subject')
 							id_sub.focus();
 							return false;
 						}
-
 						const markupstr = $('#summernote').summernote('code');
 						if(markupstr === '<p><br></p>') {
 							alert('Input the content')
 							return false;
 						}
-
 						const f1 = new FormData()
 						f1.append('name', id_name.value)
 						f1.append('pw', id_pw.value)
@@ -96,7 +87,6 @@ $row = $result->fetch_assoc();
 						f1.append('content', markupstr)
 						f1.append('idx', param['idx'])
 						f1.append('rate', id_rate.value)
-
 						// ajax
 						const xhr = new XMLHttpRequest()
 						xhr.open('POST', './php_action/fetchEditReview.php', 'true')
@@ -104,23 +94,22 @@ $row = $result->fetch_assoc();
 						btn_submit.disabled = true
 						xhr.onload = () => {
 							if(xhr.status == 200) {
-                console.log(xhr.responseText)
-                console.log(JSON.parse(xhr.responseText))
-
+                // console.log(xhr.responseText)
+                // console.log(JSON.parse(xhr.responseText))
 								const data = JSON.parse(xhr.responseText)
 								if(data.result == 'success') {
 									alert('Success!')
-									self.location.href = '/newnetbirds/view_review.php?code=private' + '&idx=' + param['idx'];
+									self.location.href = '/newnetbirds/view_review.php?' + '&idx=' + param['idx'];
                 } else if(data.result == 'denied') {
                   alert('No permission to edit');
-                  self.location.href = '/newnetbirds/review.php?code=private';
+                  self.location.href = '/newnetbirds/review.php?';
 								} else alert('Failed')
 							} else alert(xhr.status)
 						}
 					})
 					const btn_list = document.querySelector('#btn_list');
 					btn_list.addEventListener('click', () => {
-						self.location.href='./review.php?code=review';
+						self.location.href='./review.php';
 					})
           $('#summernote').summernote({
             placeholder: 'Market yourself',
@@ -139,9 +128,7 @@ $row = $result->fetch_assoc();
           const markupstr = `<?=  $row['content'] ?>`;
           $('#summernote').summernote('code', markupstr);
         </script>
-
 				<!-- /table -->
-
 			</div> <!-- /panel-body -->
 		</div> <!-- /panel -->		
 	</div> <!-- /col-md-12 -->

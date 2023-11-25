@@ -24,7 +24,7 @@
 					<div class="mb-2 d-flex gap-2">
 						<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
 						<input id='id_pw' type='password' name='password' class='form-control w-25' 
-							placeholder='Password' autocomplete='off'>
+							value='12345' placeholder='Password' autocomplete='off'>
 						<div>Rating: </div>
 						<h4 class="text-center mt-2 mb-4">
 							<i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
@@ -56,12 +56,6 @@
 							const id_pw = document.querySelector('#id_pw');
 							const id_sub = document.querySelector('#id_sub');
 							const id_rate = document.querySelector('#id_rate');
-
-							if(id_pw.value == '') {
-								alert('Input the password')
-								id_pw.focus();
-								return false;
-							}
 							if(id_sub.value == '') {
 								alert('Input the subject')
 								id_sub.focus();
@@ -88,7 +82,7 @@
 									const data = JSON.parse(xhr.responseText)
 									if(data.result == 'success') {
 										alert('Success!')
-										self.location.href = '/newnetbirds/review.php';
+										self.location.href = '/review.php';
 									} else alert('Failed')
 								} else alert(xhr.status)
 							}
@@ -115,7 +109,6 @@
 
 					</script>
 					<!-- /table -->
-
 				</div> <!-- /panel-body -->
 			</div> <!-- /panel -->		
 		</div> <!-- /col-md-12 -->

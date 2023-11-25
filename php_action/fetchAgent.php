@@ -4,7 +4,6 @@ ini_set('display_errors', '1');
 
 require_once 'core.php';
 
-
 // print_r($_POST)
 $name  = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name']: '';
 $pw  = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw']: '';
@@ -12,9 +11,7 @@ $title  = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title']: '
 $content  = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content']: '';
 $code  = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code']: '';
 
-if($code == 'undefined') {
-  $code = 'Agent';
-}
+if($code == 'undefined') $code = 'Agent';
 
 // 비밀번호 단방향 암호화
 $pwd_hash = password_hash($pw, PASSWORD_BCRYPT);
@@ -30,7 +27,6 @@ foreach ($matches[1] as $key => $val) {
     $filename = date('YmdHis') . '_' . $key . '.' . $ext;
     [, $base64_decode_data] = explode(',', $data);
     $rs_code = base64_decode($base64_decode_data);
-
     // Check the file size before saving
     $maxFileSize = 1024 * 1024; // 1 MB (adjust this value as needed)
     if (strlen($rs_code) <= $maxFileSize) {

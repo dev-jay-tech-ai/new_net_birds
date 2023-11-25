@@ -14,16 +14,15 @@
 				<li><a href="dashboard.php">Home</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
-
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Private Write</div>
+					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> <?= $board_title ?> Write</div>
 				</div> <!-- /panel-heading -->
 				<div class="panel-body">
 					<div class="mb-2 d-flex gap-2">
 						<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
 						<input id='id_pw' type='password' name='password' class='form-control w-25' 
-							placeholder='Password' autocomplete='off'>
+							value='12345' placeholder='Password' autocomplete='off'>
 					</div>
 					<div>
 						<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
@@ -38,41 +37,27 @@
 						const aa = window.location.search.replace('?','').split(/[=?&]/)
 						let param = {}
 						for(let i=0; i<aa.length; i++) param[aa[i]] = aa[++i]
-
 						const btn_submit = document.querySelector('#btn_submit');
 						btn_submit.addEventListener('click', () => {
 							const id_name = document.querySelector('#id_name');
 							const id_pw = document.querySelector('#id_pw');
 							const id_sub = document.querySelector('#id_sub');
-							if(id_name.value == '') {
-								alert('Input the writer')
-								id_name.focus();
-								return false;
-							}
-							if(id_pw.value == '') {
-								alert('Input the password')
-								id_pw.focus();
-								return false;
-							}
 							if(id_sub.value == '') {
 								alert('Input the subject')
 								id_sub.focus();
 								return false;
 							}
-
 							const markupstr = $('#summernote').summernote('code');
 							if(markupstr === '<p><br></p>') {
 								alert('Input the content')
 								return false;
 							}
-
 							const f1 = new FormData()
 							f1.append('name', id_name.value)
 							f1.append('pw', id_pw.value)
 							f1.append('title', id_sub.value)
 							f1.append('content', markupstr)
-							f1.append('code', '<?= $code ?>')
-
+							f1.append('code', 'private')
 							// ajax
 							const xhr = new XMLHttpRequest()
 							xhr.open('POST', './php_action/fetchPrivate.php', 'true')
@@ -82,8 +67,8 @@
 								if(xhr.status == 200) {
 									const data = JSON.parse(xhr.responseText)
 									if(data.result == 'success') {
-										alert('Success!<br>You can only edit this post within 24 hours.')
-										self.location.href = '/newnetbirds/private.php?code=private';
+										alert('Success!')
+										self.location.href = '/private.php?code=private';
 									} else alert('Failed')
 								} else alert(xhr.status)
 							}

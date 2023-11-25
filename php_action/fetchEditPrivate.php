@@ -57,7 +57,6 @@ foreach ($matches[1] as $key => $row) {
   $img_array[] = $targetPath;
   $content = str_replace($row, $targetPath, $content);
 }
-
 $imglist = implode('|', $img_array); // 배열을 구분자 기준으로 문자열로 바꿔쥼
 if($pwd_hash != '') {
   $sql = 'UPDATE pboard SET name=?, subject=?, content=?, imglist=?, password=? WHERE idx=?';

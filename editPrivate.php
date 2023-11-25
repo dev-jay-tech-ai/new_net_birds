@@ -3,7 +3,6 @@ require_once 'php_action/db_connect.php';
 require_once 'includes/header.php'; 
 include 'component/config.php'; 
 
-session_start();
 $edit_idx = (isset($_SESSION['edit_idx']) && $_SESSION['edit_idx'] != '' && is_numeric($_SESSION['edit_idx'])) ? $_SESSION['edit_idx'] : '';
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
 
@@ -66,23 +65,16 @@ $row = $result->fetch_assoc();
 						const id_name = document.querySelector('#id_name');
 						const id_pw = document.querySelector('#id_pw');
 						const id_sub = document.querySelector('#id_sub');
-						if(id_name.value == '') {
-							alert('Input the writer')
-							id_name.focus();
-							return false;
-						}
 						if(id_sub.value == '') {
 							alert('Input the subject')
 							id_sub.focus();
 							return false;
 						}
-
 						const markupstr = $('#summernote').summernote('code');
 						if(markupstr === '<p><br></p>') {
 							alert('Input the content')
 							return false;
 						}
-
 						const f1 = new FormData()
 						f1.append('name', id_name.value)
 						f1.append('pw', id_pw.value)
@@ -90,7 +82,6 @@ $row = $result->fetch_assoc();
 						f1.append('content', markupstr)
 						f1.append('code', '<?= $code ?>')
 						f1.append('idx', param['idx'])
-
 						// ajax
 						const xhr = new XMLHttpRequest()
 						xhr.open('POST', './php_action/fetchEditPrivate.php', 'true')

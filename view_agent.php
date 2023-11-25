@@ -37,7 +37,7 @@
 		<div class="col-md-12">
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">Home</a></li>		  
-				<li class="active">Agent</li>
+				<li class="active"><?= $board_title ?></li>
 			</ol>
 
 			<div class="panel panel-default">
@@ -62,95 +62,56 @@
 							<?php 
 							if(isset($_SESSION['userId'])) {
 								if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-									echo "<button id='btn_edit' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
-									<button id='btn_delete' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>";
+									echo "<button id='btn_edit' class='btn btn-primary'>Update</button>
+									<button id='btn_delete' class='btn btn-danger'>Delete</button>";
 								}
 							} ?>
 
 						</div>
 					</div>
-
-					<!-- Modal -->
-					<div id='modal' class="modal" tabindex="-1">
-						<div class="modal-dialog">
-							<form method='post' name='modal_form' action='./php_action/fetchView.php'>
-								<input type='hidden' name='mode' value=''>
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 id='modal_title' class="modal-title">Modal title</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<input id='password' type='password' name='password' class='form-control' placeholder='Input your password' >
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-										<button id='btn_pw_check' type="button" class="btn btn-primary">Check</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
 				</div>
 
+		</div>
 			<script>
 				const splited = window.location.search.replace('?', '').split(/[=?&]/);
 				let param = {};
 				for (let i = 0; i < splited.length; i++) {
 						param[splited[i]] = splited[++i];
 				}
-
-				const btn_list = document.querySelector('#btn_list');
+				const fetchView = (mode) => {
+					const xhr = new XMLHttpRequest();
+					xhr.open('POST', './php_action/fetchViewAgent.php', true);
+					const f1 = new FormData();
+					f1.append('idx', param['idx']);
+					f1.append('code', param['code']);
+					f1.append('mode', mode);
+					xhr.send(f1);
+					xhr.onload = () => {
+						if (xhr.status == 200) {
+							const data = JSON.parse(xhr.responseText);
+							if (data.result == 'edit_success') self.location.href = './editAgent.php?idx=' + param['idx'] + '&code=' + param['code'];
+							else if (data.result == 'delete_success') {
+									alert('Deleted');
+									self.location.href = './agent.php?code=' + param['code'];
+							} 
+						} else alert(xhr.status);
+					}
+				}
+ 				const btn_list = document.querySelector('#btn_list');
 				btn_list && btn_list.addEventListener('click', () => {
 						self.location.href = './agent.php?code=' + param['code'];
 				});
 
 				const btn_edit = document.querySelector('#btn_edit'); 
 				btn_edit && btn_edit.addEventListener('click', () => {
-					const modal_title = document.querySelector('#modal_title'); 
-					modal_title.textContent = 'Edit';
-					document.modal_form.mode.value = 'edit';
+					fetchView('edit');
 				})
 
 				const btn_delete = document.querySelector('#btn_delete'); 
 				btn_delete && btn_delete.addEventListener('click', () => {
-					const modal_title = document.querySelector('#modal_title'); 
-					modal_title.textContent = 'Delete';
-					document.modal_form.mode.value = 'delete';
+					alert('Are you sure you want to delete this?');
+					fetchView('delete');
 				})
-
-				const btn_pw_check = document.querySelector('#btn_pw_check');
-				btn_pw_check && btn_pw_check.addEventListener('click', () => {
-						const password = document.querySelector('#password');
-						if (password.value == '') {
-								alert('Input your password');
-								password.focus();
-								return false;
-						}
-
-						// 비밀번호, code, 게시물 번호등을 가지고 비밀 번호 비교
-						const xhr = new XMLHttpRequest();
-						xhr.open('POST', './php_action/fetchViewAgent.php', true);
-						const f1 = new FormData(document.modal_form);
-						f1.append('idx', param['idx']);
-						f1.append('code', param['code']);
-						xhr.send(f1);
-						xhr.onload = () => {
-								if (xhr.status == 200) {
-										const data = JSON.parse(xhr.responseText);
-										if (data.result == 'edit_success') self.location.href = './editAgent.php?idx=' + param['idx'] + '&code=' + param['code'];
-										else if (data.result == 'delete_success') {
-												alert('Deleted');
-												self.location.href = './agent.php?code=' + param['code'];
-										} else if (data.result == 'wrong_password') {
-												alert('Wrong password');
-												password.value = '';
-												password.focus();
-										}
-								} else alert(xhr.status);
-						}
-				});
 
 			</script>
   

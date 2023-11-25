@@ -6,5 +6,5 @@ session_unset();
 // destroy the session 
 session_destroy(); 
 
-header('location: /newnetbirds/dashboard.php');
+header('location: /dashboard.php');
 ?>

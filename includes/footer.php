@@ -1,8 +1,8 @@
 
 <footer class="footer mt-auto">
 	<div class='footer_container'>
-		<div class='mb-5'><a class='footer_logo' href="/newnetbirds/dashboard.php">
-		<img class='logo_img' src='/newnetbirds/assets/images/logo/logo_w.png' alt='logo' /></a></div>	
+		<div class='mb-5'><a class='footer_logo' href="/dashboard.php">
+		<img class='logo_img' src='/assets/images/logo/logo_w.png' alt='logo' /></a></div>	
 		<div class='copyright'>Copyright © Newnetbirds <span id="currentYear"></span>.</div>
 		All Rights Reserved.</div>	
 	</div>

@@ -3,7 +3,7 @@
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php';
-		include 'component/popup.php';  
+	include 'component/popup.php';  
 
   error_reporting(E_ALL); 
   ini_set('display_errors', '1'); 
@@ -49,12 +49,12 @@
 		<div class="col-md-12">
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">Home</a></li>		  
-				<li class="active">Review</li>
+				<li class="active"><?= $board_title ?></li>
 			</ol>
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Review Bullet Board</div>
+					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> <?= $board_title ?> Bullet Board</div>
 				</div> <!-- /panel-heading -->
 				<div class="panel-body">
 					<div class="remove-messages"></div>
@@ -123,7 +123,7 @@
 							if ($row['active'] == 1) {
 								$activeRowCount++;
 							?>
-            	<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
+            	<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>'>
                 <?php 
                     if(isset($_SESSION['userId']) && $result['status'] == 1) {
                         echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
@@ -151,8 +151,7 @@
 					</div>
 					<div class="mt-3 d-flex gap-2 justify-content-center">
 					<?php 
-						$param = '&code='.$code;
-						$rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
+						$rs_str = my_pagination($total, $limit, $page_limit, $page, '');
 						echo $rs_str;
 					?> 
 					</div>
@@ -161,12 +160,12 @@
 						/**if(isset($_SESSION['userId']) && $result['active'] == 1 ) {*/
 							echo "const btn_write = document.querySelector('#btn-write');";
 							echo "btn_write && btn_write.addEventListener('click', () => {";
-							echo "self.location.href='./write_review.php?code=$code';";
+							echo "self.location.href='./write_review.php';";
 							echo "});";
 							echo "const view_detail = document.querySelectorAll('.view_detail');";
 							echo "view_detail.forEach((box) => {";
 							echo "box.addEventListener('click', () => {";
-							echo "self.location.href='./view_review.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
+							echo "self.location.href='./view_review.php?idx=' + box.dataset.idx";
 							echo "});";
 							echo "});";
 						// } 

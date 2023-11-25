@@ -4,7 +4,7 @@
   session_start();
  
   if(isset($_SESSION['userId'])) {
-    echo "<script>window.location.href=' /newnetbirds/dashboard.php';</script>";
+    echo "<script>window.location.href=' /dashboard.php';</script>";
     exit();
   }
   
@@ -22,7 +22,7 @@
             <label for="username">Username</label>
               <input class="form-control" type="text" placeholder="Enter Username" name="username" id="username" autocorrect="off" autocapitalize="off" autocomplete="off">
               <!-- <span class="register-feedback" id="username-notify"></span> -->
-              <span class="help-block">A unique username between 2 and 16 characters. Others can mention you with @<span id="yourUsername">username</span>.</span>
+              <span class="help-block">A unique username between 2 and 16 characters.
           </div>
           <div class="form-group">
             <label for="email">Email</label>

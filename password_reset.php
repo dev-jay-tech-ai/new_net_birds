@@ -14,7 +14,7 @@ if(isset($_REQUEST['pwdrst'])) {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     $reset_pwd = mysqli_query($connect,"UPDATE users SET password='$hashedPassword' WHERE email='$email'");
     if($reset_pwd > 0) {
-      $msg = 'Your password updated successfully <a href="/newnetbirds/login.php">Click here</a> to login';
+      $msg = 'Your password updated successfully <a href="/login.php">Click here</a> to login';
     } else {
       $msg = "Error while updating password.";
     }
