@@ -23,7 +23,79 @@
 				<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
 					placeholder='Title' autocomplete='off'>
 			</div>
-			<div id="summernote"></div>
+
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+
+			<div id="editor">
+				<div class="container mt-5">
+					<form action='' method='POST' enctype='multipart/form-data'>
+						<div class="form-group">
+							<label for="editor">Write your content:</label>
+							<div><textarea id="editor" name="editor" class='w-50' style='height: 200px;'></textarea></div>
+						</div>
+						<div class="form-group">
+								<label for="video">Upload Video:</label>
+								<input type="file" name='userfile[]' value='' multiple=''>
+						</div>
+						<button type="submit" class="btn btn-primary" value='upload'>Save Content</button>
+					</form>
+				</div>
+			</div>		
+
+
+			<?php 
+			$phpFileUploadErrors = array(
+				0 => 'There is no error, the file uploaded with success',
+				1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+				2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+				3 => 'The uploaded file was only partially uploaded',
+				4 => 'No file was uploaded',
+				5 => 'Missing a temporary folder',
+				6 => 'Failed to write file to disk',
+				7 => 'A PHP extension stopped the file upload'
+			);
+
+			if(isset($_FILES['userfile'])) {
+				pre_r($_FILES);
+			}
+
+			function pre_r($array) {
+				echo '<pre>';
+				print_r($array);
+				echo '</pre>';
+			}
+
+			function reArrayFiles($file_post) {
+				$file_array = array();
+				$file_count = count($file_post['name']);
+				$file_keys = array_keys($file_post);
+
+				for ($i=0; $i<$file_count; $i++) {
+					foreach ($file_keys as $key) $file_array[$i][$key] = $file_post[$key][$i];
+				}
+				return $file_array;
+			}
+		?>
+
+
+
+
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+			<!--  Here I'm coding  -->
+
+			
 			<div class="mt-2 d-flex gap-2 justify-content-end">
 				<button id='btn_submit' class='btn btn-primary'>OK</button>
 				<button id='btn_list' class='btn btn-secondary'>LIST</button>
@@ -42,7 +114,7 @@
 						id_sub.focus();
 						return false;
 					}
-					const markupstr = $('#summernote').summernote('code');
+					const markupstr = $('#editor').editor('code');
 					if(markupstr === '<p><br></p>') {
 						alert('Input the content')
 						return false;
@@ -72,26 +144,7 @@
 				btn_list.addEventListener('click', () => {
 					self.location.href='./private.php?code=' + param['code'];
 				})
-				$('#summernote').summernote({
-					maximumImageFileSize: 900*900, // 500 KB
-					callbacks:{
-							onImageUploadError: function(msg){
-								alert(msg + ' (1 MB)');
-							}
-					},
-					placeholder: 'Market yourself',
-					tabsize: 2,
-					height: 120,
-					toolbar: [
-						['style', ['style']],
-						['font', ['bold', 'underline', 'clear']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['table', ['table']],
-						['insert', ['link', 'picture', 'video']],
-						['view', ['fullscreen', 'codeview', 'help']]
-					]
-				});
+
 			</script>
 
 			<!-- /table -->

@@ -39,39 +39,31 @@
 				<li><a href="dashboard.php">Home</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Bullet Board Write</div>
-				</div> <!-- /panel-heading -->
-				<div class="panel-body">
-					<div class="container border border-1 w-50 vstack">
-						<div class='p-3'>
-							<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
-						</div>
-						<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
-							<span class='fs-12'><?= $row['name'] ?></span>
-							<span class='ms-5 me-auto fs-12'><?= $row['hit'] ?></span>
-							<span class='rdate'><?= $row['rdate'] ?></span>
-						</div>
-						<div id='bbs_content' class='p-3'>
-							<?= $row['content'] ?><br>
-						</div>
-						<div class="mt-3 d-flex gap-2 p-3">
-							<button id='btn_list' class="btn btn-secondary me-auto">List</button>
-							<?php 
-							if(isset($_SESSION['userId'])) {
-								if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-									echo "<button id='btn_edit' class='btn btn-primary'>Update</button>
-									<button id='btn_delete' class='btn btn-danger'>Delete</button>";
-								}
-							} ?>
-
-						</div>
-					</div>
+			<div class="container border border-1 vstack">
+				<div class='p-3'>
+					<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
 				</div>
+				<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
+					<span class='fs-12'><?= $row['name'] ?></span>
+					<span class='ms-5 me-auto fs-12'><?= $row['hit'] ?></span>
+					<span class='rdate'><?= $row['rdate'] ?></span>
+				</div>
+				<div id='bbs_content' class='p-3'>
+					<?= $row['content'] ?><br>
+				</div>
+				<div class="mt-3 d-flex gap-2 p-3">
+					<button id='btn_list' class="btn btn-secondary me-auto">List</button>
+					<?php 
+					if(isset($_SESSION['userId'])) {
+						if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
+							echo "<button id='btn_edit' class='btn btn-primary'>Update</button>
+							<button id='btn_delete' class='btn btn-danger'>Delete</button>";
+						}
+					} ?>
 
-		</div>
+				</div>
+			</div>
+
 			<script>
 				const splited = window.location.search.replace('?', '').split(/[=?&]/);
 				let param = {};
@@ -115,7 +107,6 @@
 
 			</script>
   
-			</div> <!-- /panel-body -->
 		</div> <!-- /panel -->		
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->

@@ -16,7 +16,6 @@ $(document).ready(function(){
 		} else {
 			// remov error text field
 			$("#username").find('.text-danger').remove();
- 	
 		}
 
 		let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,10 +73,8 @@ $(document).ready(function(){
 							$(".text-danger").remove();
 							// Remove the form error
 							$('.form-group').removeClass('has-error');
-
 							alert('Registration successful. Please proceed to log in.');
-				
-							window.location.replace('/newnetbirds/login.php');
+							window.location.replace('/login.php');
 				
 					} else {
 						if (response.messages.includes('Duplicate')) {

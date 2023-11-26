@@ -39,80 +39,73 @@
 				<li><a href="dashboard.php">Home</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Bullet Board Write</div>
-				</div> <!-- /panel-heading -->
-				<div class="panel-body">
-					<div class="container border border-1 w-50 vstack">
-						<div class='p-3'>
-							<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
-						</div>
-						<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
-							<span class='fs-12'><?= $row['name'] ?></span>
-							<span class='ms-5 me-auto fs-12'><?= $row['hit'] ?></span>
-							<span class='rdate'><?= $row['rdate'] ?></span>
-						</div>
-						<div id='bbs_content' class='p-3'>
-							<?= $row['content'] ?><br>
-						</div>
-						<div class="mt-3 d-flex gap-2 p-3">
-							<button id='btn_list' class="btn btn-secondary me-auto">List</button>
-							<?php 
-							if (isset($_SESSION['userId'])) {
-								if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-									echo "<button id='btn_edit' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
-									<button id='btn_delete' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>";
-								}
-							} ?>
-
-						</div>
-					</div>
+			<div class="container border border-1 vstack">
+				<div class='p-3'>
+					<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
 				</div>
+				<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
+					<span class='fs-12'><?= $row['name'] ?></span>
+					<span class='ms-5 me-auto fs-12'><?= $row['hit'] ?></span>
+					<span class='rdate'><?= $row['rdate'] ?></span>
+				</div>
+				<div id='bbs_content' class='p-3'>
+					<?= $row['content'] ?><br>
+				</div>
+				<div class="mt-3 d-flex gap-2 p-3">
+					<button id='btn_list' class="btn btn-secondary me-auto">List</button>
+					<?php 
+					if (isset($_SESSION['userId'])) {
+						if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
+							echo "<button id='btn_edit' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modal'>Update</button>
+							<button id='btn_delete' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#modal'>Delete</button>";
+						}
+					} ?>
 
-			<script>
-				const splited = window.location.search.replace('?', '').split(/[=?&]/);
-				let param = {};
-				for (let i = 0; i < splited.length; i++) {
-						param[splited[i]] = splited[++i];
-				}
-				const fetchView = (mode) => {
-					const xhr = new XMLHttpRequest();
-					xhr.open('POST', './php_action/fetchViewPrivate.php', true);
-					const f1 = new FormData();
-					f1.append('idx', param['idx']);
-					f1.append('code', param['code']);
-					f1.append('mode', mode);
-					xhr.send(f1);
-					xhr.onload = () => {
-						if (xhr.status == 200) {
-							const data = JSON.parse(xhr.responseText);
-							if (data.result == 'edit_success') self.location.href = './editPrivate.php?idx=' + param['idx'] + '&code=' + param['code'];
-							else if (data.result == 'delete_success') {
-									alert('Deleted');
-									self.location.href = './private.php?code=' + param['code'];
-							} 
-						} else alert(xhr.status);
-					}
-				}
-				const btn_list = document.querySelector('#btn_list');
-				btn_list && btn_list.addEventListener('click', () => {
-						self.location.href = './private.php?code=' + param['code'];
-				});
-				const btn_edit = document.querySelector('#btn_edit'); 
-				btn_edit && btn_edit.addEventListener('click', () => { 
-					fetchView('edit');
-				})
-				const btn_delete = document.querySelector('#btn_delete'); 
-				btn_delete && btn_delete.addEventListener('click', () => {
-					const modal_title = document.querySelector('#modal_title'); 
-					alert('Are you sure you want to delete this?');
-					fetchView('delete');
-				})
-			</script>
-			</div> <!-- /panel-body -->
-		</div> <!-- /panel -->		
+				</div>
+			</div>
+		</div>
+
+	<script>
+		const splited = window.location.search.replace('?', '').split(/[=?&]/);
+		let param = {};
+		for (let i = 0; i < splited.length; i++) {
+				param[splited[i]] = splited[++i];
+		}
+		const fetchView = (mode) => {
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', './php_action/fetchViewPrivate.php', true);
+			const f1 = new FormData();
+			f1.append('idx', param['idx']);
+			f1.append('code', param['code']);
+			f1.append('mode', mode);
+			xhr.send(f1);
+			xhr.onload = () => {
+				if (xhr.status == 200) {
+					const data = JSON.parse(xhr.responseText);
+					if (data.result == 'edit_success') self.location.href = './editPrivate.php?idx=' + param['idx'] + '&code=' + param['code'];
+					else if (data.result == 'delete_success') {
+							alert('Deleted');
+							self.location.href = './private.php?code=' + param['code'];
+					} 
+				} else alert(xhr.status);
+			}
+		}
+		const btn_list = document.querySelector('#btn_list');
+		btn_list && btn_list.addEventListener('click', () => {
+				self.location.href = './private.php?code=' + param['code'];
+		});
+		const btn_edit = document.querySelector('#btn_edit'); 
+		btn_edit && btn_edit.addEventListener('click', () => { 
+			fetchView('edit');
+		})
+		const btn_delete = document.querySelector('#btn_delete'); 
+		btn_delete && btn_delete.addEventListener('click', () => {
+			const modal_title = document.querySelector('#modal_title'); 
+			alert('Are you sure you want to delete this?');
+			fetchView('delete');
+		})
+	</script>
+	
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
 

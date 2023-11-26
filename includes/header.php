@@ -6,7 +6,7 @@
     $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
     $query = $connect->query($sql);
     $result = $query->fetch_assoc();
-    $initial = strtoupper(substr($result['username'], 0, 1));
+    $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
   }
 ?>
 

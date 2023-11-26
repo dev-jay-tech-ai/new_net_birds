@@ -23,6 +23,31 @@ label {
   color:#c0c0cf;
 }
 
+
+.desktop {
+  display: table;
+}
+
+.mobile {
+  display: none;
+
+}
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+  
+  .mobile {
+    display: table;
+  
+  }
+}
+/**  custom color  */
+.cc-3 {
+  color: #4A4A6A;
+}
+
 .btn-primary {
   display: inline-block;
   color: #fff;
