@@ -23,6 +23,15 @@ label {
   color:#c0c0cf;
 }
 
+pre {
+  background-color: unset;
+  color: #fff;
+  border: 0;
+  white-space: pre-wrap;
+  font-family: Lato,Outfit,helvetica neue,Helvetica,Arial,sans-serif;
+  font-size: 16px;
+}
+
 
 .desktop {
   display: table;
@@ -491,3 +500,27 @@ td.text-center.rate {
 .note-editable {
   color:#000;
 }
+
+
+/** Loading  */
+.spinner-border {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+/* input#file-upload-button {
+  color: #fff;
+  background-color: #783ff1;
+} */
+
+.video_size {
+  width: 600px;
+}
+
+@media (max-width: 768px) {
+  .video_size {
+    width: 300px;
+  }
+}  
