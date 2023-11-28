@@ -12,7 +12,6 @@
   $page_limit = 10;
   $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
-  
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM rboard";
   $stmtCount = $connect->prepare($sqlCount);
@@ -70,7 +69,7 @@
 			?>
 			</div>
 			<div class="mb-2">
-				<table class='table table-bordered table-hover'>
+				<table class='table table-bordered table-hover desktop'>
 					<colgroup>
 					<?php 
 						if(isset($_SESSION['userId']) && $result['status'] == 1) {
@@ -134,10 +133,11 @@
 						<td class='text-center rdate'><?= substr($row['rdate'], 0, 10); ?></td>
 						</tr>
 					<?php
-								} // End of if ($row['active'] == 1)
+							} // End of if ($row['active'] == 1)
 						} // End of foreach
 					?>
-				</table>    
+				</table>  
+				<?php include 'board_m.php';?>  
 			</div>
 			<div class="mt-3 d-flex gap-2 justify-content-center">
 			<?php 

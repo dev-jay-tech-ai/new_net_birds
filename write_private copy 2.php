@@ -10,6 +10,7 @@
 	if(!isset($_SESSION['userId'])) {
 		echo "<script>window.location.href=' /dashboard.php';</script>";
 	}
+
 	$username = $result['username'] ?  $result['username'] : '';
 ?>
 
@@ -38,9 +39,11 @@
 						<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
 							placeholder='Title' autocomplete='off'>
 					</div>
+					
 					<div class='d-flex flex-row justify-content-between mt-3 mb-3'>
-							<input id="fileInput" type="file" name="files[]" multiple accept="image/*">
+						<input id="fileInput" type="file" name="files[]" multiple >
 					</div>
+
 					<!-- Textarea for content -->
 					<div class="form-group">
 						<textarea id="id_content" name="content" class="form-control" rows="4" placeholder="Tell your story here"></textarea>
@@ -94,7 +97,9 @@
 				const compressedImage = await compressImage(file);
 				files.push(compressedImage);
 			} else if (file.type.includes('video')) {
+				// console.log(file)
 				const compressedVideo = await compressVideo(file);
+				// console.log(compressedImage)
 				files.push(compressedVideo);
 			}
 		}
@@ -107,6 +112,7 @@
 		xhr.open('POST', './php_action/fetchPrivate.php', true);
 		xhr.send(formData);
 		btn_submit.disabled = true;
+
 		xhr.onload = () => {
 			spinner.style.display = 'none';
 			if (xhr.status == 200) {
@@ -141,6 +147,29 @@
 			});
 		});
 	}
+
+	// Function to compress videos
+	async function compressVideo(originalFile) {
+		const { read, write, createFFmpeg } = ffmpeg;
+		const ffmpegInstance = createFFmpeg({ log: true });
+
+		await ffmpegInstance.load();
+
+		const inputName = 'input.mp4';
+		const outputName = 'output.mp4';
+
+		// Write the original video to memory
+		ffmpegInstance.FS('writeFile', inputName, await fetchFile(originalFile));
+
+		// Run FFmpeg command to compress video
+		await ffmpegInstance.run('-i', inputName, '-c:v', 'libx264', '-b:v', '1M', '-c:a', 'aac', '-b:a', '192k', outputName);
+
+		// Read the compressed video from memory
+		const compressedVideo = ffmpegInstance.FS('readFile', outputName);
+
+		return new File([compressedVideo], 'compressed_video.mp4', { type: 'video/mp4' });
+	}
+
 </script>
 
 

@@ -51,6 +51,10 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://app.enzuzo.com/apps/enzuzo/static/js/__enzuzo-cookiebar.js?uuid=106ed868-8917-11ee-958e-5fed1e6d4d07"></script>
+   
+    <!-- Include image-compressor.js -->
+    <script src="assets/plugins/compressor.js"></script>
+
   </head>
 <body class='d-flex flex-column min-vh-100'>
 	<nav class="navbar navbar-static-top">

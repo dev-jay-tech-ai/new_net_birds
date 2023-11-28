@@ -4,6 +4,10 @@
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 
 
+	if(!isset($_SESSION['userId'])) {
+		echo "<script>window.location.href=' /dashboard.php';</script>";
+	}
+
 	$username = $result['username'] ?  $result['username'] : '';
 ?>
 

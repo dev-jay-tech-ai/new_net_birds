@@ -1,5 +1,6 @@
 {
     "require": {
-        "intervention/image": "^2.7"
+        "intervention/image": "^2.7",
+        "php-ffmpeg/php-ffmpeg": "^1.1"
     }
 }

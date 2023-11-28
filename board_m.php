@@ -14,8 +14,15 @@ if ($row['active'] == 1) {
 				<div class='d-flex flex-column'>
 					<div class='fw-bold'><?= $row['subject']; ?></div>
 					<div class='d-flex justify-content-between mt-2 cc-3'>
-						<div><?= $row['name']; ?></div>
-						<div><?= substr($row['rdate'], 0, 10); ?></div>
+						<div style='flex: 2'><?= $row['name']; ?></div>
+						<div style='flex: 1; text-align: end;'><?php if(isset($row['rate'])) {
+							$rating = $row['rate'];
+							for ($i = 1; $i <= 5; $i++) {
+									$starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
+									echo "<i class='$starClass'></i>";
+							}
+						} ?></div>
+						<div style='flex: 1; text-align: end;'><?= substr($row['rdate'], 0, 10); ?></div>
 					</div>
 				</div>
 			</td>

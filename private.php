@@ -126,9 +126,9 @@
 								<td class='rdate text-center'><?= substr($row['rdate'], 0, 10); ?></td>
 							</tr>
 							<?php
-						}
-					}
-					?>	
+									}
+								}
+							?>	
 				</table>    
 				<?php include 'board_m.php';?>
 			</div>
