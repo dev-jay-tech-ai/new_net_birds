@@ -31,9 +31,18 @@
 					<form id="uploadForm" enctype="multipart/form-data">
 					<div class="mb-2 d-flex gap-2">
 						<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
-						<input id='id_pw' type='password' name='password' class='form-control w-25' 
-							value='12345' placeholder='Password' autocomplete='off'>
-					</div>				
+					</div>		
+					<div class="form-group">
+						<select id='id_location' name="Location" class="form-control">
+							<option>- Select Your Location -</option>  
+							<option value="0">London</option>
+							<option value="1">Manchester</option>
+							<option value="2">Glasgow</option>
+							<option value="3">Nottingham</option>
+							<option value="4">Birmingham</option>
+							<option value="5">others</option>
+						</select>
+					</div>		
 					<div>
 						<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
 							placeholder='Title' autocomplete='off'>
@@ -41,53 +50,56 @@
 					<div class='d-flex flex-row justify-content-between mt-3 mb-3'>
 							<input id="fileInput" type="file" name="files[]" multiple accept="image/*">
 					</div>
-					<!-- Textarea for content -->
 					<div class="form-group">
-						<textarea id="id_content" name="content" class="form-control" rows="4" placeholder="Tell your story here"></textarea>
+						<input type="hidden" id="id_content" class="form-control" rows="4" >
+					</div>
+					<div class="form-group">
+						<div id="id_content_editable" name="content" class="form-control" 
+							rows="4" contenteditable="true"></div>
 					</div>
 					<div class="d-flex gap-2 justify-content-end mt-3 mb-3">
-								<button type="button" id="btn_submit" class="btn btn-primary">OK</button>
-								<button type="button" id="btn_list" class="btn btn-secondary">LIST</button>
-							</div>
-							</form>
+							<button type="button" id="btn_submit" class="btn btn-primary">OK</button>
+							<button type="button" id="btn_list" class="btn btn-secondary">LIST</button>
 						</div>
+						</form>
 					</div>
+				</div>
 					<!-- /table -->
 			</div> <!-- /col-md-12 -->
     </div> <!-- /row -->
 </div>
-
+<script>
+	document.getElementById('id_content_editable').addEventListener('input', function() {
+		document.getElementById('id_content').value = this.innerHTML;
+	});
+</script>
 <script>
 	// Your code here
 	const btn_submit = document.querySelector('#btn_submit');
 	const spinner = document.querySelector('.spinner-border');
 	btn_submit.addEventListener('click', async () => {
 		const id_name = document.querySelector('#id_name');
-		const id_pw = document.querySelector('#id_pw');
 		const id_sub = document.querySelector('#id_sub');
-		const fileInput = document.querySelector('#fileInput');
 		const id_content = document.querySelector('#id_content');
-		// Check if subject is empty
+		const id_location = document.querySelector('#id_location');
+		const fileInput = document.querySelector('#fileInput');
 		if (id_sub.value == '') {
 			alert('Input the subject');
 			id_sub.focus();
 			return false;
 		}
-		// Check if content is empty
 		if (id_content.value.trim() === '') {
 			alert('Input the content');
 			return false;
 		}
-
-		// Show loading spinner
 		spinner.style.display = 'inline-block';
-		// Create FormData object
 		const formData = new FormData();
 		formData.append('name', id_name.value);
-		formData.append('pw', id_pw.value);
 		formData.append('subject', id_sub.value);
 		formData.append('content', id_content.value);
 		formData.append('code', 'private');
+		formData.append('location', id_location.value);
+		console.log(id_location.value)
 		const files = [];
 		for (const file of fileInput.files) {
 			if (file.type.includes('image')) {

@@ -54,6 +54,13 @@
    
     <!-- Include image-compressor.js -->
     <script src="assets/plugins/compressor.js"></script>
+    <script type="text/javascript">
+      let scriptURL = "/scripts/common.js.js?v="+Math.random();
+      let scriptElement = document.createElement("script");
+      scriptElement.src = scriptURL;
+      document.head.appendChild(scriptElement);
+    </script>
+
 
   </head>
 <body class='d-flex flex-column min-vh-100'>
@@ -93,18 +100,15 @@
               <input type="checkbox" class="hidden" id="user-control-list-check" aria-hidden="true">
               <ul id="user-control-list" component="header/usercontrol" class="dropdown-menu" aria-labelledby="user_dropdown">
             <li>
-              <a component="header/profilelink" href="/profile.php?username=' . $result['username'] . '">
-                <i component="user/status" class="fa fa-fw fa-circle status online"></i> 
+              <a component="header/profilelink" href="/account.php?username=' . $result['username'] . '">
                 <span component="header/username"><font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">
-                ' . $result['username'] . '
-                </font></font></span>
+                <font style="vertical-align: inherit;">My Account</font></font></span>
               </a>
             </li>
             <li role="presentation" class="divider"></li>
             <li>
               <a component="header/profilelink/edit" href="/editProfile.php?username=' . $result['username'] . '">
-              <i class="fa fa-fw fa-edit"></i> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
+              <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
               </a>
             </li>
             <li role="presentation" class="divider"></li>
@@ -120,6 +124,5 @@
       ?>
       </ul>
     </div><!-- /.navbar-collapse -->
-  
     </div><!-- /.container-fluid -->
 	</nav>

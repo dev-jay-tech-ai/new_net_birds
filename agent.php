@@ -16,33 +16,24 @@
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM aboard WHERE code='".$code."'";
   $stmtCount = $connect->prepare($sqlCount);
-  
   if ($stmtCount) {
       $stmtCount->execute();
-      // Get the result set
       $resultCount = $stmtCount->get_result();
       $row = $resultCount->fetch_assoc();
       $total = $row['cnt'];
   } else {
-      // Handle the case where the preparation failed
       die($connect->error);
   }
-  // Query to get paginated data
   $sqlData = "SELECT * FROM aboard WHERE code='".$code."'ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
       $stmtData->execute();
-      // Get the result set
       $resultData = $stmtData->get_result();
       $rs = [];
       while ($row = $resultData->fetch_assoc()) {
         $rs[] = $row;
       }
-  } else {
-      // Handle the case where the preparation failed
-      die($connect->error);
-  }
-
+  } else die($connect->error);
 ?>
 <div class="container">
 	<div class="row">
@@ -51,7 +42,6 @@
 				<li><a href="dashboard.php">Home</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
-			<div class="remove-messages"></div>
 			<?php 
 			if(isset($_SESSION['userId']) /** && $result['active'] == 1 */) {
 				if($result['status'] == 1) {
@@ -72,24 +62,23 @@
 				<table class='table table-bordered table-hover desktop'>
 					<colgroup>
 						<?php 
-								if(isset($_SESSION['userId']) && $result['status'] == 1) {
-									echo "
-									<col width='4%' />
-									<col width='6%' />
-									<col width='50%' />
-									<col width='10%' />
-									<col width='10%' />
-									<col width='10%' />";		
-								} else {
-									echo "
-									<col width='7%' />
-									<col width='63%' />
-									<col width='10%' />
-									<col width='10%' />
-									<col width='10%' />";
-								}
+							if(isset($_SESSION['userId']) && $result['status'] == 1) {
+								echo "
+								<col width='4%' />
+								<col width='6%' />
+								<col width='50%' />
+								<col width='10%' />
+								<col width='10%' />
+								<col width='10%' />";		
+							} else {
+								echo "
+								<col width='7%' />
+								<col width='63%' />
+								<col width='10%' />
+								<col width='10%' />
+								<col width='10%' />";
+							}
 						?>
-				
 					</colgroup>
 					<thead class='text-bg-primary text-center'>
 						<tr>
@@ -137,7 +126,6 @@
 				$rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
 				echo $rs_str;
 			?> 
-
 			</div>
 			<script>
 				<?php 

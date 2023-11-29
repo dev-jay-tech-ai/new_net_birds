@@ -3,6 +3,10 @@ require_once 'php_action/db_connect.php';
 require_once 'includes/header.php'; 
 include 'component/config.php'; 
 
+if(!isset($_SESSION['userId'])) {
+	echo "<script>window.location.href=' /dashboard.php';</script>";
+}
+
 session_start();
 $edit_idx = (isset($_SESSION['edit_idx']) && $_SESSION['edit_idx'] != '' && is_numeric($_SESSION['edit_idx'])) ? $_SESSION['edit_idx'] : '';
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
@@ -111,22 +115,7 @@ $row = $result->fetch_assoc();
 					btn_list.addEventListener('click', () => {
 						self.location.href='./review.php';
 					})
-          $('#summernote').summernote({
-            placeholder: 'Market yourself',
-            tabsize: 2,
-            height: 500,
-            toolbar: [
-              ['style', ['style']],
-              ['font', ['bold', 'underline', 'clear']],
-              ['color', ['color']],
-              ['para', ['ul', 'ol', 'paragraph']],
-              ['table', ['table']],
-              ['insert', ['link', 'picture', 'video']],
-              ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-          });
-          const markupstr = `<?=  $row['content'] ?>`;
-          $('#summernote').summernote('code', markupstr);
+
         </script>
 				<!-- /table -->
 			</div> <!-- /panel-body -->

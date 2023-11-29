@@ -29,7 +29,7 @@
   $stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)
   $stmt->execute();
   $result = $stmt->get_result();
-  $row = $result->fetch_assoc();  
+  $row = $result->fetch_assoc();
 ?>
 
 <div class="container">

@@ -5,27 +5,21 @@ ini_set('display_errors', '1');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $video = $_FILES["video"]["tmp_name"];
     $bitrate = '2500k';
-
     // Validate and sanitize the bitrate input (you can add more validation as needed)
     $allowedBitrates = ['350k', '700k', '1200k', '2500k', '5000k'];
     if (!in_array($bitrate, $allowedBitrates)) {
         die("Invalid bitrate selected");
     }
-
     // Specify the relative path for the output file within your project directory
     $outputFile = "./output.mp4";
-
     // Use escapeshellarg to escape user input for security
     $video = escapeshellarg($video);
     $bitrate = escapeshellarg($bitrate);
     $outputFile = escapeshellarg($outputFile);
-
     // Construct the command with error output redirection
     $command = "/usr/local/bin/ffmpeg -i $video -b:v $bitrate -bufsize $bitrate $outputFile 2>&1";
-
     // Execute the command and capture both stdout and stderr
     exec($command, $output, $returnCode);
-
     // Check if the command was successful
     if ($returnCode === 0) {
         echo "File has been converted";
@@ -35,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

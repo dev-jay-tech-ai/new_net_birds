@@ -123,11 +123,11 @@
 						<td class='text-center'><?= $row['name']; ?></td>
 						<td class='text-center rate'>
 						<?php
-								$rating = $row['rate'];
-								for ($i = 1; $i <= 5; $i++) {
-										$starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
-										echo "<i class='$starClass'></i>";
-								}
+							$rating = $row['rate'];
+							for ($i = 1; $i <= 5; $i++) {
+									$starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
+									echo "<i class='$starClass'></i>";
+							}
 						?>
 						</td>
 						<td class='text-center rdate'><?= substr($row['rdate'], 0, 10); ?></td>

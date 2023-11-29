@@ -4,13 +4,11 @@ $response = [];
 $extensions = array('jpg', 'png', 'gif', 'jpeg', 'mov', 'mp4');
 $maxFileSize = 40 * 1024 * 1024; // 40 MB
 $name = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name'] : '';
-$pw = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw'] : '';
 $title = (isset($_POST['subject']) && $_POST['subject'] != '') ? $_POST['subject'] : '';
 $content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
 $code = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code'] : 'private';
+$location = (isset($_POST['location']) && $_POST['location'] != '') ? $_POST['location'] : 0;
 if ($code == 'undefined') $code = 'private';
-// 비밀번호 단방향 암호화
-$pwd_hash = password_hash($pw, PASSWORD_BCRYPT);
 
 $filelist = array();
 if (isset($_FILES['files'])) {
@@ -42,10 +40,9 @@ if (isset($_FILES['files'])) {
       }
     }
 } 
-
 if (empty($response)) {
   $contentWithPaths = '<pre>' . $content . '</pre>' . implode('', $filelist);
-  $sql = "INSERT INTO pboard (code, name, subject, password, content, imglist, ip, rdate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+  $sql = "INSERT INTO pboard (code, location, name, subject, content, imglist, ip, rdate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
   $ip = $_SERVER['REMOTE_ADDR'];
   $stmt = $connect->prepare($sql);
 
@@ -53,7 +50,7 @@ if (empty($response)) {
     $response = ['result' => 'error', 'message' => $connect->error];
   } else {
     $imglist = '';
-    $stmt->bind_param('sssssss', $code, $name, $title, $pwd_hash, $contentWithPaths, $imglist, $ip);
+    $stmt->bind_param('sssssss', $code, $location, $name, $title, $contentWithPaths, $imglist, $ip);
     if ($stmt->execute()) {
       $response = ['result' => 'success'];
     } else {

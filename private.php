@@ -16,35 +16,25 @@
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM pboard WHERE code='".$code."'";
   $stmtCount = $connect->prepare($sqlCount);
-  
   if ($stmtCount) {
       $stmtCount->execute();
-      // Get the result set
       $resultCount = $stmtCount->get_result();
       $row = $resultCount->fetch_assoc();
       $total = $row['cnt'];
   } else {
-      // Handle the case where the preparation failed
       die($connect->error);
   }
-  // Query to get paginated data
-  $sqlData = "SELECT * FROM pboard WHERE code='".$code."'ORDER BY idx DESC LIMIT $start, $limit";
+	$sqlData = "SELECT * FROM pboard WHERE code='".$code."' ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
 		$stmtData->execute();
-		// Get the result set
 		$resultData = $stmtData->get_result();
 		$rs = [];
 		while ($row = $resultData->fetch_assoc()) {
 			$rs[] = $row;
 		}
-  } else {
-		// Handle the case where the preparation failed
-		die($connect->error);
-  }
-
+  } else die($connect->error);
 ?>
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -90,7 +80,6 @@
 							<col width='10%' />";
 						}
 						?>
-				
 					</colgroup>
 					<thead class='text-bg-primary text-center'>
 						<tr>
@@ -109,8 +98,24 @@
 					<?php 
 					$totalRows = count($rs);
 					$activeRowCount = ($page - 1) * $limit;
+					$selectedLocation = 0; 
+					if(isset($_GET['location'])) {
+						$locationParam = $_GET['location'];
+						$locationMapping = ['london' => 0, 'manchester' => 1,'glasgow' => 2, 'nottingham' => 3, 'birmingham' => 4, 'others' => 5];
+						if(array_key_exists($locationParam, $locationMapping)) {
+							$selectedLocation = $locationMapping[$locationParam];
+							$sqlData = "SELECT * FROM pboard WHERE code = '$code' AND location = $selectedLocation ORDER BY idx DESC LIMIT $start, $limit";
+							$stmtData = $connect->prepare($sqlData);
+							if($stmtData) {
+								$stmtData->execute();
+								$resultData = $stmtData->get_result();
+								$rs = [];
+								while ($row = $resultData->fetch_assoc()) $rs[] = $row;
+							} else die($connect->error);
+						}
+					}
 					foreach ($rs as $i => $row) {
-					if ($row['active'] == 1) {
+					if ($row['active'] == 1 && ($row['location'] === $selectedLocation)) {
 						$activeRowCount++;
 							?>
 							<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>

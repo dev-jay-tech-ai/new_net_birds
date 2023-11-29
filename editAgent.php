@@ -3,17 +3,17 @@ require_once 'php_action/db_connect.php';
 require_once 'includes/header.php'; 
 include 'component/config.php'; 
 
-error_reporting(E_ALL); 
-ini_set('display_errors', '1'); 
+if(!isset($_SESSION['userId'])) {
+	echo "<script>window.location.href=' /dashboard.php';</script>";
+}
 
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
 $sql = "SELECT * FROM aboard WHERE idx=?";
 $stmt = $connect->prepare($sql);
-$stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)
+$stmt->bind_param('i', $idx); 
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-
 ?>
 <div class='container'>
 <div class="row">
@@ -22,15 +22,12 @@ $row = $result->fetch_assoc();
 		  <li><a href="dashboard.php">Home</a></li>		  
 		  <li class="active"><?= $board_title ?></li>
 		</ol>
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> <?= $board_title ?> write</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
-
 				<div class="remove-messages"></div>
-
         <div class="container w-50">
           <div class="mt-4 mb-3">
             <h2>Agent</h2>

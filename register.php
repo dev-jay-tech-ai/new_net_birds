@@ -17,7 +17,7 @@
   <div class="row col-lg-9 col-sm-12">
     <div class="col-lg-offset-2 col-lg-8">
       <div class="register-bxlock col-lg-offset-2 col-lg-8">
-        <form class="form-horizontal" id='submitRegisterForm' action="php_action/createUser.php" method="POST">
+        <form class="form-horizontal" id='submitRegisterForm' action="php_action/createAccount.php" method="POST">
           <div class="form-group">
             <label for="username">Username</label>
               <input class="form-control" type="text" placeholder="Enter Username" name="username" id="username" autocorrect="off" autocapitalize="off" autocomplete="off">
