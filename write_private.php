@@ -15,66 +15,58 @@
 
 <div class="container">
   <div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 mb-3">
 			<ol class="breadcrumb">
 					<li><a href="dashboard.php">Home</a></li>
 					<li class="active"><?= $board_title ?></li>
 			</ol>
-
-			<div id="editor">
-				<div class="container mt-5">
-					<div class="spinner-border" role="status">
-							<span class="visually-hidden">Loading...</span>
-					</div>
-
-					<!-- Upload form -->
-					<form id="uploadForm" enctype="multipart/form-data">
-					<div class="mb-2 d-flex gap-2">
-						<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
-					</div>		
-					<div class="form-group">
-						<select id='id_location' name="Location" class="form-control">
-							<option>- Select Your Location -</option>  
-							<option value="0">London</option>
-							<option value="1">Manchester</option>
-							<option value="2">Glasgow</option>
-							<option value="3">Nottingham</option>
-							<option value="4">Birmingham</option>
-							<option value="5">others</option>
-						</select>
-					</div>		
-					<div>
-						<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
-							placeholder='Title' autocomplete='off'>
-					</div>
-					<div class='d-flex flex-row justify-content-between mt-3 mb-3'>
-							<input id="fileInput" type="file" name="files[]" multiple accept="image/*">
-					</div>
-					<div class="form-group">
-						<input type="hidden" id="id_content" class="form-control" rows="4" >
-					</div>
-					<div class="form-group">
-						<div id="id_content_editable" name="content" class="form-control" 
-							rows="4" contenteditable="true"></div>
-					</div>
-					<div class="d-flex gap-2 justify-content-end mt-3 mb-3">
-							<button type="button" id="btn_submit" class="btn btn-primary">OK</button>
-							<button type="button" id="btn_list" class="btn btn-secondary">LIST</button>
-						</div>
-						</form>
-					</div>
+			<div class="mt-5">
+				<div class="spinner-border" role="status">
+						<span class="visually-hidden">Loading...</span>
 				</div>
-					<!-- /table -->
-			</div> <!-- /col-md-12 -->
+				<form id="uploadForm" enctype="multipart/form-data">
+				<div class="mb-2 d-flex gap-2">
+					<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
+				</div>		
+				<div class="form-group">
+					<select id='id_location' name="Location" class="form-control">
+						<option>- Select Your Location -</option>  
+						<option value="0">London</option>
+						<option value="1">Manchester</option>
+						<option value="2">Glasgow</option>
+						<option value="3">Nottingham</option>
+						<option value="4">Birmingham</option>
+						<option value="5">others</option>
+					</select>
+				</div>		
+				<div>
+					<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
+						placeholder='Title' autocomplete='off'>
+				</div>
+				<div class='d-flex flex-row justify-content-between mt-3 mb-3'>
+						<input id="fileInput" type="file" name="files[]" multiple accept="image/*">
+				</div>
+				<div class="form-group">
+					<input type="hidden" id="id_content" class="form-control" rows="4" >
+				</div>
+				<div class="form-group">
+					<div id="id_content_editable" name="content" class="form-control" 
+						rows="4" contenteditable="true"></div>
+				</div>
+				<div class="d-flex gap-2 justify-content-end mt-3 mb-3">
+						<button type="button" id="btn_submit" class="btn btn-primary">OK</button>
+						<button type="button" id="btn_list" class="btn btn-secondary">LIST</button>
+					</div>
+				</form>
+				</div>
+			</div>
     </div> <!-- /row -->
 </div>
 <script>
 	document.getElementById('id_content_editable').addEventListener('input', function() {
 		document.getElementById('id_content').value = this.innerHTML;
 	});
-</script>
-<script>
-	// Your code here
+
 	const btn_submit = document.querySelector('#btn_submit');
 	const spinner = document.querySelector('.spinner-border');
 	btn_submit.addEventListener('click', async () => {
@@ -99,7 +91,6 @@
 		formData.append('content', id_content.value);
 		formData.append('code', 'private');
 		formData.append('location', id_location.value);
-		console.log(id_location.value)
 		const files = [];
 		for (const file of fileInput.files) {
 			if (file.type.includes('image')) {
@@ -110,8 +101,7 @@
 				files.push(compressedVideo);
 			}
 		}
-
-		for (const file of files) {
+	for (const file of files) {
 			formData.append('files[]', file, file.name);
 		}
 
@@ -154,7 +144,5 @@
 		});
 	}
 </script>
-
-
 
 <?php require_once 'includes/footer.php'; ?>

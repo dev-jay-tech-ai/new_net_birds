@@ -34,7 +34,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 mb-3">
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">Home</a></li>		  
 				<li class="active"><?= $board_title ?></li>

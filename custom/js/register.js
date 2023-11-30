@@ -67,20 +67,18 @@ $(document).ready(function(){
 				success: function(response) {
 					$("#createAccountBtn").button('reset');
 					if (response.success == true) {
-							// Reset the form text
-							$("#submitRegisterForm")[0].reset();
-							// Remove the error text
-							$(".text-danger").remove();
-							// Remove the form error
-							$('.form-group').removeClass('has-error');
-							alert('Registration successful. Please proceed to log in.');
-							window.location.replace('/login.php');
-				
+						// Reset the form text
+						$("#submitRegisterForm")[0].reset();
+						// Remove the error text
+						$(".text-danger").remove();
+						// Remove the form error
+						$('.form-group').removeClass('has-error');
+						alert('Registration successful. Please proceed to log in.');
+						window.location.replace('/login.php');
 					} else {
 						if (response.messages.includes('Duplicate')) {
-							if(response.messages.includes('email')) alert("Error: This email address is already registered. If you have an existing account, please log in. If you've forgotten your password, you can reset it using the 'Forgot Password' option. If this email does not belong to you or if you continue to experience issues, please contact our support team for assistance.");
-							else if(response.messages.includes('username')) alert('Username is already taken. Please choose a different username.');
-							
+						if(response.messages.includes('email')) alert("Error: This email address is already registered. If you have an existing account, please log in. If you've forgotten your password, you can reset it using the 'Forgot Password' option. If this email does not belong to you or if you continue to experience issues, please contact our support team for assistance.");
+						else if(response.messages.includes('username')) alert('Username is already taken. Please choose a different username.');						
 						} else {
 								// Display a generic error message
 								alert('An error occurred. Please try again.');

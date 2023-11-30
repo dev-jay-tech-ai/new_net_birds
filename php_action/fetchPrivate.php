@@ -62,4 +62,3 @@ if (empty($response)) {
 $j = json_encode($response);
 die($j);
 ?>
-

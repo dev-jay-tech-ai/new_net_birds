@@ -1,76 +1,66 @@
 <?php
-error_reporting(E_ALL); 
-ini_set('display_errors', '1'); 
+
 require_once 'core.php';
-
-// print_r($_POST)
-$name  = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name']: '';
-$pw  = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw']: '';
-$title  = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title']: '';
-$content  = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content']: '';
-$code  = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code']: '';
+$response = [];
+$extensions = array('jpg', 'png', 'gif', 'jpeg', 'mov', 'mp4');
+$maxFileSize = 40 * 1024 * 1024; // 40 MB
 $idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'] : '';
-
-if($idx == '') {
-  $arr = ['result' => 'empty_idx'];
-  exit(json_encode($arr));
+$name = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name'] : '';
+$title = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title'] : '';
+$content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
+$code = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code'] : '';
+if ($code == 'undefined') $code = 'agent';
+if ($idx == '') {
+  $response = ['result' => 'empty_idx'];
+  exit(json_encode($response));
 }
-
-$pwd_hash = '';
-if($pw != '') {
-  $pwd_hash = password_hash($pw, PASSWORD_BCRYPT);
+$filelist = array();
+if (isset($_FILES['files'])) {
+    $folder = '../assets/images/test/';
+    foreach ($_FILES['files']['tmp_name'] as $key => $temp_folder) {
+      $file = $_FILES['files']['name'][$key];
+      $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+      $file_size = $_FILES['files']['size'][$key];
+      // Check file size
+      if ($file_size > $maxFileSize) {
+          $response = ['result' => 'error', 'message' => 'File size exceeds the allowed limit.'];
+          break;
+      }
+      if (!in_array($file_ext, $extensions)) {
+          $response = ['result' => 'error', 'message' => 'Invalid file extension.' . $file_ext];
+          break;
+      }
+      $uniqueFilename = date('YmdHis') . '_' . $key . '.' . $file_ext;
+      if (move_uploaded_file($temp_folder, $folder . $uniqueFilename)) {
+          if ($file_ext === 'mov' || $file_ext === 'mp4') {
+              $filelist[] = "<p class='text-center'><video class='video_size' controls src='" . $folder . $uniqueFilename . "' loading='lazy'></video></p>";
+          } else {
+              $filelist[] = "<p class='text-center'><img src='" . $folder . $uniqueFilename . "' style='width: 100%; height: auto;' loading='lazy' /></p>";
+          }
+      } else {
+        $response = ['result' => 'error', 'message' => 'Error moving file ' . $file . '. Error code: ' . $temp_folder . $folder];
+        break;
+      }
+    }
 }
-
-// 정규표현식 EXP
-preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $content, $matches);
-$img_array = [];
-// 이미지 태그 src 값 중에서 "img" 문자열 이하 값 알아내기
-foreach ($matches[1] as $key => $row) {
-  if(substr($row,0,6) == 'upload') {
-    $img_array[] = $row;
-    continue;
-  }
-  if(substr($row,0,5) != 'data:') {
-    continue;
-  }
-  [$type, $data] = explode(';', $row);
-  [, $ext] = explode('/', $type);
-  $ext = ($ext === 'jpeg') ? 'jpg' : $ext;
-  [, $base64_decode_data] = explode(',', $data);
-  $rs_code = base64_decode($base64_decode_data);
-  $filename = date('YmdHis') . '_' . $key . '.' . $ext;
-  $targetPath = '../assets/images/agent/' . $filename;
-  if (file_put_contents($targetPath,  $rs_code) !== false) {
-      // echo 'File saved successfully.';
-  } else {
-      echo 'Error saving the file. Check file permissions and path.';
-      echo 'file_put_contents error: ' . error_get_last()['message'];
-  }
-
-  $img_array[] = $targetPath;
-  $content = str_replace($row, $targetPath, $content);
-}
-
-$imglist = implode('|', $img_array); // 배열을 구분자 기준으로 문자열로 바꿔쥼
-if($pwd_hash != '') {
-  $sql = 'UPDATE aboard SET name=?, subject=?, content=?, imglist=?, password=? WHERE idx=?';
-  $stmt = $connect->prepare($sql);
-  if (!$stmt) {
-    die($connect->error);
-  }
-  $stmt->bind_param('sssssi', $name, $title, $content, $imglist, $pwd_hash, $idx);
-} else {
+if (empty($response)) {
+  $contentWithPaths = $content . implode('', $filelist);
+  $imglist = ''; // Define $imglist here or get its value from somewhere
   $sql = 'UPDATE aboard SET name=?, subject=?, content=?, imglist=? WHERE idx=?';
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
-    die($connect->error);
+    $response = ['result' => 'error', 'message' => 'Prepare failed: (' . $connect->errno . ') ' . $connect->error];
+  } else {
+    $stmt->bind_param('ssssi', $name, $title, $contentWithPaths, $imglist, $idx);
+    if(!$stmt->execute()) {
+      $response = ['result' => 'error', 'message' => 'Execute failed: (' . $stmt->errno . ') ' . $stmt->error];
+    } else {
+      $response = ['result' => 'success', 'message' => 'Update successful'];
+    }
+    $stmt->close();
   }
-  $stmt->bind_param('ssssi', $name, $title, $content, $imglist, $idx);
 }
 
-$stmt->execute();
-$arr = ['result' => 'success'];
-$j = json_encode($arr);
+$j = json_encode($response);
 die($j);
-
 ?>

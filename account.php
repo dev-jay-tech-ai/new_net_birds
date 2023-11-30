@@ -20,7 +20,7 @@
 					</div>	
 					<div class="form-group">
 						<div><b><?= $result['username'] ?></b></div>
-						<div><?= $result['email'] ?></div>
+						<div style='text-decoration:none !important;'><?= $result['email'] ?></div>
 					</div>
 					<div class="form-group pt-2">
 						<div><b>Credit: </b>&nbsp;<?= $result['credit'] ?></div>

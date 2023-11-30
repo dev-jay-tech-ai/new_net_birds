@@ -18,13 +18,12 @@ $row = $result->fetch_assoc();
 ?>
 <div class='container'>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12 mb-3">
 		<ol class="breadcrumb">
 		  <li><a href="dashboard.php">Home</a></li>		  
 		  <li class="active">Private</li>
 		</ol>
-		<div id="editor">
-		<div class="container mb-3">
+		<div class="mb-3">
 			<div class="spinner-border" role="status">
 				<span class="visually-hidden">Loading...</span>
 			</div>
@@ -32,6 +31,17 @@ $row = $result->fetch_assoc();
 				<div class="mb-2 d-flex gap-2">
 					<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $row['name'] ?>" readonly>
 				</div>
+				<div class="form-group">
+				<select id='id_location' name="Location" class="form-control">
+					<option value="-1">- Select Your Location -</option> <!-- Set a default value, like -1 -->
+					<option value="0" <?php if($row['location'] == 0) echo 'selected'; ?>>London</option>
+					<option value="1" <?php if($row['location'] == 1) echo 'selected'; ?>>Manchester</option>
+					<option value="2" <?php if($row['location'] == 2) echo 'selected'; ?>>Glasgow</option>
+					<option value="3" <?php if($row['location'] == 3) echo 'selected'; ?>>Nottingham</option>
+					<option value="4" <?php if($row['location'] == 4) echo 'selected'; ?>>Birmingham</option>
+					<option value="5" <?php if($row['location'] == 5) echo 'selected'; ?>>others</option>
+				</select>
+				</div>	
 				<div>
 					<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
 					value="<?=  $row['subject'] ?>" placeholder='Title' autocomplete='off'>
@@ -68,8 +78,9 @@ $row = $result->fetch_assoc();
 				e.preventDefault();
 				const id_name = document.querySelector('#id_name');
 				const id_sub = document.querySelector('#id_sub');
-				const fileInput = document.querySelector('#fileInput');
+				const id_location = document.querySelector('#id_location');
 				const id_content = document.querySelector('#id_content');
+				const fileInput = document.querySelector('#fileInput');
 				if(id_sub.value == '') {
 					alert('Input the subject')
 					id_sub.focus();
@@ -85,6 +96,7 @@ $row = $result->fetch_assoc();
 				formData.append('title', id_sub.value);
 				formData.append('content', id_content.value);
 				formData.append('code', 'private');
+				formData.append('location', id_location.value);
 				formData.append('idx', param['idx'])
 				const files = [];
 				for (const file of fileInput.files) {
@@ -136,7 +148,7 @@ $row = $result->fetch_assoc();
 				});
 			}
 		</script>
-	</div>
+
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
 </div>
