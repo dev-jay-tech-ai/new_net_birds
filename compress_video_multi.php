@@ -2,36 +2,30 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES["videos"])) {
     $bitrate = '2500k';
-
-    // Specify the relative path for the output directory within your project directory
     $outputDirectory = "./output_videos/";
-
-    // Create the output directory if it doesn't exist
     if (!file_exists($outputDirectory)) {
         mkdir($outputDirectory, 0777, true);
     }
-
-    // Process each uploaded video file
     foreach ($_FILES["videos"]["tmp_name"] as $index => $video) {
-        // Use escapeshellarg to escape user input for security
+        $allowedExtensions = ["mp4", "mov", "avi"]; // Adjust this list based on your requirements
+        $fileExtension = strtolower(pathinfo($_FILES["videos"]["name"][$index], PATHINFO_EXTENSION));
+        
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            echo "Error: File $index has an invalid extension. Only " . implode(", ", $allowedExtensions) . " are allowed.<br>";
+            continue; // Skip to the next iteration
+        }
+
         $video = escapeshellarg($video);
         $bitrate = escapeshellarg($bitrate);
-
-        // Construct the command with error output redirection
-        $outputFile = $outputDirectory . "output_" . ($index + 1) . ".mp4";
+        $outputFile = $outputDirectory . date('YmdHis') . '_' . uniqid() . '.' . $fileExtension;
         $outputFile = escapeshellarg($outputFile);
         $command = "/usr/local/bin/ffmpeg -i $video -b:v $bitrate -bufsize $bitrate $outputFile 2>&1";
-
-        // Execute the command and capture both stdout and stderr
         exec($command, $output, $returnCode);
-
-        // Check if the command was successful
         if ($returnCode === 0) {
-            echo "File $index has been converted<br>";
+            echo "File $index has been converted successfully. Output: " . implode("<br>", $output) . "<br>";
         } else {
-            // Print the error output
             echo "Error for file $index: " . implode("<br>", $output) . "<br>";
         }
     }

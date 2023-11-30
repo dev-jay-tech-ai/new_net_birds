@@ -1,7 +1,9 @@
 <?php 
-  require_once 'includes/header.php'; 
+  require_once 'includes/header.php';
 
-	if (isset($_SESSION['userId'])) {
+	if(!isset($_SESSION['userId'])) {
+		echo "<script>window.location.href=' /dashboard.php';</script>";
+	} else {
     $user_id = $_SESSION['userId'];
     $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
     $query = $connect->query($sql);
@@ -15,8 +17,12 @@
 			<div class="col-md-12">
 				<div class="login-block text-center">
 					<div class="form-group d-flex justify-content-center">
-						<input type='hidden' class="form-control" type="text" name="profile" id="profile" autocorrect="off" autocapitalize="off">
-						<div class='profile_img'><?= $initial ?></div>
+						<div class='profile_img'>
+							<?= $result['user_image'] ? 
+							'<img src="' . $result['user_image'] . '" alt="User Image">' : 
+							'<div class="d-flex justify-content-center align-items-center h-100">' . $initial . '</div>'; 
+							?>
+						</div>
 					</div>	
 					<div class="form-group">
 						<div><b><?= $result['username'] ?></b></div>

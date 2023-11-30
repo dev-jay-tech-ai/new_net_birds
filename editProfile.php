@@ -22,14 +22,23 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 				<div class="login-block">
 					<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" id="loginForm">
             <div class="form-group d-flex justify-content-center">
-						<input type='hidden' class="form-control" type="text" name="profile" id="profile" autocorrect="off" autocapitalize="off">
-              <div class='profile_img'><?= $initial ?></div>
+							 <div class='profile_img'>
+								<?= $result['user_image'] ? 
+								'<img id="uploaded_img" src="' . $result['user_image'] . '" alt="User Image">' : 
+								'<div class="d-flex justify-content-center align-items-center h-100 profile_initial">' . $initial . '</div>'; 
+								?>
+							</div>
             </div>	
+						<div class="form-group mb-3">
+							<div class='d-flex justify-content-between align-items-center'>
+								<input id="fileInput" type="file" name="file" accept="image/*" style='width: 90%'>
+								<div><div id='btn_delete' class='round'><i class='fa fa-times'></i></div></div>
+							</div>
+						</div>
             <div class="form-group">
-							<input type="hidden" name="user_id" id="user_id" value="<?= $_SESSION['userId'] ?>">
 							<label for="username">Username</label>
 							<input class="form-control" type="text" placeholder="Username" name="username" 
-							id="username" value="<?= $result['username'] ?>" autocorrect="off" autocapitalize="off">
+							id="username" value="<?= $result['username'] ?>" autocorrect="off" autocapitalize="off" autocomplete="username">
 						</div>
             <div class="form-group">
 							<label for="username">Email</label>
@@ -37,15 +46,15 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 							id="email" value="<?= $result['email'] ?>" autocorrect="off" autocapitalize="off">
 						</div>
 						<div class="form-group">
-							<label for="password">Password</label>
-							<input class="form-control" type="password" placeholder="Password" name="password" id="password">
+							<label for="change_password">New Password</label>
+							<input class="form-control" type="password" placeholder="new password" name="change_password" id="password" autocomplete="new-password">
 							<p id="caps-lock-warning" class="text-danger hidden">
 								<i class="fa fa-exclamation-triangle"></i> Caps Lock is enabled
 							</p>
 						</div>
 						<div class="form-group">
-							<label for="password">Re-password</label>
-							<input class="form-control" type="password" placeholder="Re-password" name="passwordConfirm" id="passwordConfirm">
+							<label for="password"> Confirm new password</label>
+							<input class="form-control" type="password" placeholder="Confirm new password" name="passwordConfirm" id="passwordConfirm" autocomplete="new-password">
 							<p id="caps-lock-warning" class="text-danger hidden">
 								<i class="fa fa-exclamation-triangle"></i> Caps Lock is enabled
 							</p>
@@ -61,6 +70,29 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 </div>
 
 <script>
+	const fileInput = document.querySelector('#fileInput');
+	const profile_img = document.querySelector('.profile_img');
+	const btn_delete = document.querySelector('#btn_delete'); 
+	fileInput.addEventListener('change', async() => {
+		const imgElement = document.createElement('img');
+		const firstChild = profile_img.firstElementChild;
+		if(firstChild) {
+			profile_img.removeChild(firstChild);
+		}
+		imgElement.src = URL.createObjectURL(fileInput.files[0]);
+		imgElement.addClass ='preview_img';
+		imgElement.alt = 'User Image';
+		profile_img.appendChild(imgElement);
+
+	});
+	btn_delete.addEventListener('click', async(e) => {
+		e.preventDefault();
+		const imgTag = profile_img.querySelector('img');
+		if (imgTag) {
+			profile_img.removeChild(imgTag);
+		}
+		fileInput.value = null;
+	});
 	const btn_submit = document.querySelector('#btn_submit');
 	const spinner = document.querySelector('.spinner-border');
 	btn_submit.addEventListener('click', async(e) => {
@@ -69,7 +101,6 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		const email = document.querySelector('#email').value;
 		const password = document.querySelector('#password').value;
 		const passwordConfirm = document.querySelector('#passwordConfirm').value;
-		const fileInput = document.querySelector('#fileInput');
 		if(userName == "") {
 			$("#userName").after('<p class="text-danger">Username field is required</p>');
 			$('#userName').closest('.form-group').addClass('has-error');
@@ -80,29 +111,33 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		if(email == "") {
 			$("#email").after('<p class="text-danger">Email field is required</p>');
 			$('#email').closest('.form-group').addClass('has-error');
+			return false;
 		} else if (!emailRegex.test(email)) {
 			$("#email").after('<p class="text-danger">Please enter a valid email address</p>');
 			$('#email').closest('.form-group').addClass('has-error');
+			return false;
 		} else {
 			$("#email").find('.text-danger').remove();
 		}
 		if(password == "") {
 			$("#password").after('<p class="text-danger">Password field is required</p>');
 			$('#password').closest('.form-group').addClass('has-error');
+			return false;
 		} else {
 			$("#password").find('.text-danger').remove();  	
 		}
 		if(passwordConfirm == "") {
 			$("#passwordConfirm").after('<p class="text-danger">Confirm Password field is required</p>');
 			$('#passwordConfirm').closest('.form-group').addClass('has-error');
+			return false;
 		} else {
 			$("#passwordConfirm").find('.text-danger').remove(); 	
 		}
     if (password !== passwordConfirm) {
 			$("#passwordConfirm").after('<p class="text-danger">Passwords do not match</p>');
 			$('#passwordConfirm').closest('.form-group').addClass('has-error');
+			return false;
 		} else {
-			// Remove error text field
 			$("#passwordConfirm").find('.text-danger').remove();
 		}
 		spinner.style.display = 'inline-block';
@@ -110,17 +145,8 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		formData.append('username', userName);
 		formData.append('email', email);
 		formData.append('password', password);
-		// const files = [];
-		// for (const file of fileInput.files) {
-		// 	if (file.type.includes('image')) {
-		// 		const compressedImage = await compressImage(file);
-		// 		files.push(compressedImage);
-		// 	} 
-		// }
-		// for (const file of files) {
-		// 	formData.append('files[]', file, file.name);
-		// } 
-
+		// const compressedImage = await compressImage(fileInput.files[0]);
+		formData.append('file', fileInput.files[0]);
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', './php_action/fetchEditProfile.php', true);
 		xhr.send(formData);
@@ -130,12 +156,11 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 			if (xhr.status == 200) {
 				try {
 					const data = JSON.parse(xhr.responseText);
-					console.log(data.result);
-					if (data.success) {
+					if(data.success) {
 						alert('Success!');
 						self.location.href = '/account.php?code=private';
 					} else {
-						alert('Failed: ' + data.message); // Display the error message
+						alert('Failed: ' + data.messages); // Display the error message
 					}
 				} catch (error) {
 					console.error('Error parsing JSON:', error);
@@ -143,7 +168,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 			} else {
 				alert('Error: ' + xhr.status);
 			}
-		}; 
+		};
 	});
 </script>
 <script src="custom/js/function.js"></script>
