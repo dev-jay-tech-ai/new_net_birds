@@ -10,19 +10,23 @@ if ($row['active'] == 1) {
 					echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
 			}
 			?>
-			<td style='width: 44px; border-right: 0; vertical-align: middle;'>
-				<div class='board_profile'></div>
-			</td>
-			<td style='border-left: 0;'>
+			<td>
 				<div class='d-flex flex-column'>
 					<div class='fw-bold'><?= $row['subject']; ?></div>
 					<div class='d-flex justify-content-between mt-2 cc-3'>
-						<div style='flex: 2'><?= $row['name']; ?></div>
+						<div class='d-flex align-items-center flex-row' style='flex: 2'>
+							<div class='board_profile'>
+								<?php if ($row['user_image'] !== '' && $row['user_image'] !== NULL): ?>
+									<img src='<?= $row['user_image'] ?>' alt='profile image' />
+								<?php endif; ?>
+							</div>
+							<div class='mx-2 align-middle'><?= $row['name']; ?></div>
+						</div>
 						<div style='flex: 1; text-align: end;'><?php if(isset($row['rate'])) {
 							$rating = $row['rate'];
 							for ($i = 1; $i <= 5; $i++) {
-									$starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
-									echo "<i class='$starClass'></i>";
+								$starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
+								echo "<i class='$starClass'></i>";
 							}
 						} ?></div>
 						<div style='flex: 1; text-align: end;'><?= substr($row['rdate'], 0, 10); ?></div>

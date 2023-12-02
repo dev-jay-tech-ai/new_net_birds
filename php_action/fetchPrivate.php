@@ -8,6 +8,7 @@ $title = (isset($_POST['subject']) && $_POST['subject'] != '') ? $_POST['subject
 $content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
 $code = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code'] : 'private';
 $location = (isset($_POST['location']) && $_POST['location'] != '') ? $_POST['location'] : 0;
+$userId = (isset($_POST['user_id']) && $_POST['user_id'] != '') ? $_POST['user_id'] : NULL;
 if ($code == 'undefined') $code = 'private';
 
 $filelist = array();
@@ -42,7 +43,7 @@ if (isset($_FILES['files'])) {
 } 
 if (empty($response)) {
   $contentWithPaths = '<pre>' . $content . '</pre>' . implode('', $filelist);
-  $sql = "INSERT INTO pboard (code, location, name, subject, content, imglist, ip, rdate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+  $sql = "INSERT INTO pboard (code, location, user_id, name, subject, content, imglist, ip, rdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
   $ip = $_SERVER['REMOTE_ADDR'];
   $stmt = $connect->prepare($sql);
 
@@ -50,7 +51,7 @@ if (empty($response)) {
     $response = ['result' => 'error', 'message' => $connect->error];
   } else {
     $imglist = '';
-    $stmt->bind_param('sssssss', $code, $location, $name, $title, $contentWithPaths, $imglist, $ip);
+    $stmt->bind_param('ssisssss', $code, $location, $userId, $name, $title, $contentWithPaths, $imglist, $ip);
     if ($stmt->execute()) {
       $response = ['result' => 'success'];
     } else {

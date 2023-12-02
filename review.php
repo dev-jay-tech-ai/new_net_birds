@@ -5,9 +5,6 @@
 	include 'component/config.php';
 	include 'component/popup.php';  
 
-  error_reporting(E_ALL); 
-  ini_set('display_errors', '1'); 
-
   $limit = 20;
   $page_limit = 10;
   $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
@@ -15,32 +12,47 @@
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM rboard";
   $stmtCount = $connect->prepare($sqlCount);
-  
   if ($stmtCount) {
-      $stmtCount->execute();
-      // Get the result set
-      $resultCount = $stmtCount->get_result();
-      $row = $resultCount->fetch_assoc();
-      $total = $row['cnt'];
+		$stmtCount->execute();
+		// Get the result set
+		$resultCount = $stmtCount->get_result();
+		$row = $resultCount->fetch_assoc();
+		$total = $row['cnt'];
   } else {
-      // Handle the case where the preparation failed
-      die($connect->error);
+    die($connect->error);
   }
   // Query to get paginated data
-  $sqlData = "SELECT * FROM rboard ORDER BY idx DESC LIMIT $start, $limit";
+  $sqlData = "SELECT a.*, u.user_image FROM rboard a LEFT JOIN users u ON a.user_id = u.user_id ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
-      $stmtData->execute();
-      // Get the result set
-      $resultData = $stmtData->get_result();
-      $rs = [];
-      while ($row = $resultData->fetch_assoc()) {
-        $rs[] = $row;
-      }
+		$stmtData->execute();
+		$resultData = $stmtData->get_result();
+		$rs = [];
+		while ($row = $resultData->fetch_assoc()) {
+			$rs[] = $row;
+		}
   } else {
-      // Handle the case where the preparation failed
-      die($connect->error);
+		die($connect->error);
   }
+
+	$totalRows = count($rs);
+	$activeRowCount = ($page - 1) * $limit;
+	$selectedLocation = 0; 
+	if(isset($_GET['location'])) {
+		$locationParam = $_GET['location'];
+		$locationMapping = ['london' => 0, 'manchester' => 1,'glasgow' => 2, 'nottingham' => 3, 'birmingham' => 4, 'others' => 5];
+		if(array_key_exists($locationParam, $locationMapping)) {
+			$selectedLocation = $locationMapping[$locationParam];
+			$sqlData = "SELECT * FROM rboard WHERE location = $selectedLocation ORDER BY idx DESC LIMIT $start, $limit";
+			$stmtData = $connect->prepare($sqlData);
+			if($stmtData) {
+				$stmtData->execute();
+				$resultData = $stmtData->get_result();
+				$rs = [];
+				while ($row = $resultData->fetch_assoc()) $rs[] = $row;
+			} else die($connect->error);
+		}
+	}
 
 ?>
 <div class="container">
@@ -52,6 +64,7 @@
 			</ol>
 			<div class="remove-messages"></div>
 			<?php 
+			$code = 'review';
 			include 'component/nav_location.php'; 
 			if(isset($_SESSION['userId']) /** && $result['active'] == 1 */) {
 				if($result['status'] == 1) {
@@ -104,19 +117,16 @@
 							<th class='text-center'>Date</th>
 						</tr>
 					</thead>
-					
 					<?php 
-					$totalRows = count($rs);
-					$activeRowCount = ($page - 1) * $limit;
-					foreach($rs AS $i => $row) { 
+					foreach($rs as $i => $row) { 
 					if ($row['active'] == 1) {
 						$activeRowCount++;
 					?>
 					<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>'>
 						<?php 
-								if(isset($_SESSION['userId']) && $result['status'] == 1) {
-										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
-								} 
+							if(isset($_SESSION['userId']) && $result['status'] == 1) {
+									echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
+							} 
 						?>
 						<td class='text-center'><?= $activeRowCount ?></td>
 						<td><?= $row['subject']; ?></td>
@@ -148,24 +158,21 @@
 			<script>
 			<?php 
 				/**if(isset($_SESSION['userId']) && $result['active'] == 1 ) {*/
-					echo "const btn_write = document.querySelector('#btn-write');";
-					echo "btn_write && btn_write.addEventListener('click', () => {";
-					echo "self.location.href='./write_review.php';";
-					echo "});";
-					echo "const view_detail = document.querySelectorAll('.view_detail');";
-					echo "view_detail.forEach((box) => {";
-					echo "box.addEventListener('click', () => {";
-					echo "self.location.href='./view_review.php?idx=' + box.dataset.idx";
-					echo "});";
-					echo "});";
-				// } 
+				echo "const btn_write = document.querySelector('#btn-write');";
+				echo "btn_write && btn_write.addEventListener('click', () => {";
+				echo "self.location.href='./write_review.php';";
+				echo "});";
+				echo "const view_detail = document.querySelectorAll('.view_detail');";
+				echo "view_detail.forEach((box) => {";
+				echo "box.addEventListener('click', () => {";
+				echo "self.location.href='./view_review.php?idx=' + box.dataset.idx";
+				echo "});";
+				echo "});";
+			// } 
 			?>
-			</script>      
-			<!-- /table -->   
-
+			</script><!-- /table -->   
 		</div> <!-- /col-md-12 -->
 	</div> <!-- /row -->
 </div>
-
 <script src="custom/js/review.js"></script>
 <?php require_once 'includes/footer.php'; ?>

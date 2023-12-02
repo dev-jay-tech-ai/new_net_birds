@@ -1,11 +1,8 @@
 <?php 
 require_once 'php_action/db_connect.php';
 require_once 'includes/header.php'; 
+require_once 'component/auth_session.php'; 
 include 'component/config.php'; 
-
-if(!isset($_SESSION['userId'])) {
-	echo "<script>window.location.href=' /dashboard.php';</script>";
-}
 
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
 $sql = "SELECT * FROM aboard WHERE idx=?";
@@ -119,21 +116,8 @@ $row = $result->fetch_assoc();
 				e.preventDefault();
 				self.location.href='./agent.php?code=' + param['code'];
 			})
-			// Function to compress images
-			function compressImage(file) {
-				return new Promise((resolve, reject) => {
-					new Compressor(file, {
-						quality: 0.8, // Adjust quality as needed
-						success(result) {
-							resolve(result);
-						},
-						error(e) {
-							reject(e);
-						},
-					});
-				});
-			}
 		</script>
+		<script src="custom/js/function.js"></script>
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
 </div>

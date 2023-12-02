@@ -1,80 +1,66 @@
 <?php
-error_reporting(E_ALL); 
-ini_set('display_errors', '1'); 
 require_once 'core.php';
-
-$edit_idx = (isset($_SESSION['edit_idx']) && $_SESSION['edit_idx'] != '' && is_numeric($_SESSION['edit_idx'])) ? $_SESSION['edit_idx'] : '';
-// print_r($_POST)
-$name  = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name']: '';
-$pw  = (isset($_POST['pw']) && $_POST['pw'] != '') ? $_POST['pw']: '';
-$title  = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title']: '';
-$content  = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content']: '';
-$rate  = (isset($_POST['rate']) && $_POST['rate'] != '') ? $_POST['rate']: 0;
+$response = [];
+$extensions = array('jpg', 'png', 'gif', 'jpeg', 'mov', 'mp4');
+$maxFileSize = 40 * 1024 * 1024; // 40 MB
 $idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'] : '';
-if($idx == '') {
-  $arr = ['result' => 'empty_idx'];
-  exit(json_encode($arr));
+$name = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name'] : '';
+$title = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title'] : '';
+$content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
+$rate  = (isset($_POST['rate']) && $_POST['rate'] != '') ? $_POST['rate']: 0;
+$location = (isset($_POST['location']) && $_POST['location'] != '') ? $_POST['location'] : 0;
+if ($code == 'undefined') $code = 'private';
+if ($idx == '') {
+  $response = ['result' => 'empty_idx'];
+  exit(json_encode($response));
 }
-if($edit_idx != $idx) {
-  $arr = ['result' => 'denied'];
-  exit(json_encode($arr));
-}
-$pwd_hash = '';
-if($pw != '') {
-  $pwd_hash = password_hash($pw, PASSWORD_BCRYPT);
-}
-
-// 정규표현식 EXP
-preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $content, $matches);
-$img_array = [];
-// 이미지 태그 src 값 중에서 "img" 문자열 이하 값 알아내기
-foreach ($matches[1] as $key => $row) {
-  if(substr($row,0,6) == 'upload') {
-    $img_array[] = $row;
-    continue;
+$filelist = array();
+if (isset($_FILES['files'])) {
+  $folder = '../assets/images/test/';
+  foreach ($_FILES['files']['tmp_name'] as $key => $temp_folder) {
+    $file = $_FILES['files']['name'][$key];
+    $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    $file_size = $_FILES['files']['size'][$key];
+    // Check file size
+    if ($file_size > $maxFileSize) {
+        $response = ['result' => 'error', 'message' => 'File size exceeds the allowed limit.'];
+        break;
+    }
+    if (!in_array($file_ext, $extensions)) {
+        $response = ['result' => 'error', 'message' => 'Invalid file extension.' . $file_ext];
+        break;
+    }
+    $uniqueFilename = date('YmdHis') . '_' . $key . '.' . $file_ext;
+    if (move_uploaded_file($temp_folder, $folder . $uniqueFilename)) {
+        if ($file_ext === 'mov' || $file_ext === 'mp4') {
+            $filelist[] = "<p class='text-center'><video class='video_size' controls src='" . $folder . $uniqueFilename . "' loading='lazy'></video></p>";
+        } else {
+            $filelist[] = "<p class='text-center'><img src='" . $folder . $uniqueFilename . "' style='width: 100%; height: auto;' loading='lazy' /></p>";
+        }
+    } else {
+      $response = ['result' => 'error', 'message' => 'Error moving file ' . $file . '. Error code: ' . $temp_folder . $folder];
+      break;
+    }
   }
-  // 외부 링크 이미지는 skip
-  if(substr($row,0,5) != 'data:') {
-    continue;
-  }
-  [$type, $data] = explode(';', $row);
-  [, $data] = explode(',', $data);
-  $data = base64_decode($data);
-  // 확장자 구하기
-  [, $ext] = explode('/', $type);
-  $ext = ($ext === 'jpeg') ? 'jpg' : $ext;
-  // 파일명 만들기
-  $filename = date('YmdHis') . '_' . $key . '.' . $ext;
-  $targetPath = '../assets/images/reivew/' . $filename;
-  // if (file_put_contents($targetPath, $data) !== false) {
-  //     echo 'File saved successfully.';
-  // } else {
-  //     echo 'Error saving the file. Check file permissions and path.';
-  //     echo 'file_put_contents error: ' . error_get_last()['message'];
-  // }
-  $content = str_replace($row, $targetPath, $content);
-  $img_array[] = $targetPath;
 }
-$imglist = implode('|', $img_array); // 배열을 구분자 기준으로 문자열로 바꿔쥼
-if($pwd_hash != '') {
-  $sql = 'UPDATE rboard SET name=?, subject=?, content=?, imglist=?, rate=?, password=? WHERE idx=?';
+if (empty($response)) {
+  $contentWithPaths = $content . implode('', $filelist);
+  $imglist = '';
+  $sql = 'UPDATE rboard SET name=?, subject=?, location=?, content=?, imglist=?, rate=? WHERE idx=?';
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
-      die($connect->error);
-  }
-  $stmt->bind_param('ssssssi', $name, $title, $content, $imglist, $rate, $pwd_hash, $idx);
-} else {
-  $sql = 'UPDATE rboard SET name=?, subject=?, content=?, imglist=?, rate=? WHERE idx=?';
-  $stmt = $connect->prepare($sql);
-  if (!$stmt) {
-      die($connect->error);
-  }
-  $stmt->bind_param('sssssi', $name, $title, $content, $imglist, $rate, $idx);
+    $response = ['result' => 'error', 'message' => 'Prepare failed: (' . $connect->errno . ') ' . $connect->error];
+  } else {
+    $stmt->bind_param('ssissii', $name, $title, $location, $contentWithPaths, $imglist, $rate, $idx);
+    if(!$stmt->execute()) {
+      $response = ['result' => 'error', 'message' => 'Execute failed: (' . $stmt->errno . ') ' . $stmt->error];
+    } else {
+      $response = ['result' => 'success', 'message' => 'Update successful'];
+    }
+    $stmt->close();
+  }  
 }
 
-$stmt->execute();
-$arr = ['result' => 'success'];
-$j = json_encode($arr);
+$j = json_encode($response);
 die($j);
-
 ?>

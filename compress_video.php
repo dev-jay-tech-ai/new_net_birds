@@ -13,7 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $video = escapeshellarg($video);
     $bitrate = escapeshellarg($bitrate);
     $outputFile = escapeshellarg($outputFile);
-    $command = "/usr/local/bin/ffmpeg -i $video -b:v $bitrate -bufsize $bitrate $outputFile 2>&1";
+    // $ffmpegPath = __DIR__ . '/ffmpeg';  // Assuming 'ffmpeg' is the name of your binary file
+    $command = "ffmpeg -i $video -b:v $bitrate -bufsize $bitrate $outputFile 2>&1";
+    // $command = "ffmpeg -i $video -b:v $bitrate -bufsize $bitrate $outputFile 2>&1";
     exec($command, $output, $returnCode);
     if ($returnCode === 0) {
         echo "File has been converted";

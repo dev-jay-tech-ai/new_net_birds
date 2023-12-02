@@ -1,5 +1,4 @@
 <?php
-
 require_once 'core.php';
 $response = [];
 $extensions = array('jpg', 'png', 'gif', 'jpeg', 'mov', 'mp4');

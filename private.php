@@ -5,26 +5,24 @@
 	include 'component/config.php'; 
 	include 'component/popup.php'; 
 
-  error_reporting(E_ALL); 
-  ini_set('display_errors', '1'); 
-
   $limit = 20;
   $page_limit = 10;
   $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
-  
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM pboard WHERE code='".$code."'";
   $stmtCount = $connect->prepare($sqlCount);
   if ($stmtCount) {
-      $stmtCount->execute();
-      $resultCount = $stmtCount->get_result();
-      $row = $resultCount->fetch_assoc();
-      $total = $row['cnt'];
+		$stmtCount->execute();
+		$resultCount = $stmtCount->get_result();
+		$row = $resultCount->fetch_assoc();
+		$total = $row['cnt'];
   } else {
-      die($connect->error);
+    die($connect->error);
   }
-	$sqlData = "SELECT * FROM pboard WHERE code='".$code."' ORDER BY idx DESC LIMIT $start, $limit";
+	// Default SQL query without location condition
+
+	$sqlData = "	SELECT a.*, u.user_image FROM pboard a LEFT JOIN users u ON a.user_id = u.user_id WHERE code='".$code."' ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
 		$stmtData->execute();
@@ -34,6 +32,26 @@
 			$rs[] = $row;
 		}
   } else die($connect->error);
+
+	$totalRows = count($rs);
+	$activeRowCount = ($page - 1) * $limit;
+	$selectedLocation = 0; 
+	if(isset($_GET['location'])) {
+		$locationParam = $_GET['location'];
+		$locationMapping = ['london' => 0, 'manchester' => 1,'glasgow' => 2, 'nottingham' => 3, 'birmingham' => 4, 'others' => 5];
+		if(array_key_exists($locationParam, $locationMapping)) {
+			$selectedLocation = $locationMapping[$locationParam];
+			$sqlData = "SELECT * FROM pboard WHERE code = '$code' AND location = $selectedLocation ORDER BY idx DESC LIMIT $start, $limit";
+			$stmtData = $connect->prepare($sqlData);
+			if($stmtData) {
+				$stmtData->execute();
+				$resultData = $stmtData->get_result();
+				$rs = [];
+				while ($row = $resultData->fetch_assoc()) $rs[] = $row;
+			} else die($connect->error);
+		}
+	}
+
 ?>
 <div class="container">
 	<div class="row">
@@ -96,44 +114,26 @@
 						</tr>
 					</thead>
 					<?php 
-					$totalRows = count($rs);
-					$activeRowCount = ($page - 1) * $limit;
-					$selectedLocation = 0; 
-					if(isset($_GET['location'])) {
-						$locationParam = $_GET['location'];
-						$locationMapping = ['london' => 0, 'manchester' => 1,'glasgow' => 2, 'nottingham' => 3, 'birmingham' => 4, 'others' => 5];
-						if(array_key_exists($locationParam, $locationMapping)) {
-							$selectedLocation = $locationMapping[$locationParam];
-							$sqlData = "SELECT * FROM pboard WHERE code = '$code' AND location = $selectedLocation ORDER BY idx DESC LIMIT $start, $limit";
-							$stmtData = $connect->prepare($sqlData);
-							if($stmtData) {
-								$stmtData->execute();
-								$resultData = $stmtData->get_result();
-								$rs = [];
-								while ($row = $resultData->fetch_assoc()) $rs[] = $row;
-							} else die($connect->error);
-						}
-					}
 					foreach ($rs as $i => $row) {
-					if ($row['active'] == 1 && ($row['location'] === $selectedLocation)) {
+					if ($row['active'] == 1) {
 						$activeRowCount++;
-							?>
-							<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
-								<?php
-								if (isset($_SESSION['userId']) && $result['status'] == 1) {
-										echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
-								}
-								?>
-								<td class='text-center'><?= $activeRowCount; ?></td>
-								<td><?= $row['subject']; ?></td>
-								<td class='text-center'><?= $row['name']; ?></td>
-								<td class='text-center'><?= $row['hit']; ?></td>
-								<td class='rdate text-center'><?= substr($row['rdate'], 0, 10); ?></td>
-							</tr>
+					?>
+						<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
 							<?php
-									}
+								if(isset($_SESSION['userId']) && $result['status'] == 1) {
+									echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
 								}
-							?>	
+							?>
+							<td class='text-center'><?= $activeRowCount; ?></td>
+							<td><?= $row['subject']; ?></td>
+							<td class='text-center'><?= $row['name']; ?></td>
+							<td class='text-center'><?= $row['hit']; ?></td>
+							<td class='rdate text-center'><?= substr($row['rdate'], 0, 10); ?></td>
+						</tr>
+						<?php
+					} 
+				}
+				?>	
 				</table>    
 				<?php include 'board_m.php';?>
 			</div>
@@ -159,9 +159,7 @@
 					echo "});";
 				// } 
 				?>
-			</script>   
-			<!-- /table -->   
-
+			</script><!-- /table -->   
 		</div> <!-- /col-md-12 -->
 	</div> <!-- /row -->
 </div>

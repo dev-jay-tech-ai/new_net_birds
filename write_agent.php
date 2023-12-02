@@ -1,12 +1,9 @@
 <?php 
 	require_once 'php_action/db_connect.php';
 	require_once 'includes/header.php'; 
+	require_once 'component/auth_session.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 
-
-	if(!isset($_SESSION['userId'])) {
-		echo "<script>window.location.href=' /dashboard.php';</script>";
-	}
 
 	$username = $result['username'] ?  $result['username'] : '';
 ?>
@@ -56,11 +53,13 @@
 
 	const btn_submit = document.querySelector('#btn_submit');
 	const spinner = document.querySelector('.spinner-border');
-	btn_submit.addEventListener('click', async () => {
+	btn_submit.addEventListener('click', async (e) => {
+		e.preventDefault();
 		const id_name = document.querySelector('#id_name');
 		const id_sub = document.querySelector('#id_sub');
 		const id_content = document.querySelector('#id_content');
 		const fileInput = document.querySelector('#fileInput');
+		const user_id = <?= json_encode($result['user_id']); ?>;
 		if (id_sub.value == '') {
 			alert('Input the subject');
 			id_sub.focus();
@@ -76,6 +75,7 @@
 		formData.append('subject', id_sub.value);
 		formData.append('content', id_content.value);
 		formData.append('code', 'agent');
+		formData.append('user_id', user_id);
 		const files = [];
 		for (const file of fileInput.files) {
 			if (file.type.includes('image')) {
@@ -112,21 +112,6 @@
 			}
 		};
 	});
-
-	// Function to compress images
-	function compressImage(file) {
-		return new Promise((resolve, reject) => {
-			new Compressor(file, {
-				quality: 0.8, // Adjust quality as needed
-				success(result) {
-					resolve(result);
-				},
-				error(e) {
-					reject(e);
-				},
-			});
-		});
-	}
 </script>
-
+<script src="custom/js/function.js"></script>
 <?php require_once 'includes/footer.php'; ?>

@@ -24,15 +24,15 @@
   } else {
       die($connect->error);
   }
-  $sqlData = "SELECT * FROM aboard WHERE code='".$code."'ORDER BY idx DESC LIMIT $start, $limit";
+	$sqlData = "SELECT a.*, u.user_image FROM aboard a LEFT JOIN users u ON a.user_id = u.user_id WHERE code='".$code."' ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
-      $stmtData->execute();
-      $resultData = $stmtData->get_result();
-      $rs = [];
-      while ($row = $resultData->fetch_assoc()) {
-        $rs[] = $row;
-      }
+		$stmtData->execute();
+		$resultData = $stmtData->get_result();
+		$rs = [];
+		while ($row = $resultData->fetch_assoc()) {
+			$rs[] = $row;
+		}
   } else die($connect->error);
 ?>
 <div class="container">

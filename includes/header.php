@@ -24,9 +24,6 @@
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/07903077e4.js" crossorigin="anonymous"></script>
 
-    <!-- custom css -->
-    <link rel="stylesheet" href="custom/css/custom.css">
-
     <!-- DataTables -->
     <link rel="stylesheet" href="assets/plugins/datatables/jquery.dataTables.min.css">
 
@@ -42,6 +39,9 @@
     <!-- bootstrap js -->
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
+    <!-- custom css -->
+    <link rel="stylesheet" href="custom/css/custom.css?v=<?php echo time(); ?>">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
@@ -54,13 +54,6 @@
    
     <!-- Include image-compressor.js -->
     <script src="assets/plugins/compressor.js"></script>
-    <script type="text/javascript">
-      let scriptURL = "/scripts/common.js.js?v="+Math.random();
-      let scriptElement = document.createElement("script");
-      scriptElement.src = scriptURL;
-      document.head.appendChild(scriptElement);
-    </script>
-
 
   </head>
 <body class='d-flex flex-column min-vh-100'>

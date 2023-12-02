@@ -1,15 +1,10 @@
 <?php
 	require_once 'php_action/db_connect.php';
 	require_once 'includes/header.php'; 
+	require_once 'component/auth_session.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 
 
-	error_reporting(E_ALL); 
-  ini_set('display_errors', '1'); 
-
-	if(!isset($_SESSION['userId'])) {
-		echo "<script>window.location.href=' /dashboard.php';</script>";
-	}
 	$username = $result['username'] ?  $result['username'] : '';
 ?>
 
@@ -69,12 +64,14 @@
 
 	const btn_submit = document.querySelector('#btn_submit');
 	const spinner = document.querySelector('.spinner-border');
-	btn_submit.addEventListener('click', async () => {
+	btn_submit.addEventListener('click', async (e) => {
+		e.preventDefault();
 		const id_name = document.querySelector('#id_name');
 		const id_sub = document.querySelector('#id_sub');
 		const id_content = document.querySelector('#id_content');
 		const id_location = document.querySelector('#id_location');
 		const fileInput = document.querySelector('#fileInput');
+		const user_id = <?= json_encode($result['user_id']); ?>;
 		if (id_sub.value == '') {
 			alert('Input the subject');
 			id_sub.focus();
@@ -91,6 +88,7 @@
 		formData.append('content', id_content.value);
 		formData.append('code', 'private');
 		formData.append('location', id_location.value);
+		formData.append('user_id', user_id);
 		const files = [];
 		for (const file of fileInput.files) {
 			if (file.type.includes('image')) {
@@ -101,7 +99,7 @@
 				files.push(compressedVideo);
 			}
 		}
-	for (const file of files) {
+		for (const file of files) {
 			formData.append('files[]', file, file.name);
 		}
 
@@ -120,7 +118,7 @@
 					} else {
 						alert('Failed: ' + data.message); // Display the error message
 					}
-				} catch (error) {
+				} catch(error) {
 					console.error('Error parsing JSON:', error);
 				}
 			} else {
@@ -128,7 +126,6 @@
 			}
 		};
 	});
-
 </script>
 <script src="custom/js/function.js"></script>
 <?php require_once 'includes/footer.php'; ?>

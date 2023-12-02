@@ -1,11 +1,8 @@
 <?php 
 require_once 'php_action/db_connect.php';
 require_once 'includes/header.php'; 
+require_once 'component/auth_session.php'; 
 include 'component/config.php'; 
-
-if(!isset($_SESSION['userId'])) {
-	echo "<script>window.location.href=' /dashboard.php';</script>";
-}
 
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
 if($idx == '') die('<script>alert('. $_GET['idx'] . '); history.go(-1);</script>');
@@ -66,11 +63,10 @@ $row = $result->fetch_assoc();
 			document.getElementById('id_content_editable').addEventListener('input', function() {
 				document.getElementById('id_content').value = this.innerHTML;
 			});
-		</script>
-		<script>
+
 			const aa = window.location.search.replace('?','').split(/[=?&]/)
-			let param = {}
-			for(let i=0; i<aa.length; i++) param[aa[i]] = aa[++i]
+			let param = {};
+			for(let i=0; i<aa.length; i++) param[aa[i]] = aa[++i];
 
 			const btn_submit = document.querySelector('#btn_submit');
 			const spinner = document.querySelector('.spinner-border');
@@ -133,22 +129,8 @@ $row = $result->fetch_assoc();
 				e.preventDefault();
 				self.location.href='./private.php?code=' + param['code'];
 			})
-			// Function to compress images
-			function compressImage(file) {
-				return new Promise((resolve, reject) => {
-					new Compressor(file, {
-						quality: 0.8, // Adjust quality as needed
-						success(result) {
-							resolve(result);
-						},
-						error(e) {
-							reject(e);
-						},
-					});
-				});
-			}
 		</script>
-
+		<script src="custom/js/function.js"></script>
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
 </div>

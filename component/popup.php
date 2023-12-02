@@ -4,20 +4,20 @@
       <div class="modal-header">
         <h3 class="modal-title m-auto">Disclaimer!</h3>
       </div>
-			<div class="modal-body">
-      Newnetbirds provides advertising space for adult entertainment<br> 
-      providers, and for adults seeking adult entertainment services.<br> 
-      <br>
-      Newnetbirds is not an escort agency and does not play any part <br>
-      in the booking of any services.<br>
-      <br>
-      To access this category, you agree:<br>
-      You are of legal age, as defined by the country or state from <br>
-      where you are accessing the Site, to view sexually explicit material;<br>
-      You will only use the Site for legal purposes;<br>
-      You are accessing the Site from a country or state <br>
-      where it is not illegal to enter adult websites <br>
-      and/or view sexually explicit material;<br>
+		<div class="modal-body">
+        Newnetbirds provides advertising space for adult entertainment<br> 
+        providers, and for adults seeking adult entertainment services.<br> 
+        <br>
+        Newnetbirds is not an escort agency and does not play any part <br>
+        in the booking of any services.<br>
+        <br>
+        To access this category, you agree:<br>
+        You are of legal age, as defined by the country or state from <br>
+        where you are accessing the Site, to view sexually explicit material;<br>
+        You will only use the Site for legal purposes;<br>
+        You are accessing the Site from a country or state <br>
+        where it is not illegal to enter adult websites <br>
+        and/or view sexually explicit material;<br>
 			</div>
 			<div class="modal-footer d-flex justify-content-center gap=3">
         <div><a href="/dashboard.php" class="btn btn-secondary">Disagree</a></div>

@@ -1,9 +1,6 @@
 <?php 
 require_once 'includes/header.php'; 
-
-if(!isset($_SESSION['userId'])) {
-	echo "<script>window.location.href=' /dashboard.php';</script>";
-} 
+require_once 'component/auth_session.php'; 
 
 $user_id = $_SESSION['userId'];
 $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
