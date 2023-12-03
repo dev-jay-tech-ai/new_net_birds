@@ -514,11 +514,26 @@ td.text-center.rate {
 
 
 /** Loading  */
+
+.fade_background{
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 120%;
+  background: #000;
+  z-index: 2;
+  -moz-opacity: 0.7;
+  opacity:.7;
+}
+
 .spinner-border {
   display: none;
   position: fixed;
-  top: 50%;
-  left: 50%;
+  z-index: 3;
+  top: 45%;
+  left: 47%;
 }
 
 #id_content_editable {
@@ -637,4 +652,18 @@ table.dataTable thead th {
 
 button.close {
   color: #c0c0cf;
+}
+
+.modal-header {
+  border-bottom: 0;
+}
+
+.modal-footer {
+  border-top: 0;
+}
+
+.btn-small {
+  font-weight: 700;
+  font-size: 10px;
+  padding: 0.2em 0.6em 0.3em;
 }

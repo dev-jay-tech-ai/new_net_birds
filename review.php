@@ -1,14 +1,10 @@
 <?php 
-	require_once 'php_action/db_connect.php';
+	require_once 'php_action/core.php';
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php';
 	include 'component/popup.php';  
 
-  $limit = 20;
-  $page_limit = 10;
-  $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-  $start = ($page - 1) * $limit;
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM rboard";
   $stmtCount = $connect->prepare($sqlCount);
@@ -21,7 +17,7 @@
   } else {
     die($connect->error);
   }
-  // Query to get paginated data
+
   $sqlData = "SELECT a.*, u.user_image FROM rboard a LEFT JOIN users u ON a.user_id = u.user_id ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {

@@ -1,9 +1,7 @@
 <?php 
-
-require_once 'php_action/db_connect.php';
+require_once 'php_action/core.php';
 require_once 'includes/header.php'; 
 require_once 'component/auth_session.php'; 
-
 ?>
 
 <div class="container">
@@ -87,7 +85,6 @@ require_once 'component/auth_session.php';
 				    </div>
 	        </div> <!-- /form-group-->	 	         	        
 	      </div> <!-- /modal-body -->
-	      
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	        <button type="submit" class="btn btn-primary" id="createProductBtn" data-loading-text="Loading..." autocomplete="off">Save Changes</button>

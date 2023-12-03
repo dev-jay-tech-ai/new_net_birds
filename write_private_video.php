@@ -1,5 +1,5 @@
 <?php
-	require_once 'php_action/db_connect.php';
+	require_once 'php_action/core.php';
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 

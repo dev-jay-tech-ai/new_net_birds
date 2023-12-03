@@ -1,14 +1,10 @@
 <?php 
-	require_once 'php_action/db_connect.php';
+	require_once 'php_action/core.php';
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 
 	include 'component/popup.php'; 
 
-  $limit = 20;
-  $page_limit = 10;
-  $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-  $start = ($page - 1) * $limit;
   // Query to get total count
   $sqlCount = "SELECT COUNT(*) as cnt FROM pboard WHERE code='".$code."'";
   $stmtCount = $connect->prepare($sqlCount);
@@ -21,7 +17,6 @@
     die($connect->error);
   }
 	// Default SQL query without location condition
-
 	$sqlData = "	SELECT a.*, u.user_image FROM pboard a LEFT JOIN users u ON a.user_id = u.user_id WHERE code='".$code."' ORDER BY idx DESC LIMIT $start, $limit";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
@@ -32,7 +27,6 @@
 			$rs[] = $row;
 		}
   } else die($connect->error);
-
 	$totalRows = count($rs);
 	$activeRowCount = ($page - 1) * $limit;
 	$selectedLocation = 0; 

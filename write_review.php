@@ -1,5 +1,5 @@
 <?php 
-	require_once 'php_action/db_connect.php';
+	require_once 'php_action/core.php';
 	require_once 'includes/header.php'; 
 	require_once 'component/auth_session.php'; 
 	include 'component/pagination.php'; 
@@ -9,6 +9,7 @@
 ?>
 
 <div class="container">
+	<?php include_once 'component/loading.php'; ?>
 	<div class="row">
 		<div class="col-md-12 mb-3">
 			<ol class="breadcrumb">
@@ -16,9 +17,6 @@
 				<li class="active"><?= $board_title ?></li>
 			</ol>
 			<div class="mt-5">
-				<div class="spinner-border" role="status">
-						<span class="visually-hidden">Loading...</span>
-				</div>
 				<form id="uploadForm" enctype="multipart/form-data">
 				<div class="mb-2 d-flex gap-2">
 					<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
@@ -48,7 +46,7 @@
 						placeholder='Title' autocomplete='off'>
 				</div>
 				<div class='d-flex flex-row justify-content-between mt-3 mb-3'>
-						<input id="fileInput" type="file" name="files[]" multiple accept="image/*">
+						<input id="fileInput" type="file" name="files[]" multiple>
 				</div>
 				<div class="form-group">
 					<input type="hidden" id="id_content" class="form-control" rows="4" >
@@ -67,6 +65,7 @@
 					});
 
 					const btn_submit = document.querySelector('#btn_submit');
+					const fade_background = document.querySelector('.fade_background');
 					const spinner = document.querySelector('.spinner-border');
 					btn_submit.addEventListener('click', async(e) => {
 						e.preventDefault();
@@ -86,6 +85,7 @@
 							alert('Input the content');
 							return false;
 						}
+						fade_background.style.display = 'inline-block';
 						spinner.style.display = 'inline-block';
 						const formData = new FormData()
 						formData.append('name', id_name.value)
@@ -100,8 +100,7 @@
 								const compressedImage = await compressImage(file);
 								files.push(compressedImage);
 							} else if (file.type.includes('video')) {
-								const compressedVideo = await compressVideo(file);
-								files.push(compressedVideo);
+								files.push(file);
 							}
 						}
 						for (const file of files) {

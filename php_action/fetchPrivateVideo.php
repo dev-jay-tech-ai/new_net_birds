@@ -14,6 +14,8 @@ if ($code == 'undefined') $code = 'private';
 $filelist = array();
 $videoProcessed = false; // Flag to track if video is processed
 
+$ffmpegPath = '/Applications/XAMPP/xamppfiles/htdocs/newnetbirds/ffmpeg';
+
 if (isset($_FILES['files'])) {
   $folder = '../assets/images/test/';
 
@@ -54,9 +56,9 @@ if (isset($_FILES['files'])) {
       $bitrate = escapeshellarg($bitrate);
       $outputFile = $outputDirectory . date('YmdHis') . '_' . uniqid() . '.' . $file_ext;
       $outputFile_esc = escapeshellarg($outputFile);
-      $command = "/usr/local/bin/ffmpeg -i $video -b:v $bitrate -bufsize $bitrate $outputFile_esc 2>&1";
+      $command = "$ffmpegPath -i $video -b:v $bitrate -bufsize $bitrate $outputFile_esc 2>&1";
       exec($command, $output, $returnCode);
-      if ($returnCode === 0) {
+      if($returnCode === 0) {
         $filelist[] = "<p class='text-center'><video class='video_size' controls src='" . $outputFile . "' loading='lazy'></video></p>";
       } else {
         $response = ['result' => 'error', 'message' => "Error for file $key: " . implode("<br>", $output) . "<br>"];

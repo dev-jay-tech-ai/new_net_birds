@@ -63,7 +63,7 @@
     <div class="navbar-header">
       <div class="logo">
         <a href='/dashboard.php'>
-          <img class='logo_img' src='/assets/images/logo/logo_w.png' alt='logo' />
+          <img class='logo_img' src='assets/images/logo/logo_w.png' alt='logo' />
         </a>
       </div>
     </div>
@@ -75,15 +75,15 @@
         <li id="navContact"><a href="notice.php">Notice</a></li> 
       <?php
         if ($result['status'] == 1) {
-        // Display this link only when the user is not logged in
-        echo '<li id="navMember"><a href="users.php">Member</a></li>';
+        echo 
+        '<li id="navMember"><a href="users.php">Member</a></li>
+         <li id="navMember"><a href="manage.php">Manage</a></li>';
         }
       ?>
       </ul>
       <ul id="logged-in-menu" class="nav navbar-nav navbar-right">
       <?php
         if (isset($_SESSION['userId'])) {
-          // Display this link only when the user is not logged in
           echo '
             <li id="user_label" class="dropdown">
               <label for="user-control-list-check" class="dropdown-toggle" data-toggle="dropdown" id="user_dropdown" title="" role="button" data-original-title="Profile">

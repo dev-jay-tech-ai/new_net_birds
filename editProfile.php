@@ -142,7 +142,6 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		formData.append('username', userName);
 		formData.append('email', email);
 		formData.append('password', password);
-		// const compressedImage = await compressImage(fileInput.files[0]);
 		formData.append('file', fileInput.files[0]);
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', './php_action/fetchEditProfile.php', true);
@@ -168,4 +167,3 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		};
 	});
 </script>
-<script src="custom/js/function.js"></script>

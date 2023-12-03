@@ -1,8 +1,12 @@
 <?php
+$limit = 20;
+$page_limit = 10;
+$page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
+
 function my_pagination($total, $limit, $page_limit, $page, $param) {
 
   $total_page = ceil($total / $limit);
-
   $start_page = ( ( floor( ($page - 1 ) / $page_limit ) ) * $page_limit ) + 1;
   $end_page = $start_page + $page_limit -1;
 

@@ -16,6 +16,24 @@ if (isset($_FILES['files'])) {
     foreach ($_FILES['files']['tmp_name'] as $key => $temp_folder) {
       $file = $_FILES['files']['name'][$key];
       $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+      if($file_ext == '') {
+        $file_tmp = $_FILES['files']['tmp_name'][$key];
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_mime_type = finfo_file($finfo, $file_tmp);
+        finfo_close($finfo);
+        $file_ext = array_search(
+          $file_mime_type,
+          [
+            'jpg' => 'image/jpeg',         
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'jpeg' => 'image/jpeg',
+            'mov' => 'video/quicktime',
+            'mp4' => 'video/mp4',
+          ],
+          true
+        );
+      }
       $file_size = $_FILES['files']['size'][$key];
       // Check file size
       if ($file_size > $maxFileSize) {
@@ -34,7 +52,6 @@ if (isset($_FILES['files'])) {
               $filelist[] = "<p class='text-center'><img src='" . $folder . $uniqueFilename . "' style='width: 100%; height: auto;' loading='lazy' /></p>";
           }
       } else {
-       //  $response = ['result' => 'error', 'message' => 'Error moving file ' . $file . '. Error code: ' . $_FILES['files']['error'][$key]];
         $response = ['result' => 'error', 'message' => 'Error moving file ' . $file . '. Error code: ' . $temp_folder . $folder ];
           break;
       }
