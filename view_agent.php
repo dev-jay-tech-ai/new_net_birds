@@ -4,9 +4,6 @@
 	include 'component/pagination.php'; 
 	include 'component/config.php'; 
 
-  error_reporting(E_ALL); 
-  ini_set('display_errors', '1'); 
-
 	if(isset($_SESSION['userId'])) {
     $user_id = $_SESSION['userId'];
     $sql = "SELECT * FROM users WHERE user_id = {$user_id}";

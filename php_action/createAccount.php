@@ -1,44 +1,31 @@
 <?php
 require_once 'core.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-$valid = ['success' => false, 'messages' => []];
-
+$response = ['success' => false, 'messages' => []];
 if ($_POST) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-
-    // Validate the form data - ensure username and password are not empty
     if (empty($username) || empty($email) || empty($password)) {
-        $valid['messages'] = "Username, email and Password are required.";
+        $response['messages'] = "Username, email and Password are required.";
     } else {
-        // Hash the password (for better security, do not store passwords in plain text)
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Prepare the SQL statement
-        $sql = "INSERT INTO users (username, password, user_image, email, active, status) VALUES (?, ?, '', ?, 2, 2)";
+        $sql = "INSERT INTO users (username, password, user_image, email, active, status, ip, rdate) VALUES (?, ?, '', ?, 2, 2, ?, NOW())";
+        $ip = $_SERVER['REMOTE_ADDR'];
         $stmt = $connect->prepare($sql);
-
         if ($stmt) {
-            // You need to bind three parameters, not two
-            $stmt->bind_param("sss", $username, $hashedPassword, $email); // Bind the parameters
-
+            $stmt->bind_param("ssss", $username, $hashedPassword, $email, $ip); // Bind the parameters
             if ($stmt->execute()) {
-                $valid['success'] = true;
-                $valid['messages'] = "Successfully Added";
+                $response['success'] = true;
+                $response['messages'] = "Successfully Added";
             } else {
-                $valid['messages'] = "Error while adding the member: " . $stmt->error;
+                $response['messages'] = "Error while adding the member: " . $stmt->error;
             }
         } else {
-            $valid['messages'] = "Failed to prepare the SQL statement";
+            $response['messages'] = "Failed to prepare the SQL statement";
         }
     }
-
     $connect->close();
-
-    echo json_encode($valid);
+    echo json_encode($response);
 }
 ?>

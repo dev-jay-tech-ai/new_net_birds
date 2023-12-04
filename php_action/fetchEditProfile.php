@@ -1,7 +1,7 @@
 <?php
 require_once 'core.php';
 
-$valid = ['success' => false, 'messages' => []];
+$response = ['success' => false, 'messages' => []];
 if ($_POST) {
     $extensions = array('jpg', 'png', 'gif', 'jpeg');
     $maxFileSize = 4 * 1024 * 1024; // 4 MB
@@ -35,22 +35,22 @@ if ($_POST) {
         $file_size = $_FILES['file']['size'];
         $maxFileSize = 40 * 1024 * 1024;
         if($file_size > $maxFileSize) {
-            $valid['messages'] = 'File size exceeds the allowed limit.';
+            $response['messages'] = 'File size exceeds the allowed limit.';
         } elseif (!in_array($file_ext, $extensions)) {
-            $valid['messages'] = 'Invalid file extension.' . $file_ext;
+            $response['messages'] = 'Invalid file extension.' . $file_ext;
         } else {
             $uniqueFilename = date('YmdHis') . '_' . uniqid() . '.' . $file_ext;
             $destination = $folder . $uniqueFilename;
             if (move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
                 $filelist = $destination;
-                $valid['messages'] = 'File uploaded successfully.';
+                $response['messages'] = 'File uploaded successfully.';
             } else {
-                $valid['messages'] = 'Error moving the uploaded file';
+                $response['messages'] = 'Error moving the uploaded file';
             }
         }
     } 
     if (empty($username) || empty($email) || empty($password)) {
-        $valid['messages'] = "Username, email and Password are required.";
+        $response['messages'] = "Username, email and Password are required.";
     } else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $sql = 'UPDATE users SET username=?, password=?, email=?, user_image=? WHERE user_id=?';
@@ -58,17 +58,17 @@ if ($_POST) {
         if($stmt) {
             $stmt->bind_param("ssssi", $username, $hashedPassword, $email, $filelist, $user_id);
             if ($stmt->execute()) {
-                $valid['success'] = true;
-                $valid['messages'] = "Successfully Edited";
+                $response['success'] = true;
+                $response['messages'] = "Successfully Edited";
             } else {
-                $valid['messages'] = "Error while editing: " . $stmt->error;
+                $response['messages'] = "Error while editing: " . $stmt->error;
             }
         } else {
-            $valid['messages'] = "Failed to prepare the SQL statement";
+            $response['messages'] = "Failed to prepare the SQL statement";
         }
     }
 
     $connect->close();
-    echo json_encode($valid);
+    echo json_encode($response);
 }
 ?>

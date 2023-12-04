@@ -19,6 +19,11 @@
     exit('Not allow to the abnormal access');
   }
 
+	$sql = "UPDATE rboard SET hit=hit+1 WHERE idx=?";
+	$stmt = $connect->prepare($sql);
+	$stmt->bind_param('i', $idx);
+	$stmt->execute();
+
   $sql = "SELECT * FROM rboard WHERE idx=?";
   $stmt = $connect->prepare($sql);
   $stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)
@@ -51,7 +56,7 @@
 				</div>
 				<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
 					<span class='fs-12'><?= $row['name'] ?></span>
-					<span class='ms-5 me-auto fs-12'></span>
+					<span class='ms-5 me-auto fs-12'><?= $row['hit'] ?></span>
 					<span class='rdate'><?= $row['rdate'] ?></span>
 				</div>
 				<div id='bbs_content' class='p-3'>

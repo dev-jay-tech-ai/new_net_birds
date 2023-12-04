@@ -1,5 +1,7 @@
 <?php
 require_once 'core.php';
+require 'vendor/autoload.php';
+
 $response = [];
 $extensions = array('jpg', 'png', 'gif', 'jpeg', 'mov', 'mp4');
 $maxFileSize = 40 * 1024 * 1024; // 40 MB 이미지 용량
@@ -56,8 +58,21 @@ if (isset($_FILES['files'])) {
       $bitrate = escapeshellarg($bitrate);
       $outputFile = $outputDirectory . date('YmdHis') . '_' . uniqid() . '.' . $file_ext;
       $outputFile_esc = escapeshellarg($outputFile);
-      $command = "$ffmpegPath -i $video -b:v $bitrate -bufsize $bitrate $outputFile_esc 2>&1";
-      exec($command, $output, $returnCode);
+
+      // $command = "$ffmpegPath -i $video -b:v $bitrate -bufsize $bitrate $outputFile_esc 2>&1";
+      // exec($command, $output, $returnCode);
+      $percentage = 10%;
+      $format = new FFMpeg\Format\Video\X264();
+      $format->on('progress', function ($video, $format, $percentage) {
+          echo "$percentage % transcoded";
+      });
+      $format
+          ->setKiloBitrate(1000)
+          ->setAudioChannels(2)
+          ->setAudioKiloBitrate(256);
+      
+      $video->save($format, $outputFile_esc);
+
       if($returnCode === 0) {
         $filelist[] = "<p class='text-center'><video class='video_size' controls src='" . $outputFile . "' loading='lazy'></video></p>";
       } else {

@@ -2,6 +2,30 @@
 require_once 'php_action/core.php';
 require_once 'includes/header.php'; 
 require_once 'component/auth_session.php'; 
+include 'component/pagination.php'; 
+
+$sqlCount = "SELECT COUNT(*) as cnt FROM users";
+$stmtCount = $connect->prepare($sqlCount);
+if ($stmtCount) {
+	$stmtCount->execute();
+	$resultCount = $stmtCount->get_result();
+	$row = $resultCount->fetch_assoc();
+	$total = $row['cnt'];
+} else {
+	die($connect->error);
+}
+
+$sqlData = "SELECT * FROM users ORDER BY user_id DESC LIMIT $start, $limit";
+$stmtData = $connect->prepare($sqlData);
+if($stmtData) {
+	$stmtData->execute();
+	$resultData = $stmtData->get_result();
+	$rs = [];
+	while ($row = $resultData->fetch_assoc()) {
+		$rs[] = $row;
+	}
+} else die($connect->error);
+
 ?>
 
 <div class="container">
@@ -12,11 +36,15 @@ require_once 'component/auth_session.php';
 		  <li class="active">Users</li>
 		</ol>
 		<div class="div-action pull pull-right" style="padding-bottom:20px;">
-			<button class="btn btn-primary" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal">Add User</button>
+			<button class="btn btn-primary" data-toggle="modal" id="addUsertModalBtn" data-target="#addUserModal">Add User</button>
+			<button id='btn-delete' class="btn btn-secondary">Delete</button>
 		</div> <!-- /div-action -->		
-		<table class="table mb-4" id="manageProductTable">
-			<thead>
+		<div style='width: 100%; overflow: scroll;'>
+			<table class='table table-bordered table-hover'>
+			<thead class='text-bg-primary text-center'>
 				<tr>
+					<th class='text-center'></th>
+					<th></th>							
 					<th style="width:5%;">Profile</th>							
 					<th>Name</th>
 					<th>Email</th>
@@ -24,76 +52,73 @@ require_once 'component/auth_session.php';
 					<th>Status</th>
 					<th>Credit</th>
 					<th>Registered</th>
+					<th>IP</th>
 					<th style="width:10%;">Options</th>
 				</tr>
 			</thead>
-		</table><!-- /table -->
+			<?php 
+				$totalRows = count($rs);
+				$activeRowCount = ($page - 1) * $limit;
+				foreach ($rs as $i => $row) {
+					$activeRowCount++;
+				?>
+				<tr class='view_detail us-cursor' data-idx='<?= $row['user_id']; ?>' data-code='<?= $code ?>'>
+					<td class='text-center'><input class='_checkbox form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>
+					<td class='text-center'><?= $activeRowCount; ?></td>
+					<td><div class='board_profile'>
+					<?php if ($row['user_image'] !== '' && $row['user_image'] !== NULL): ?>
+						<img src='<?= $row['user_image'] ?>' alt='profile image' />
+					<?php endif; ?>
+					</div></td>
+					<td><?= $row['username']; ?></td>
+					<td><?= $row['email']; ?></td>
+					<td class='text-center'>
+					<?php 
+						if($row['active'] === 1) {
+							echo "<label class='label label-primary'>paid</label>";
+						} else {
+							echo "<label class='label label-warning'>unpaid</label>";
+						}; 
+					?>
+					</td>
+					<td class='text-center'>
+					<?php 
+						if($row['status'] === 1) {
+							echo "<label class='label label-danger'>admin</label>";
+						} else {
+							echo "<label class='label label-success'>guest</label>";
+						}; 
+					?>
+					</td>
+					<td class='text-center'><?= $row['credit']; ?></td>
+					<td class='rdate text-center'><?= $row['rdate'] ?></td>
+					<td class='rdate text-center'><?= $row['ip']; ?></td>
+					<td class='text-center'>
+						<div class="btn-group">
+						<button class="btn btn-primary" data-toggle="modal" id="editUserModalBtn" data-target="#editUserModal">Edit</button>
+						<button class="btn btn-secondary" >Delete</button>
+						</div>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+			</table><!-- /table -->
+		</div>
 	</div> <!-- /col-md-12 -->
+	<div class="mt-3 d-flex gap-2 justify-content-center">
+		<?php 
+			$param = '&code='.$code;
+			$rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
+			echo $rs_str;
+		?> 
+		</div>
 </div> <!-- /row -->
 </div>
-<!-- add user -->
-<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    	<form class="form-horizontal" id="submitProductForm" action="php_action/createReview.php" method="POST" enctype="multipart/form-data">
-	      <div class="modal-header">
-					<h5 class="modal-title">Add User</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	      </div>
-	      <div class="modal-body" style="max-height:450px; overflow:auto;">
-	      	<div id="add-product-messages"></div>
-	      	<div class="form-group">
-				    <div class="col-sm-8">
-					    <!-- the avatar markup -->
-							<div id="kv-avatar-errors-1" class="center-block" style="display:none;"></div>							
-					    <div class="kv-avatar center-block">					        
-					        <input type="file" class="form-control" id="productImage" placeholder="Product Name" name="productImage" class="file-loading" style="width:auto;"/>
-					    </div>			      
-				    </div>
-	        </div> <!-- /form-group-->	     	           	       
-	        <div class="form-group">
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="productName" placeholder="Product Name" name="Username" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	    
-					<div class="form-group">  
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="productName" placeholder="User email" name="email" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	    
-	        <div class="form-group">
-				    <div class="col-sm-8">
-				      <select class="form-control" id="productStatus" name="productStatus">
-				      	<option value="-1">Select</option>
-				      	<option value="1">Paid</option>
-				      	<option value="2">Unpaid</option>
-				      </select>
-				    </div>
-	        </div> <!-- /form-group-->	
-					<div class="form-group">
-				    <div class="col-sm-8">
-				      <select class="form-control" id="productStatus" name="productStatus">
-				      	<option value="-1">Select</option>
-				      	<option value="1">Admin</option>
-				      	<option value="2">Guest</option>
-				      </select>
-				    </div>
-	        </div> <!-- /form-group-->
-					<div class="form-group">  
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="productName" placeholder="Credit" name="credit" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	 	         	        
-	      </div> <!-- /modal-body -->
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="submit" class="btn btn-primary" id="createProductBtn" data-loading-text="Loading..." autocomplete="off">Save Changes</button>
-	      </div> <!-- /modal-footer -->	      
-     	</form> <!-- /.form -->	     
-    </div> <!-- /modal-content -->    
-  </div> <!-- /modal-dailog -->
+
+<?php include 'component/modal_edituser.php'; ?>
+<?php include 'component/modal_adduser.php'; ?>
+
 </div> 
-
-
-<script src="custom/js/users.js"></script>
+<script src='/custom/js/admin.js?v=<?php echo time(); ?>'></script> 
 <?php require_once 'includes/footer.php'; ?>

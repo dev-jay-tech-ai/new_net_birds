@@ -23,10 +23,6 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/07903077e4.js" crossorigin="anonymous"></script>
-
-    <!-- DataTables -->
-    <link rel="stylesheet" href="assets/plugins/datatables/jquery.dataTables.min.css">
-
     <!-- file input -->
     <link rel="stylesheet" href="assets/plugins/fileinput/css/fileinput.min.css">
 

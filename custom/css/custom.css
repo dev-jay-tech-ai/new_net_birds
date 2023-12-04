@@ -409,7 +409,7 @@ footer .copyright {
 }
 
 .rdate {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .rate {
@@ -666,4 +666,16 @@ button.close {
   font-weight: 700;
   font-size: 10px;
   padding: 0.2em 0.6em 0.3em;
+}
+
+.btn-group-vertical>.btn, .btn-group>.btn {
+  font-size: 12px;
+  padding: .5px 2px;
+}
+
+.title {
+  overflow: hidden;  	
+  text-overflow: ellipsis; 
+  white-space: nowrap; 	
+  word-break: break-all;
 }

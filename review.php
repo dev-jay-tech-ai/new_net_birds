@@ -5,31 +5,37 @@
 	include 'component/config.php';
 	include 'component/popup.php';  
 
-  // Query to get total count
-  $sqlCount = "SELECT COUNT(*) as cnt FROM rboard";
-  $stmtCount = $connect->prepare($sqlCount);
-  if ($stmtCount) {
+	$sqlCount = "SELECT COUNT(*) as cnt FROM rboard";
+	if (!(isset($_SESSION['userId']) && $result['status'] == 1)) {
+		$sqlCount .= " WHERE active = 1";
+	}
+	$stmtCount = $connect->prepare($sqlCount);
+	if ($stmtCount) {
 		$stmtCount->execute();
-		// Get the result set
 		$resultCount = $stmtCount->get_result();
 		$row = $resultCount->fetch_assoc();
 		$total = $row['cnt'];
-  } else {
-    die($connect->error);
-  }
-
-  $sqlData = "SELECT a.*, u.user_image FROM rboard a LEFT JOIN users u ON a.user_id = u.user_id ORDER BY idx DESC LIMIT $start, $limit";
-  $stmtData = $connect->prepare($sqlData);
-  if($stmtData) {
+	} else {
+		die($connect->error);
+	}
+	
+	$sqlData = "SELECT a.*, u.user_image FROM rboard a LEFT JOIN users u ON a.user_id = u.user_id";
+	if (!(isset($_SESSION['userId']) && $result['status'] == 1)) {
+		$sqlData .= " WHERE a.active = 1";
+	}
+	$sqlData .= " ORDER BY a.idx DESC LIMIT $start, $limit";
+	$stmtData = $connect->prepare($sqlData);
+	if ($stmtData) {
 		$stmtData->execute();
 		$resultData = $stmtData->get_result();
 		$rs = [];
 		while ($row = $resultData->fetch_assoc()) {
-			$rs[] = $row;
+				$rs[] = $row;
 		}
-  } else {
-		die($connect->error);
-  }
+	} else {
+			die($connect->error);
+	}
+	
 
 	$totalRows = count($rs);
 	$activeRowCount = ($page - 1) * $limit;
@@ -66,7 +72,7 @@
 				if($result['status'] == 1) {
 					echo "<div class='d-flex gap-2 justify-content-end'>
 					<button id='btn-write' class='btn btn-primary'>Write</button>
-					<button id='btn-write' class='btn btn-secondary'>Delete</button>
+					<button id='btn-delete' class='btn btn-secondary'>Delete</button>
 					</div>";		
 				} else {
 					echo "<div class='d-flex justify-content-end mb-3'>
@@ -85,14 +91,18 @@
 							echo "
 							<col width='4%' />
 							<col width='6%' />
-							<col width='50%' />
-							<col width='10%' />
-							<col width='10%' />
-							<col width='10%' />";		
+							<col width='20%' />
+							<col width='5%' />
+							<col width='5%' />
+							<col width='10%' />    
+							<col width='10%' />    
+							<col width='5%' />    
+							<col width='15%' />";
 						} else {
 							echo "
 							<col width='7%' />
-							<col width='63%' />
+							<col width='53%' />
+							<col width='10%' />
 							<col width='10%' />
 							<col width='10%' />
 							<col width='10%' />";
@@ -109,24 +119,35 @@
 							<th class='text-center'></th>
 							<th class='text-center'>Title</th>
 							<th class='text-center'>User</th>
+							<th class='text-center'>Views</th>
 							<th class='text-center'>Rate</th>
+							<?php 
+								if(isset($_SESSION['userId']) && $result['status'] == 1) {
+									echo "<th class='text-center'>Active</th>";		
+								} 
+							?>
 							<th class='text-center'>Date</th>
+							<?php 
+								if(isset($_SESSION['userId']) && $result['status'] == 1) {
+									echo "<th class='text-center'></th>";		
+								} 
+							?>
 						</tr>
 					</thead>
 					<?php 
 					foreach($rs as $i => $row) { 
-					if ($row['active'] == 1) {
 						$activeRowCount++;
 					?>
 					<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>'>
 						<?php 
 							if(isset($_SESSION['userId']) && $result['status'] == 1) {
-									echo "<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
+									echo "<td class='_checkbox text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
 							} 
 						?>
 						<td class='text-center'><?= $activeRowCount ?></td>
-						<td><?= $row['subject']; ?></td>
+						<td class='title'><?= $row['subject']; ?></td>
 						<td class='text-center'><?= $row['name']; ?></td>
+						<td class='text-center'><?= $row['hit']; ?></td>
 						<td class='text-center rate'>
 						<?php
 							$rating = $row['rate'];
@@ -136,11 +157,43 @@
 							}
 						?>
 						</td>
-						<td class='text-center rdate'><?= substr($row['rdate'], 0, 10); ?></td>
+						<?php
+						if(isset($_SESSION['userId']) && $result['status'] == 1) {
+							echo "<td class='text-center'>";
+							if($row['active'] == 1) {
+								echo "<label class='label label-success'>active</label>";
+							} else {
+								echo "<label class='label label-danger'>deactive</label>";
+							}
+							echo "</td>";
+						}
+						?>
+						<td class='rdate text-center'>
+						<?php
+						if (isset($_SESSION['userId']) && $result['status'] == 1) {
+								echo $row['rdate'];
+						} else {
+								echo substr($row['rdate'], 0, 10);
+						}
+						?>
+						</td>
+						<?php
+						if (isset($_SESSION['userId']) && $result['status'] == 1) {
+							echo "<td class='text-center'>
+							<button class='btn-deactivate btn btn-secondary btn-small' data-idx='{$row['idx']}_{$row['active']}'>";
+							if ($row['active'] == 1) {
+								echo "deactivate";
+							} else {
+								echo "activate";
+							}
+							echo "</button>
+							<button class='btn-delete btn btn-primary btn-small' data-idx='{$row['idx']}'>Delete</button>
+							</td>";
+						}
+						?>
 						</tr>
 					<?php
-							} // End of if ($row['active'] == 1)
-						} // End of foreach
+					} // End of if ($row['active'] == 1)
 					?>
 				</table>  
 				<?php include 'board_m.php';?>  
@@ -160,8 +213,12 @@
 				echo "});";
 				echo "const view_detail = document.querySelectorAll('.view_detail');";
 				echo "view_detail.forEach((box) => {";
-				echo "box.addEventListener('click', () => {";
-				echo "self.location.href='./view_review.php?idx=' + box.dataset.idx";
+				echo "box.addEventListener('click', (e) => {";
+				echo "const isCheckbox = e.target.type === 'checkbox';";
+				echo "const checkboxCell = box.querySelector('._checkbox');";
+				echo "if(!(e.target.type === 'checkbox' || (checkboxCell && checkboxCell.contains(e.target)))) {";
+				echo "self.location.href='./view_review.php?idx=' + box.dataset.idx;";
+				echo "};";
 				echo "});";
 				echo "});";
 			// } 
@@ -171,4 +228,5 @@
 	</div> <!-- /row -->
 </div>
 <script src="custom/js/review.js"></script>
+<script src='/custom/js/admin.js?v=<?php echo time(); ?>'></script> 
 <?php require_once 'includes/footer.php'; ?>
