@@ -674,8 +674,14 @@ button.close {
 }
 
 .title {
+  max-width: 400px;
   overflow: hidden;  	
   text-overflow: ellipsis; 
   white-space: nowrap; 	
   word-break: break-all;
+}
+
+.scroll {
+  width: 100%; 
+  overflow: auto;
 }

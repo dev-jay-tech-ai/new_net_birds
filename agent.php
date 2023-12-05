@@ -59,20 +59,26 @@
 			include 'component/content_login.php'; 
 			?>
 			</div>
-			<div class="mb-2">
-				<table class='table table-bordered table-hover desktop'>
+			<div class="scroll mb-2">
+				<table class='table table-bordered table-hover 
+				<?php 
+					if (!(isset($_SESSION['userId']) && $result['status'] == 1)) {
+						echo 'desktop';
+					}
+				?>
+				'>
 					<colgroup>
 						<?php 
 							if(isset($_SESSION['userId']) && $result['status'] == 1) {
 								echo "
 								<col width='4%' />
 								<col width='6%' />
-								<col width='30%' />
+								<col width='40%' />
 								<col width='10%' />
 								<col width='5%' />
+								<col width='5%' />		
 								<col width='10%' />		
-								<col width='10%' />		
-								<col width='15%' />";	
+								<col width='10%' />";	
 							} else {
 								echo "
 								<col width='7%' />
@@ -120,8 +126,8 @@
 							}
 							?>
 							<td class='text-center'><?= $activeRowCount; ?></td>
-							<td class='title'><?= $row['subject']; ?></td>
-							<td class='title text-center'><?= $row['name']; ?></td>
+							<td class='title text-over'><?= $row['subject']; ?></td>
+							<td class='text-center'><?= $row['name']; ?></td>
 							<td class='text-center'><?= $row['hit']; ?></td>
 							<?php
 						if(isset($_SESSION['userId']) && $result['status'] == 1) {
@@ -146,14 +152,16 @@
 							<?php
 							if(isset($_SESSION['userId']) && $result['status'] == 1) {
 								echo "<td class='text-center'>
-								<button class='btn-deactivate btn btn-secondary btn-small' data-idx='{$row['idx']}_{$row['active']}'>";
+								<div class='btn-group'>
+								<button class='btn-deactivate btn btn-secondary me-1' data-idx='{$row['idx']}_{$row['active']}'>";
 								if ($row['active'] == 1) {
-									echo "deactivate";
+									echo "Hide";
 								} else {
-									echo "activate";
+									echo "Show";
 								}
 								echo "</button>
-								<button class='btn-delete btn btn-primary btn-small' data-idx='{$row['idx']}'>Delete</button>
+								<button class='btn-delete btn btn-primary' data-idx='{$row['idx']}'>Delete</button>
+								</div>
 								</td>";
 							}
 							?>
@@ -162,7 +170,11 @@
 						}
 					?>
 				</table>  
-				<?php include 'board_m.php';?>
+				<?php 
+					if (!(isset($_SESSION['userId']) && $result['status'] == 1)) {
+						include 'board_m.php';
+					}
+				?>
 			</div>
 			<div class="mt-3 d-flex gap-2 justify-content-center">
 			<?php 

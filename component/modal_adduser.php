@@ -15,7 +15,7 @@ echo'
 					    <!-- the avatar markup -->
 							<div id="kv-avatar-errors-1" class="center-block" style="display:none;"></div>							
 					    <div class="kv-avatar center-block">					        
-					        <input type="file" class="form-control" placeholder="Profile" name="file" class="file-loading" accept="image/*" />
+					      <input type="file" class="form-control" placeholder="Profile" name="file" class="file-loading" accept="image/*" />
 					    </div>			      
 				    </div>
 	        </div> <!-- /form-group-->	     	           	       
@@ -31,12 +31,12 @@ echo'
 	        </div> <!-- /form-group-->	 
 					<div class="form-group">
 						<div class="col-sm-8">
-            	<input type="password" class="form-control" placeholder="Enter Password" name="password">
+            	<input type="password" class="form-control" placeholder="Enter Password" name="password" autocomplete=new-password>
 						</div>
           </div>
           <div class="form-group">
 						<div class="col-sm-8">
-            	<input type="password" class="form-control" placeholder="Confirm Password" name="passwordConfirm">
+            	<input type="password" class="form-control" placeholder="Confirm Password" name="passwordConfirm" autocomplete=new-password>
             </div>
           </div>   
 	        <div class="form-group">
@@ -67,7 +67,7 @@ echo'
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	        <button type="submit" class="btn btn-primary" id="createUserBtn" data-loading-text="Loading..." autocomplete="off">Add user</button>
 	      </div> <!-- /modal-footer -->	      
-     	</form> <!-- /.form -->	     
+     	</form> <!-- /form -->	     
     </div> <!-- /modal-content -->    
-  </div> <!-- /modal-dailog -->';
+  </div>';
 ?>

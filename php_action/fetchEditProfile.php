@@ -15,7 +15,7 @@ if ($_POST) {
         $file = $_FILES['file']['name'];
         $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if($file_ext == '') {
-            $file_tmp = $_FILES['files']['tmp_name'][$key];
+            $file_tmp = $_FILES['file']['tmp_name'];
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $file_mime_type = finfo_file($finfo, $file_tmp);
             finfo_close($finfo);

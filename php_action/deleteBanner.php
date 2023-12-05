@@ -4,7 +4,7 @@ require_once 'core.php';
 $jsonData = file_get_contents('php://input');
 $data = json_decode($jsonData, true);
 
-if (isset($data['idx'])) {
+if(isset($data['idx'])) {
     $idx = $data['idx'];
     $sql = "DELETE FROM banners WHERE idx = ?";
     $stmt = $connect->prepare($sql);

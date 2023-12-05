@@ -25,7 +25,6 @@ if($stmtData) {
 		$rs[] = $row;
 	}
 } else die($connect->error);
-
 ?>
 
 <div class="container">
@@ -36,10 +35,10 @@ if($stmtData) {
 		  <li class="active">Users</li>
 		</ol>
 		<div class="div-action pull pull-right" style="padding-bottom:20px;">
-			<button class="btn btn-primary" data-toggle="modal" id="addUsertModalBtn" data-target="#addUserModal">Add User</button>
+			<button class="btn btn-primary" data-toggle="modal" id="addUserModalBtn" data-target="#addUserModal">Add User</button>
 			<button id='btn-delete' class="btn btn-secondary">Delete</button>
 		</div> <!-- /div-action -->		
-		<div style='width: 100%; overflow: scroll;'>
+		<div class='scroll'>
 			<table class='table table-bordered table-hover'>
 			<thead class='text-bg-primary text-center'>
 				<tr>
@@ -95,8 +94,8 @@ if($stmtData) {
 					<td class='rdate text-center'><?= $row['ip']; ?></td>
 					<td class='text-center'>
 						<div class="btn-group">
-						<button class="btn btn-primary" data-toggle="modal" id="editUserModalBtn" data-target="#editUserModal">Edit</button>
-						<button class="btn btn-secondary" >Delete</button>
+							<button type='button' class="btn btn-primary me-1 editUserModalBtn" data-user-id="<?= $row['user_id'] ?>">Edit</button>
+							<button class="btn btn-secondary btn_delete_user" data-user-id="<?= $row['user_id'] ?>">Delete</button>
 						</div>
 					</td>
 				</tr>
@@ -116,7 +115,27 @@ if($stmtData) {
 </div> <!-- /row -->
 </div>
 
-<?php include 'component/modal_edituser.php'; ?>
+<div class="modal" id="editUserModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="submitEditForm" action="php_action/fetchEditUser.php" method="POST" enctype="multipart/form-data">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit User</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body" style="max-height:450px; overflow:auto;">
+					<div class='view-user-data'></div>
+				</div> <!-- /modal-body -->
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" id="editUserBtn" data-loading-text="Loading..." autocomplete="off">Edit</button>
+			</div> <!-- /modal-footer -->
+			</form> <!-- /.form -->
+		</div> <!-- /modal-content -->
+	</div> <!-- /modal-dialog -->
+</div>
+
+
 <?php include 'component/modal_adduser.php'; ?>
 
 </div> 

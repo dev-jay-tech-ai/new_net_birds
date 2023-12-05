@@ -22,7 +22,7 @@ if (isset($data['idx'])) {
     $stmt->bind_param('i', $idx);
     if ($stmt->execute()) {
         $stmt->close();
-        echo json_encode(['result' => 'success', 'message' => 'Your banner status updated successfully.']);
+        echo json_encode(['result' => 'success', 'message' => 'Your status updated successfully.']);
     } else {
         echo json_encode(['result' => 'error', 'message' => 'Error']);
     }

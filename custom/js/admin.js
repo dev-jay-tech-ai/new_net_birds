@@ -3,9 +3,34 @@ const url = window.location.href;
 const regex = /\/([^\/]+)\.php/;
 const match = url.match(regex);
 const board = match[1];
-
 const btnDelete = document.querySelector('#btn-delete');
 const checkboxes = document.querySelectorAll('.form-check-input');
+const editButtons = document.querySelectorAll('.editUserModalBtn');
+const editUserModal = document.getElementById('editUserModal');
+const closeModalButtons = $('[data-dismiss="modal"]');
+
+closeModalButtons && closeModalButtons.click(function () {
+  $('#editUserModal').modal('hide');
+});
+
+editButtons && editButtons.forEach(function (button) {
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
+    const userId = button.dataset.userId;
+    $.ajax({ //create an ajax request to display.php
+      type: "POST",
+      url: "php_action/fetchUser.php",
+      data: {
+        'user_id' : userId
+      },          
+      success: function (response) {
+        // console.log(response);
+        $('.view-user-data').html(response);
+        $('#editUserModal').modal('show');
+      }
+    });
+  });
+});
 
 btnDelete && btnDelete.addEventListener('click', function () {
   const selectedItems = [];
@@ -36,20 +61,35 @@ btnDelete && btnDelete.addEventListener('click', function () {
   }
 });
 
-checkboxes.forEach((checkbox) => {
+checkboxes && checkboxes.forEach((checkbox) => {
   checkbox.addEventListener('change', (e) => {
     if (e.target.checked) {
       const idx = checkbox.closest('tr').dataset.idx;
-      // Do something with the idx, for example, log it to the console
-      console.log('Checkbox checked with idx:', idx);
     }
   });
+});
+
+let user_id;
+const btn_delete_user = document.querySelectorAll('.btn_delete_user');
+btn_delete_user && btn_delete_user.forEach(button => {
+	button.addEventListener('click', async (e) => {
+		e.preventDefault();
+		user_id = button.getAttribute('data-user-id');
+		xhr.open('POST', './php_action/deleteUser.php', true); 
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(JSON.stringify({ user_id }));
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === XMLHttpRequest.DONE) {
+				handleResponse(xhr, 'users', 'deleted');
+			}
+		};
+	});
 });
 
 let idx;
 const btn_deactivate = document.querySelectorAll('.btn-deactivate');
 const btn_delete = document.querySelectorAll('.btn-delete');
-btn_deactivate.forEach(button => {
+btn_deactivate && btn_deactivate.forEach(button => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
 		idx = button.getAttribute('data-idx');
@@ -64,11 +104,11 @@ btn_deactivate.forEach(button => {
 	});
 });
 
-btn_delete.forEach(button => {
+btn_delete && btn_delete.forEach(button => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
-		idx = parseInt(button.getAttribute('data-idx'));
-		xhr.open('POST', './php_action/deleteBoardSingle.php', true);
+		idx = button.getAttribute('data-idx');
+		xhr.open('POST', './php_action/deleteBoardSingle.php', true); 
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.send(JSON.stringify({ idx, board }));
 		xhr.onreadystatechange = function () {
@@ -84,10 +124,10 @@ function handleResponse(xhr, board, action) {
     try {
     const data = JSON.parse(xhr.responseText);
     if (data.result == 'success') {
-      alert(`Data ${action} successfully!`);
+      alert(`Data changed successfully!`);
       self.location.href = `/${board}.php`;
     } else {
-      alert(`Failed to ${action}: ${data.message}`);
+      alert(`Failed to : ${data.message}`);
     }
     } catch (error) {
       console.error('Error parsing JSON:', error);

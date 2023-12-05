@@ -23,9 +23,6 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/07903077e4.js" crossorigin="anonymous"></script>
-    <!-- file input -->
-    <link rel="stylesheet" href="assets/plugins/fileinput/css/fileinput.min.css">
-
     <!-- jquery -->
     <script src="assets/jquery/jquery.min.js"></script>
     <!-- jquery ui -->  
@@ -43,14 +40,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/copperplate" rel="stylesheet">
 
-    <!-- include summernote css/js-->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    <script src="https://app.enzuzo.com/apps/enzuzo/static/js/__enzuzo-cookiebar.js?uuid=106ed868-8917-11ee-958e-5fed1e6d4d07"></script>
-   
     <!-- Include image-compressor.js -->
     <script src="assets/plugins/compressor.js"></script>
-
   </head>
 <body class='d-flex flex-column min-vh-100'>
 	<nav class="navbar navbar-static-top">
