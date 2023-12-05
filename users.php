@@ -118,7 +118,7 @@ if($stmtData) {
 <div class="modal" id="editUserModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form class="form-horizontal" id="submitEditForm" action="php_action/fetchEditUser.php" method="POST" enctype="multipart/form-data">
+			<form class="form-horizontal" id="submitEditForm" enctype="multipart/form-data">
 				<div class="modal-header">
 					<h5 class="modal-title">Edit User</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

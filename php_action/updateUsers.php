@@ -34,9 +34,9 @@ if($_POST) {
     $file_size = $_FILES['file']['size'];
     $maxFileSize = 40 * 1024 * 1024;
     if($file_size > $maxFileSize) {
-        $response['messages'] = 'File size exceeds the allowed limit.';
+        $response['message'] = 'File size exceeds the allowed limit.';
     } elseif (!in_array($file_ext, $extensions)) {
-        $response['messages'] = 'Invalid file extension.' . $file_ext;
+        $response['message'] = 'Invalid file extension.' . $file_ext;
     } else {
       $uniqueFilename = date('YmdHis') . '_' . uniqid() . '.' . $file_ext;
       $destination = $folder . $uniqueFilename;
@@ -67,9 +67,10 @@ if($_POST) {
         $response['messages'] = "Failed to prepare the SQL statement";
     }
   }
-  $connect->close();
-  json_encode($response);
-  echo "<script>window.location.href='/users.php';</script>";
-  exit();
 }
+
+$connect->close();
+$j = json_encode($response);
+die($j);
+
 ?>

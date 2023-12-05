@@ -8,6 +8,111 @@ const checkboxes = document.querySelectorAll('.form-check-input');
 const editButtons = document.querySelectorAll('.editUserModalBtn');
 const editUserModal = document.getElementById('editUserModal');
 const closeModalButtons = $('[data-dismiss="modal"]');
+const addUserBtn = document.querySelector('#addUserBtn');
+const editUserBtn = document.querySelector('#editUserBtn');
+
+/** Add user */
+addUserBtn && addUserBtn.addEventListener('click',(e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const passwordConfirm = document.getElementById('passwordConfirm').value;
+  const active = document.getElementById('active').value;
+  const status = document.getElementById('status').value;
+  const credit = document.getElementById('credit').value;
+  const fileInput = document.getElementById('fileInput');
+  if(username == "") {
+    $("#username").after('<p class="text-danger">Username field is required</p>');
+    $('#username').closest('.form-group').addClass('has-error');
+  } else {
+    $("#username").find('.text-danger').remove();
+  }
+
+  let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(email == "") {
+      $("#email").after('<p class="text-danger">Email field is required</p>');
+      $('#email').closest('.form-group').addClass('has-error');
+  } else if (!emailRegex.test(email)) {
+      $("#email").after('<p class="text-danger">Please enter a valid email address</p>');
+      $('#email').closest('.form-group').addClass('has-error');
+  } else {
+      $("#email").find('.text-danger').remove();
+  }
+
+  if(password == "") {
+    $("#password").after('<p class="text-danger">Password field is required</p>');
+    $('#password').closest('.form-group').addClass('has-error');
+  } else {
+    // remov error text field
+    $("#password").find('.text-danger').remove();  	
+  }
+
+  if(passwordConfirm == "") {
+    $("#passwordConfirm").after('<p class="text-danger">Confirm Password field is required</p>');
+    $('#passwordConfirm').closest('.form-group').addClass('has-error');
+  } else {
+    // remov error text field
+    $("#passwordConfirm").find('.text-danger').remove(); 	
+  }
+
+  if (password !== passwordConfirm) {
+    $("#passwordConfirm").after('<p class="text-danger">Passwords do not match</p>');
+    $('#passwordConfirm').closest('.form-group').addClass('has-error');
+  } else {
+    // Remove error text field
+    $("#passwordConfirm").find('.text-danger').remove();
+  }
+
+  if(username && email && password && passwordConfirm) {
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('active', active);
+    formData.append('status', status);
+    formData.append('credit', credit);
+    formData.append('file', fileInput.files[0]);
+    for (let [key, value] of formData) {
+      console.log(`${key}: ${value}`)
+      } 
+    xhr.open('POST', './php_action/createUser.php', true); 
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          handleResponse(xhr, 'users', 'added');
+      }
+    };
+    xhr.send(formData);
+  }
+});
+
+/** Edit user */
+editUserBtn && editUserBtn.addEventListener('click',(e) => {
+  e.preventDefault();
+  const user_id = document.getElementById('user_id').value;
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const active = document.getElementById('active').value;
+  const status = document.getElementById('status').value;
+  const credit = document.getElementById('credit').value;
+  const fileInput = document.getElementById('fileInput');
+
+  const formData = new FormData();
+  formData.append('user_id', user_id);
+  formData.append('username', username);
+  formData.append('email', email);
+  formData.append('active', active);
+  formData.append('status', status);
+  formData.append('credit', credit);
+  formData.append('file', fileInput.files[0]);
+  xhr.open('POST', './php_action/fetchEditUser.php', true);
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          handleResponse(xhr, 'users', 'edited');
+      }
+  };
+  xhr.send(formData);
+});
 
 closeModalButtons && closeModalButtons.click(function () {
   $('#editUserModal').modal('hide');
@@ -40,6 +145,8 @@ btnDelete && btnDelete.addEventListener('click', function () {
     }
   });
   if(selectedItems.length > 0) {
+    const confirmDelete = confirm("Are you sure you want to delete?");
+    if(!confirmDelete) return;
     const xhr = new XMLHttpRequest();
     const data = JSON.stringify({ items: selectedItems, board });
     if(board === 'users') {
@@ -74,6 +181,8 @@ const btn_delete_user = document.querySelectorAll('.btn_delete_user');
 btn_delete_user && btn_delete_user.forEach(button => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
+    const confirmDelete = confirm("Are you sure you want to delete?");
+    if(!confirmDelete) return;
 		user_id = button.getAttribute('data-user-id');
 		xhr.open('POST', './php_action/deleteUser.php', true); 
 		xhr.setRequestHeader('Content-Type', 'application/json');
@@ -92,13 +201,15 @@ const btn_delete = document.querySelectorAll('.btn-delete');
 btn_deactivate && btn_deactivate.forEach(button => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
+    const confirmDelete = confirm("Are you sure you want to delete?");
+    if(!confirmDelete) return;
 		idx = button.getAttribute('data-idx');
 		xhr.open('POST', './php_action/updateActivation.php', true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({ idx, board }));
 		xhr.onreadystatechange = function () {
 			if(xhr.readyState === XMLHttpRequest.DONE) {
-				handleResponse(xhr, board, 'deactived');
+				handleResponse(xhr, board, 'changed');
 			}
 		};
 	});
@@ -107,6 +218,8 @@ btn_deactivate && btn_deactivate.forEach(button => {
 btn_delete && btn_delete.forEach(button => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
+    const confirmDelete = confirm("Are you sure you want to delete?");
+    if(!confirmDelete) return;
 		idx = button.getAttribute('data-idx');
 		xhr.open('POST', './php_action/deleteBoardSingle.php', true); 
 		xhr.setRequestHeader('Content-Type', 'application/json');
@@ -124,7 +237,7 @@ function handleResponse(xhr, board, action) {
     try {
     const data = JSON.parse(xhr.responseText);
     if (data.result == 'success') {
-      alert(`Data changed successfully!`);
+      alert(`${action} successfully!`);
       self.location.href = `/${board}.php`;
     } else {
       alert(`Failed to : ${data.message}`);

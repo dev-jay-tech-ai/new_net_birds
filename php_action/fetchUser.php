@@ -23,24 +23,24 @@ if(isset($_POST['user_id'])) {
             <!-- the avatar markup -->
             <div id="kv-avatar-errors-1" class="center-block" style="display:none;"></div>
             <div class="kv-avatar center-block">
-                <input type="file" class="form-control" placeholder="Profile" name="file" class="file-loading" accept="image/*" />
+                <input type="file" id="fileInput" class="form-control" placeholder="Profile" name="file" class="file-loading" accept="image/*" />
             </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-8">
-            <input type="hidden" name="user_id" value="' . $user_id . '">
-            <input type="text" class="form-control" placeholder="Username" name="username" value="' . $username . '" autocomplete="off">
+            <input type="hidden" id="user_id" name="user_id" value="' . $user_id . '">
+            <input type="text"id="username" class="form-control" placeholder="Username" name="username" value="' . $username . '" autocomplete="off">
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-8">
-            <input type="text" class="form-control" placeholder="Email" name="email" value="' . $email . '" autocomplete="off">
+            <input type="text" id="email" class="form-control" placeholder="Email" name="email" value="' . $email . '" autocomplete="off">
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-8">
-            <select class="form-control" name="active">
+            <select id="active" class="form-control" name="active">
                 <option value="-1">Select</option>
                 <option value="1" ' . ($active == 1 ? 'selected' : "") . '>Paid</option>
                 <option value="2" ' . ($active == 2 ? 'selected' : "") . '>Unpaid</option>
@@ -49,7 +49,7 @@ if(isset($_POST['user_id'])) {
     </div>
     <div class="form-group">
         <div class="col-sm-8">
-            <select class="form-control" name="status">
+            <select id="status" class="form-control" name="status">
                 <option value="-1">Select</option>
                 <option value="1" ' . ($status == 1 ? 'selected' : "") . '>Admin</option>
                 <option value="2" ' . ($status == 2 ? 'selected' : "") . '>Guest</option>
@@ -58,7 +58,7 @@ if(isset($_POST['user_id'])) {
     </div>
     <div class="form-group">
         <div class="col-sm-8">
-            <input type="text" class="form-control" id="credit" placeholder="Credit" name="credit" value="' . $credit . '" autocomplete="off">
+            <input type="text" id="credit" class="form-control" id="credit" placeholder="Credit" name="credit" value="' . $credit . '" autocomplete="off">
         </div>
     </div>
 ';
