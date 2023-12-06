@@ -201,7 +201,7 @@ const btn_delete = document.querySelectorAll('.btn-delete');
 btn_deactivate && btn_deactivate.forEach(button => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
-    const confirmDelete = confirm("Are you sure you want to delete?");
+    const confirmDelete = confirm("Are you sure you want to hide?");
     if(!confirmDelete) return;
 		idx = button.getAttribute('data-idx');
 		xhr.open('POST', './php_action/updateActivation.php', true);

@@ -43,7 +43,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 							id="email" value="<?= $result['email'] ?>" autocorrect="off" autocapitalize="off">
 						</div>
 						<div class="form-group">
-							<label for="change_password">New Password</label>
+							<label for="change_password">New password</label>
 							<input class="form-control" type="password" placeholder="new password" name="change_password" id="password" autocomplete="new-password">
 							<p id="caps-lock-warning" class="text-danger hidden">
 								<i class="fa fa-exclamation-triangle"></i> Caps Lock is enabled

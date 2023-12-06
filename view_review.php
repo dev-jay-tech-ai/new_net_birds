@@ -56,7 +56,7 @@
 				</div>
 				<div class='d-flex px-3 border border-top-0 border-start-0 border-end-0 border-bottom-1'>
 					<span class='fs-12'><?= $row['name'] ?></span>
-					<span class='ms-5 me-auto fs-12'><?= $row['hit'] ?></span>
+					<span class='ms-5 me-auto fs-12'><i class="fa-regular fa-eye"></i>&nbsp;&nbsp;<?= $row['hit'] ?></span>
 					<span class='rdate'><?= $row['rdate'] ?></span>
 				</div>
 				<div id='bbs_content' class='p-3'>
@@ -71,6 +71,9 @@
 							<button id='btn_delete' class='btn btn-danger'>Delete</button>";
 						} 
 					}?>
+				</div>
+				<div class="mt-3 mb-5 gap-1 d-flex justify-content-center">	
+					<?php include 'component/btn_prenext.php'; ?>
 				</div>
 			</div>
 		</div>

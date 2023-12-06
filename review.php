@@ -45,7 +45,7 @@
 		$locationMapping = ['london' => 0, 'manchester' => 1,'glasgow' => 2, 'nottingham' => 3, 'birmingham' => 4, 'others' => 5];
 		if(array_key_exists($locationParam, $locationMapping)) {
 			$selectedLocation = $locationMapping[$locationParam];
-			$sqlData = "SELECT * FROM rboard WHERE location = $selectedLocation ORDER BY idx DESC LIMIT $start, $limit";
+			$sqlData = "SELECT a.*, u.user_image FROM rboard a LEFT JOIN users u ON a.user_id = u.user_id WHERE location = $selectedLocation ORDER BY idx DESC LIMIT $start, $limit";
 			$stmtData = $connect->prepare($sqlData);
 			if($stmtData) {
 				$stmtData->execute();
@@ -147,7 +147,7 @@
 					<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>'>
 						<?php 
 							if(isset($_SESSION['userId']) && $result['status'] == 1) {
-									echo "<td class='_checkbox text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
+									echo "<td class='untouchable text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";		
 							} 
 						?>
 						<td class='text-center'><?= $activeRowCount ?></td>
@@ -185,7 +185,7 @@
 						</td>
 						<?php
 						if (isset($_SESSION['userId']) && $result['status'] == 1) {
-							echo "<td class='text-center'>
+							echo "<td class='untouchable text-center'>
 							<div class='btn-group'>
 							<button class='btn-deactivate btn btn-secondary me-1' data-idx='{$row['idx']}_{$row['active']}'>";
 							if ($row['active'] == 1) {
@@ -194,7 +194,7 @@
 								echo "Show";
 							}
 							echo "</button>
-							<button class='btn-delete btn btn-primary' data-idx='{$row['idx']}'>Delete</button>
+							<button class='btn-delete btn btn-primary' data-idx='{$row['idx']}_{$row['active']}'>Delete</button>
 							</div>
 							</td>";
 						}
@@ -227,8 +227,8 @@
 				echo "view_detail.forEach((box) => {";
 				echo "box.addEventListener('click', (e) => {";
 				echo "const isCheckbox = e.target.type === 'checkbox';";
-				echo "const checkboxCell = box.querySelector('._checkbox');";
-				echo "if(!(e.target.type === 'checkbox' || (checkboxCell && checkboxCell.contains(e.target)))) {";
+				echo "const untouchable = box.querySelector('.untouchable');";
+				echo "if (!e.target.closest('.untouchable')) {";
 				echo "self.location.href='./view_review.php?idx=' + box.dataset.idx;";
 				echo "};";
 				echo "});";

@@ -122,7 +122,7 @@
 						<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
 							<?php
 							if (isset($_SESSION['userId']) && $result['status'] == 1) {
-									echo "<td class='_checkbox text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
+									echo "<td class='untouchable text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
 							}
 							?>
 							<td class='text-center'><?= $activeRowCount; ?></td>
@@ -151,7 +151,7 @@
 							</td>
 							<?php
 							if(isset($_SESSION['userId']) && $result['status'] == 1) {
-								echo "<td class='text-center'>
+								echo "<td class='untouchable text-center'>
 								<div class='btn-group'>
 								<button class='btn-deactivate btn btn-secondary me-1' data-idx='{$row['idx']}_{$row['active']}'>";
 								if ($row['active'] == 1) {
@@ -160,7 +160,7 @@
 									echo "Show";
 								}
 								echo "</button>
-								<button class='btn-delete btn btn-primary' data-idx='{$row['idx']}'>Delete</button>
+								<button class='btn-delete btn btn-primary' data-idx='{$row['idx']}_{$row['active']}'>Delete</button>
 								</div>
 								</td>";
 							}
@@ -194,8 +194,8 @@
 				echo "view_detail.forEach((box) => {";
 				echo "box.addEventListener('click', (e) => {";
 				echo "const isCheckbox = e.target.type === 'checkbox';";
-				echo "const checkboxCell = box.querySelector('._checkbox');";
-				echo "if(!(e.target.type === 'checkbox' || (checkboxCell && checkboxCell.contains(e.target)))) {";
+				echo "const untouchable = box.querySelector('.untouchable');";
+				echo "if (!e.target.closest('.untouchable')) {";
 				echo "self.location.href='./view_agent.php?idx=' + box.dataset.idx + '&code=' + box.dataset.code;";
 				echo "};";
 				echo "});";

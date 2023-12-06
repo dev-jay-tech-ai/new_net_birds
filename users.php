@@ -62,7 +62,7 @@ if($stmtData) {
 					$activeRowCount++;
 				?>
 				<tr class='view_detail us-cursor' data-idx='<?= $row['user_id']; ?>' data-code='<?= $code ?>'>
-					<td class='text-center'><input class='_checkbox form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>
+					<td class='text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>
 					<td class='text-center'><?= $activeRowCount; ?></td>
 					<td><div class='board_profile'>
 					<?php if ($row['user_image'] !== '' && $row['user_image'] !== NULL): ?>

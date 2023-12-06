@@ -2,7 +2,7 @@
 <?php 
 $totalRows = count($rs);
 foreach ($rs as $i => $row) {
-if ($row['active'] == 1) {
+	if($row['active'] == 1) {
 	?>
 	<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
 		<?php
@@ -16,7 +16,7 @@ if ($row['active'] == 1) {
 				<div class='d-flex justify-content-between mt-2 cc-3'>
 					<div class='d-flex align-items-center flex-row' style='flex: 2'>
 						<div class='board_profile'>
-							<?php if ($row['user_image'] !== '' && $row['user_image'] !== NULL): ?>
+							<?php if($row['user_image'] !== '' && $row['user_image'] !== NULL): ?>
 								<img src='<?= $row['user_image'] ?>' alt='profile image' />
 							<?php endif; ?>
 						</div>

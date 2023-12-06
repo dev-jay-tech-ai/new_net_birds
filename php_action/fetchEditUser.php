@@ -1,9 +1,6 @@
 <?php
 require_once 'core.php';
 
-error_reporting(E_ALL); 
-ini_set('display_errors', '1'); 
-
 $response = [];
 $extensions = array('jpg', 'png', 'gif', 'jpeg');
 $maxFileSize = 40 * 1024 * 1024; // 40 MB
