@@ -231,6 +231,10 @@ nav .container {
   position: absolute;
 }
 
+.navbar-nav.location {
+  float: none;
+}
+
 @media (min-width: 768px) {
   .navbar-right .dropdown-menu {
     right: 25px;
@@ -702,3 +706,39 @@ button.close {
   width: 100%;
   text-align: right;
 }
+
+.searchbar > div {
+  width: 80%;
+}
+
+.search.form-control {
+  height: auto;
+}
+
+#sn {
+  font-size: 12px;
+  width: 160px;
+}
+
+.construction {
+  margin-top: 100px;
+  margin-bottom: 200px;
+}
+
+.construction > .logo_img {
+  width: 25px;
+}
+
+@media (max-width: 768px) {
+  .searchbar > div {
+    width: 100%;
+  }
+
+  #sn {
+    width: 80px;
+  }
+
+  .construction h1 {
+    font-size: 24px;
+  }
+} 

@@ -1,13 +1,13 @@
 <?php
   echo '
   <ul class="nav navbar-nav d-flex location justify-content-center mb-3 w-100">               
-    <li><a href="' . $code . '.php">All</a></li>        
-    <li><a href="' . $code . '.php?location=london">London</a></li>        
-    <li><a href="' . $code . '.php?location=manchester">Manchester</a></li>       
-    <li><a href="' . $code . '.php?location=glasgow">Glasgow</a></li> 
-    <li><a href="' . $code . '.php?location=nottingham">Nottingham</a></li>        
-    <li><a href="' . $code . '.php?location=birmingham">Birmingham</a></li>        
-    <li><a href="' . $code . '.php?location=others">Others</a></li>    
+    <li><a href="list.php?code=' . $code . '">All</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=london">London</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=manchester">Manchester</a></li>       
+    <li><a href="list.php?code=' . $code . '&location=glasgow">Glasgow</a></li> 
+    <li><a href="list.php?code=' . $code . '&location=nottingham">Nottingham</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=birmingham">Birmingham</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=others">Others</a></li>    
   </ul>';
 ?>
 
@@ -15,7 +15,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     const locationLinks = document.querySelectorAll('.location.nav.navbar-nav li a');
     function updateSelectedClass() {
-      const currentLocation = window.location.search.split('=')[1];
+      const currentLocation = window.location.search.split('location=')[1];
       locationLinks.forEach(link => {
         link.classList.remove('selected');
         if((!currentLocation && link.getAttribute('href') === '<?php echo $code; ?>.php') || 

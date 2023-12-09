@@ -11,7 +11,9 @@ if($stmtData) {
     if ($row['active'] == 1) {
       $activeRowCount++;
       echo "<div class='banner_advert'>";
+      echo "<a href='" . $row['link'] . "' target='_blank'>";
       echo "<img src='" . $row['img'] . "' alt='Agent banner" . $activeRowCount . "' style='width: 100%;' />";
+      echo "</a>";
       echo "</div>";
     }
   }

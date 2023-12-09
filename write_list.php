@@ -3,8 +3,8 @@
 	require_once 'includes/header.php'; 
 	require_once 'component/auth_session.php'; 
 	include 'component/pagination.php'; 
+	$code = (isset($_GET['code']) && $_GET['code'] !== '') ? $_GET['code'] : '';
 	include 'component/config.php'; 
-
 	$username = $result['username'] ?  $result['username'] : '';
 ?>
 
@@ -18,29 +18,37 @@
 			</ol>
 			<div class="mt-5">
 				<form id="uploadForm" enctype="multipart/form-data">
-				<div class="mb-2 d-flex gap-2">
+				<div class="mb-2 d-flex align-items-center gap-2">
 					<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
-					<div>Rating: </div>
-					<h4 class="text-center mt-2 mb-4">
-						<i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
-						<i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
-						<i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
-						<i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
-						<i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
-					</h4>	
-					<input type="hidden" id="id_rate" name="rating" value="">
+					<?php 
+					if($code === 'review') {
+						echo "<div>Rating: </div>
+						<h4 class='text-center'>
+							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_1' data-rating='1'></i>
+							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_2' data-rating='2'></i>
+							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_3' data-rating='3'></i>
+							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_4' data-rating='4'></i>
+							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_5' data-rating='5'></i>
+						</h4>	
+						<input type='hidden' id='id_rate' name='rating' value=''>";
+					}
+					?>
 				</div>
-				<div class="form-group">
-					<select id='id_location' name="Location" class="form-control">
-						<option>- Select Your Location -</option>  
-						<option value="0">London</option>
-						<option value="1">Manchester</option>
-						<option value="2">Glasgow</option>
-						<option value="3">Nottingham</option>
-						<option value="4">Birmingham</option>
-						<option value="5">others</option>
-					</select>
-				</div>	
+				<?php 
+					if($code !== 'agent') {
+						echo "<div class='form-group'>
+							<select id='id_location' name='Location' class='form-control'>
+								<option>- Select Your Location -</option>  
+								<option value='0'>London</option>
+								<option value='1'>Manchester</option>
+								<option value='2'>Glasgow</option>
+								<option value='3'>Nottingham</option>
+								<option value='4'>Birmingham</option>
+								<option value='5'>others</option>
+							</select>
+						</div>";
+					}		
+				?>
 				<div>
 					<input id='id_sub' type='text' name='subject' class='form-control mb-2' 
 						placeholder='Title' autocomplete='off'>
@@ -60,21 +68,21 @@
 					<button id='btn_list' class='btn btn-secondary'>LIST</button>
 				</div>
 				<script>
+					const code = '<?php echo $code; ?>';
 					document.getElementById('id_content_editable').addEventListener('input', function() {
 						document.getElementById('id_content').value = this.innerHTML;
 					});
-
 					const btn_submit = document.querySelector('#btn_submit');
 					const fade_background = document.querySelector('.fade_background');
 					const spinner = document.querySelector('.spinner-border');
 					btn_submit.addEventListener('click', async(e) => {
 						e.preventDefault();
 						const id_name = document.querySelector('#id_name');
-						const id_pw = document.querySelector('#id_pw');
 						const id_sub = document.querySelector('#id_sub');
 						const id_content = document.querySelector('#id_content');
-						const id_rate = document.querySelector('#id_rate');
+						if(code === 'review') const id_rate = document.querySelector('#id_rate');
 						const id_location = document.querySelector('#id_location');
+						const fileInput = document.querySelector('#fileInput');
 						const user_id = <?= json_encode($result['user_id']); ?>;
 						if(id_sub.value == '') {
 							alert('Input the subject')
@@ -91,7 +99,8 @@
 						formData.append('name', id_name.value)
 						formData.append('title', id_sub.value)
 						formData.append('content', id_content.value);
-						formData.append('rate', id_rate.value)
+						formData.append('code', code);
+						if(code === 'review') formData.append('rate', id_rate.value)
 						formData.append('location', id_location.value);
 						formData.append('user_id', user_id);
 						const files = [];
@@ -108,7 +117,7 @@
 						}
 
 						const xhr = new XMLHttpRequest()
-						xhr.open('POST', './php_action/fetchReview.php', true)
+						xhr.open('POST', './php_action/writeList.php', true)
 						xhr.send(formData)
 						btn_submit.disabled = true;
 						xhr.onload = () => {
@@ -118,7 +127,7 @@
 									const data = JSON.parse(xhr.responseText)
 									if(data.result == 'success') {
 										alert('Success!')
-										self.location.href = '/review.php';
+										self.location.href = '/'+code+'.php';
 									} else alert('Failed'+ data.message); // Display the error message
 								} catch(error) {
 									console.error('Error parsing JSON:', error);
@@ -128,13 +137,13 @@
 					})
 					const btn_list = document.querySelector('#btn_list');
 					btn_list.addEventListener('click', () => {
-						self.location.href='./review.php';
+						self.location.href='./'+code+'.php';
 					})
 				</script>
-		</div> <!-- /col-md-12 -->
+		</div> <!-- /cmt-5 -->
+	</div> <!-- /col-md-12 -->
 	</div> <!-- /row -->
-</div>
-
+</div><!-- /conatiner -->
 <script src="custom/js/function.js"></script>
 <script src="custom/js/review.js"></script>
 <?php require_once 'includes/footer.php'; ?>

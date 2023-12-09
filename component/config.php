@@ -1,15 +1,20 @@
 <?php 
-$filename = basename($_SERVER['PHP_SELF'], '.php');
-if (strpos($filename, 'private') !== false || strpos($filenam, 'Private') !== false) {
-    $code = 'private';
-    $board_title = 'Private';
-} elseif (strpos($filename, 'agent') !== false || strpos($filenam, 'Agent') !== false) {
-    $code = 'agent';
-    $board_title = 'Club';
-} elseif (strpos($filename, 'review') !== false || strpos($filenam, 'Review') !== false) {
-    $board_title = 'Review';
-} else {
-    $code = '';
-    $board_title = '';
-}
+    if($code == 'agent') {
+        $board_title = 'Club';
+    } else {
+        $board_title = ucfirst($code);
+    }
+
+    if($board_title == 'Club') {
+        $board = 'aboard';
+    } elseif ($board_title == 'Private') {
+        $board = 'pboard';
+    } elseif ($board_title == 'Review') {
+        $board = 'rboard';
+    } elseif ($board_title == 'Jobs') {
+        $board = 'jboard';
+    } elseif ($board_title == 'Property') {
+        $board = 'prboard';
+    }
+
 ?>

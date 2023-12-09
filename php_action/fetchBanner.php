@@ -5,6 +5,7 @@ $extensions = array('jpg', 'png', 'gif', 'jpeg');
 $maxFileSize = 40 * 1024 * 1024; // 40 MB
 $code = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code'] : 'private';
 if ($code == 'undefined') $code = 'banner';
+$link = $_POST['link'];
 $filelist = '';
 if (isset($_FILES['file'])) {
   $folder = '../assets/images/test/';
@@ -46,13 +47,13 @@ if (isset($_FILES['file'])) {
   }
 } 
 if (empty($response)) {
-  $sql = "INSERT INTO banners (code, img, rdate) VALUES (?, ?, NOW())";
+  $sql = "INSERT INTO banners (code, img, link, rdate) VALUES (?, ?, ?, NOW())";
   $ip = $_SERVER['REMOTE_ADDR'];
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
     $response = ['result' => 'error', 'message' => $connect->error];
   } else {
-    $stmt->bind_param('ss', $code, $filelist);
+    $stmt->bind_param('sss', $code, $filelist, $link);
     if ($stmt->execute()) {
       $response = ['result' => 'success'];
     } else {

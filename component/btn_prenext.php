@@ -1,14 +1,4 @@
 <?php
-$board = '';
-if ($board_title == 'Club') {
-  $board = 'aboard';
-} elseif ($board_title == 'Private') {
-  $board = 'pboard';
-} elseif ($board_title == 'Review') {
-  $board = 'rboard';
-  $code = null;
-}
-
 function getPreviousPost($board, $connect, $idx, $code) {
   $queryString = isset($code) ? "&code={$code}" : '';
   $stmt = $connect->prepare("SELECT * FROM $board WHERE idx > ? AND active = 1 ORDER BY idx ASC LIMIT 1");

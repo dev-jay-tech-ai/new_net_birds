@@ -2,10 +2,8 @@
 	require_once 'php_action/core.php';
 	require_once 'includes/header.php'; 
 	include 'component/pagination.php'; 
+	$code = (isset($_GET['code']) && $_GET['code'] !== '') ? $_GET['code'] : '';
 	include 'component/config.php'; 
-
-  error_reporting(E_ALL); 
-  ini_set('display_errors', '1'); 
 
 	if(isset($_SESSION['userId'])) {
     $user_id = $_SESSION['userId'];
@@ -13,18 +11,15 @@
     $query = $connect->query($sql);
     $user_result = $query->fetch_assoc();
   }
-
   $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx']) ? $_GET['idx'] : '');
   if($idx == '') {
     exit('Not allow to the abnormal access');
   }
-
-	$sql = "UPDATE rboard SET hit=hit+1 WHERE idx=?";
+	$sql = "UPDATE $board SET hit=hit+1 WHERE idx=?";
 	$stmt = $connect->prepare($sql);
 	$stmt->bind_param('i', $idx);
 	$stmt->execute();
-
-  $sql = "SELECT * FROM rboard WHERE idx=?";
+  $sql = "SELECT * FROM $board WHERE idx=?";
   $stmt = $connect->prepare($sql);
   $stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)
   $stmt->execute();
@@ -44,13 +39,15 @@
 					<span class='h3 fw-bolder'><?= $row['subject'] ?></span>
 					<div>
 					<?php
-						$rating = $row['rate']; // Assuming $row['rate'] contains the rating value
-						echo "<p class='fs-10'>";
-						for ($i = 1; $i <= 5; $i++) {
+						if($code == 'review') {
+							$rating = $row['rate']; // Assuming $row['rate'] contains the rating value
+							echo "<p class='fs-10'>";
+							for ($i = 1; $i <= 5; $i++) {
 								$class = ($i <= $rating) ? 'text-warning' : '';
 								echo '<i class="fas fa-star submit_star mr-1 star-light ' . $class . '" id="submit_star_' . $i . '" data-rating="' . $i . '"></i>';
+							}
+							echo '</p>';
 						}
-						echo '</p>';
 					?>
 					</div>
 				</div>
@@ -67,7 +64,7 @@
 					<?php 
 					if(isset($_SESSION['userId'])) {
 						if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-							echo "<button id='btn_edit' class='btn btn-primary''>Update</button>
+							echo "<button id='btn_edit' class='btn btn-primary'>Update</button>
 							<button id='btn_delete' class='btn btn-danger'>Delete</button>";
 						} 
 					}?>
@@ -78,6 +75,7 @@
 			</div>
 		</div>
 		<script>
+		const code = '<?php echo $code; ?>';
 		const splited = window.location.search.replace('?','').split(/[=?&]/);
 		let param = {};
 		for(let i=0; i<splited.length; i++) {
@@ -85,25 +83,26 @@
 		}
 		const fetchView = (mode) => {
 			const xhr = new XMLHttpRequest();
-			xhr.open('POST', './php_action/fetchViewReview.php', true);
-			const f1 = new FormData();
-			f1.append('idx', param['idx']);
-			f1.append('mode', mode);
-			xhr.send(f1);
+			xhr.open('POST', '/php_action/fetchViewList.php', true);
+			const formData = new FormData();
+			formData.append('idx', param['idx']);
+			formData.append('mode', mode);
+			formData.append('code', code);
+			xhr.send(formData);
 			xhr.onload = () => {
-				if (xhr.status == 200) {
+				if(xhr.status == 200) {
 					const data = JSON.parse(xhr.responseText);
-					if (data.result == 'edit_success') self.location.href = './editReview.php?idx=' + param['idx'];
+					if (data.result == 'edit_success') self.location.href = './editList.php?code='+code+'&idx='+param['idx'];
 					else if (data.result == 'delete_success') {
 							alert('Deleted');
-							self.location.href = './review.php';
+							self.location.href = './list.php?code='+code;
 					} 
 				} else alert(xhr.status);
 			}
 		}
 		const btn_list = document.querySelector('#btn_list');
 		btn_list && btn_list.addEventListener('click', () => {
-			self.location.href='./review.php';
+			self.location.href='./list.php?code='+code;
 		})
 		const btn_edit = document.querySelector('#btn_edit'); 
 		btn_edit && btn_edit.addEventListener('click', () => {
@@ -114,9 +113,7 @@
 			alert('Are you sure you want to delete this?');
 			fetchView('delete');;
 		})
-		</script>
-		<!-- /table -->   	
+		</script>  	
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->
-
 <?php require_once 'includes/footer.php'; ?>

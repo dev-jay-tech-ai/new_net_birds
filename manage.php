@@ -29,11 +29,12 @@ if ($stmtData) {
 		<div class="div-action pull pull-right" style="padding-bottom:20px;">
 			<button class="btn btn-primary" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal">Add Banner</button>
 		</div> <!-- /div-action -->		
-		<div class="mb-2">
+		<div class="scroll mb-2">
 			<table class="table table-bordered table-hover">
 			<colgroup>
 				<col width='7%' />
-				<col width='73%' />
+				<col width='33%' />
+				<col width='40%' />
 				<col width='10%' />
 				<col width='10%' />
 			</colgroup>
@@ -41,6 +42,7 @@ if ($stmtData) {
 				<tr>				
 					<th></th>
 					<th>Image</th>
+					<th>Link</th>
 					<th>status</th>
 					<th style="width:10%;"></th>
 					<th style="width:5%;"></th>
@@ -53,6 +55,7 @@ if ($stmtData) {
 					<tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $code ?>'>
 						<td class='text-center'><?= $activeRowCount; ?></td>
 						<td><img src="<?= $row['img'] ?>" style='width: 100px;' alt='banner'/></td>
+						<td><?= $row['link'] ?></td>
 						<td>
 							<?php 
 								if($row['active'] == 1) {
@@ -96,13 +99,11 @@ if ($stmtData) {
 	      <div class="modal-body" style="max-height:450px; overflow:auto;">
 	      	<div id="add-product-messages"></div>
 	      	<div class="form-group">
-				    <div class="col-sm-8">
-					    <!-- the avatar markup -->
-							<div id="kv-avatar-errors-1" class="center-block" style="display:none;"></div>							
-					    <div class="kv-avatar center-block">		
-					    <input id="fileInput" type="file" name="file" class="form-control" placeholder="Product Name" class="file-loading" style="width:auto;" />
-					    </div>			      
-				    </div>
+				    <div class="w-100 p-5">						
+							<input id="fileInput" type="file" name="file" class="form-control mb-2" placeholder="Product Name" class="file-loading" />
+							<input id="file" type="text" placeholder="Link" name="link" class="form-control" autocorrect="off" autocapitalize="off" autocomplete="off">
+							<p class='mt-2 text-center' style='font-size: 12px; color:#a2a2b0;'>Please include the complete URL, starting with either 'https://' or 'http://'.</p>
+						</div>
 	        </div> <!-- /form-group-->	     	           	           
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -153,10 +154,12 @@ const fade_background = document.querySelector('.fade_background');
 const spinner = document.querySelector('.spinner-border');
 btn_submit.addEventListener('click', async (e) => {
 	e.preventDefault();
+	const file = document.querySelector('#file');
 	const fileInput = document.querySelector('#fileInput');
 	fade_background.style.display = 'inline-block';
 	spinner.style.display = 'inline-block';
 	const formData = new FormData();
+	formData.append('link', file.value);
 	formData.append('file', fileInput.files[0]);
 	xhr.open('POST', './php_action/fetchBanner.php', true);
 	xhr.send(formData);

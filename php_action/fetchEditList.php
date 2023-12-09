@@ -7,10 +7,14 @@ $idx = (isset($_POST['idx']) && $_POST['idx'] != '' && is_numeric($_POST['idx'])
 $name = (isset($_POST['name']) && $_POST['name'] != '') ? $_POST['name'] : '';
 $title = (isset($_POST['title']) && $_POST['title'] != '') ? $_POST['title'] : '';
 $content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
-$rate  = (isset($_POST['rate']) && $_POST['rate'] != '') ? $_POST['rate']: 0;
-$location = (isset($_POST['location']) && $_POST['location'] != '') ? $_POST['location'] : 0;
-if ($code == 'undefined') $code = 'private';
-if ($idx == '') {
+$code = (isset($_POST['code']) && $_POST['code'] != '') ? $_POST['code'] : '';
+if($code !== 'agent') {
+  $location = (isset($_POST['location']) && $_POST['location'] != '') ? $_POST['location'] : 0;
+}
+if($code == 'review') {
+  $rate  = (isset($_POST['rate']) && $_POST['rate'] != '') ? $_POST['rate']: 0;
+}
+if($idx == '') {
   $response = ['result' => 'empty_idx'];
   exit(json_encode($response));
 }
@@ -49,11 +53,11 @@ if (isset($_FILES['files'])) {
     }
     $uniqueFilename = date('YmdHis') . '_' . $key . '.' . $file_ext;
     if (move_uploaded_file($temp_folder, $folder . $uniqueFilename)) {
-        if ($file_ext === 'mov' || $file_ext === 'mp4') {
-            $filelist[] = "<p class='text-center'><video class='video_size' controls src='" . $folder . $uniqueFilename . "' loading='lazy'></video></p>";
-        } else {
-            $filelist[] = "<p class='text-center'><img src='" . $folder . $uniqueFilename . "' style='width: 100%; height: auto;' loading='lazy' /></p>";
-        }
+      if ($file_ext === 'mov' || $file_ext === 'mp4') {
+        $filelist[] = "<p class='text-center'><video class='video_size' controls src='" . $folder . $uniqueFilename . "' loading='lazy'></video></p>";
+      } else {
+        $filelist[] = "<p class='text-center'><img src='" . $folder . $uniqueFilename . "' style='width: 100%; height: auto;' loading='lazy' /></p>";
+      }
     } else {
       $response = ['result' => 'error', 'message' => 'Error moving file ' . $file . '. Error code: ' . $temp_folder . $folder];
       break;
@@ -63,12 +67,32 @@ if (isset($_FILES['files'])) {
 if (empty($response)) {
   $contentWithPaths = $content . implode('', $filelist);
   $imglist = '';
-  $sql = 'UPDATE rboard SET name=?, subject=?, location=?, content=?, imglist=?, rate=? WHERE idx=?';
+  if($code == 'agent') {
+    $board = 'aboard';
+  } elseif ($code == 'private') {
+    $board = 'pboard';
+  } elseif ($code == 'review') {
+    $board = 'rboard';
+  }
+  if($code == 'agent') {
+    $sql = "UPDATE $board SET name=?, subject=?, content=?, imglist=? WHERE idx=?";
+  } elseif($code == 'review') {
+    $sql = "UPDATE $board SET name=?, subject=?, location=?, content=?, imglist=?, rate=? WHERE idx=?";
+  } else {
+    $sql = "UPDATE $board SET name=?, subject=?, location=?, content=?, imglist=? WHERE idx=?";
+  }
   $stmt = $connect->prepare($sql);
   if (!$stmt) {
     $response = ['result' => 'error', 'message' => 'Prepare failed: (' . $connect->errno . ') ' . $connect->error];
   } else {
-    $stmt->bind_param('ssissii', $name, $title, $location, $contentWithPaths, $imglist, $rate, $idx);
+    $imglist = '';
+    if($code == 'agent') {
+      $stmt->bind_param('ssssi', $name, $title, $contentWithPaths, $imglist, $idx);
+    } elseif($code == 'review') {
+      $stmt->bind_param('ssissii', $name, $title, $location, $contentWithPaths, $imglist, $rate, $idx);
+    } else {
+      $stmt->bind_param('ssissii', $name, $title, $location, $contentWithPaths, $imglist, $idx);
+    }
     if(!$stmt->execute()) {
       $response = ['result' => 'error', 'message' => 'Execute failed: (' . $stmt->errno . ') ' . $stmt->error];
     } else {

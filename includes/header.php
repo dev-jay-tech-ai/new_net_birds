@@ -56,10 +56,12 @@
     </div>
     <div class="collapse navbar-collapse in" id="navbar-collapse-1">      
       <ul class="nav navbar-nav">               
-        <li id="navAgent"><a href="agent.php">Club</a></li>        
-        <li id="navPrivate"><a href="private.php">Private</a></li>        
-        <li id="navReivew"><a href="review.php">Review</a></li>       
-        <li id="navContact"><a href="notice.php">Notice</a></li> 
+        <li id="navAgent"><a href="list.php?code=agent">Club</a></li>        
+        <li id="navPrivate"><a href="list.php?code=private">Private</a></li>        
+        <li id="navReivew"><a href="list.php?code=review">Review</a></li> 
+        <li id="navJobs"><a href="list.php?code=jobs">Jobs</a></li> 
+        <li id="navProperty"><a href="list.php?code=property">Property</a></li>       
+        <li id="navContact"><a href="list.php?code=notice">Notice</a></li> 
       <?php
         if ($result['status'] == 1) {
         echo 

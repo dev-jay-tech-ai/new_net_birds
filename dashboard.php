@@ -31,6 +31,15 @@
 	</div>
 	<?php include_once 'component/banner.php' ?>
 	<div class="panel panel-default mt-5">
+		<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Latest Posts</font></font></h3></div>
+		<div class="panel-body">
+			<div class="global-text-box-wrapper">
+				<div class="global-text-box-1">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default mt-5">
 		<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome!</font></font></h3></div>
 		<div class="panel-body">
 			<div class="global-text-box-wrapper">
@@ -59,12 +68,9 @@
 			</div>
 		</div>
 	</div>
-		
-<div class="cta-style-one">
-	
+	<div class="cta-style-one">
 		<div class="content-wrapper">
 			<div class="row align-items-center no-gutters">
-
 			</div>
 		</div>
 	</div>
