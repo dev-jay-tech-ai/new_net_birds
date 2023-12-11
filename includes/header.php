@@ -39,14 +39,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/copperplate" rel="stylesheet">
-
-    <!-- Include image-compressor.js -->
     <script src="assets/plugins/compressor.js"></script>
   </head>
 <body class='d-flex flex-column min-vh-100'>
 	<nav class="navbar navbar-static-top">
     <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <div class="logo">
         <a href='/dashboard.php'>
@@ -61,7 +58,7 @@
         <li id="navReivew"><a href="list.php?code=review">Review</a></li> 
         <li id="navJobs"><a href="list.php?code=jobs">Jobs</a></li> 
         <li id="navProperty"><a href="list.php?code=property">Property</a></li>       
-        <li id="navContact"><a href="list.php?code=notice">Notice</a></li> 
+        <li id="navContact"><a href="notice.php">Notice</a></li> 
       <?php
         if ($result['status'] == 1) {
         echo 
@@ -85,6 +82,13 @@
               <a component="header/profilelink" href="/account.php?username=' . $result['username'] . '">
                 <span component="header/username"><font style="vertical-align: inherit;">
                 <font style="vertical-align: inherit;">My Account</font></font></span>
+              </a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li>
+              <a component="header/profilelink" href="/activity.php?username=' . $result['username'] . '">
+                <span component="header/username"><font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">My Activity</font></font></span>
               </a>
             </li>
             <li role="presentation" class="divider"></li>

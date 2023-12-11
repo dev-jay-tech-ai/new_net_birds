@@ -38,7 +38,7 @@
 					if($code !== 'agent') {
 						echo "<div class='form-group'>
 							<select id='id_location' name='Location' class='form-control'>
-								<option>- Select Your Location -</option>  
+								<option value='-1'> - Select Your Location -</option>  
 								<option value='0'>London</option>
 								<option value='1'>Manchester</option>
 								<option value='2'>Glasgow</option>
@@ -80,7 +80,9 @@
 						const id_name = document.querySelector('#id_name');
 						const id_sub = document.querySelector('#id_sub');
 						const id_content = document.querySelector('#id_content');
-						if(code === 'review') const id_rate = document.querySelector('#id_rate');
+						if(code === 'review') {
+							const id_rate = document.querySelector('#id_rate');
+						}
 						const id_location = document.querySelector('#id_location');
 						const fileInput = document.querySelector('#fileInput');
 						const user_id = <?= json_encode($result['user_id']); ?>;
@@ -89,9 +91,15 @@
 							id_sub.focus();
 							return false;
 						}
-						if (id_content.value.trim() === '') {
+						if(id_content.value.trim() === '') {
 							alert('Input the content');
 							return false;
+						}
+						if(code !== 'agent') {
+							if(id_location.value === '-1') {
+								alert('Please select a location');
+								return false;
+							}
 						}
 						fade_background.style.display = 'inline-block';
 						spinner.style.display = 'inline-block';
@@ -100,12 +108,16 @@
 						formData.append('title', id_sub.value)
 						formData.append('content', id_content.value);
 						formData.append('code', code);
-						if(code === 'review') formData.append('rate', id_rate.value)
-						formData.append('location', id_location.value);
+						if(code === 'review') {
+							formData.append('rate', id_rate.value);
+						}
+						if(code !== 'agent') {
+							formData.append('location', id_location.value);
+						}
 						formData.append('user_id', user_id);
 						const files = [];
 						for (const file of fileInput.files) {
-							if (file.type.includes('image')) {
+							if(file.type.includes('image')) {
 								const compressedImage = await compressImage(file);
 								files.push(compressedImage);
 							} else if (file.type.includes('video')) {
@@ -127,7 +139,7 @@
 									const data = JSON.parse(xhr.responseText)
 									if(data.result == 'success') {
 										alert('Success!')
-										self.location.href = '/'+code+'.php';
+										self.location.href = '/list.php?code='+code;
 									} else alert('Failed'+ data.message); // Display the error message
 								} catch(error) {
 									console.error('Error parsing JSON:', error);

@@ -9,34 +9,21 @@
   $sn = (isset($_GET['sn']) && $_GET['sn'] !== '') ? $_GET['sn'] : '';
 	$sf = (isset($_GET['sf']) && $_GET['sf'] !== '') ? $_GET['sf'] : '';
 
-  include 'php_action/fetchList.php'; 
 ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">Home</a></li>		  
-				<li class="active"><?= $board_title ?></li>
+				<li class="active">Activity</li>
 			</ol>
       <?php 
-      if($code !=='agent') {
-        include 'component/nav_location.php'; 
-      }
-      searchbar_ui($sn, $sf);
-			if(isset($_SESSION['userId']) /** && $result['active'] == 1 */) {
-				if($result['status'] == 1) {
-					echo "<div class='d-flex gap-2 justify-content-end'>
-					<button id='btn-write' class='btn btn-primary'>Write</button>
-					<button id='btn-delete' class='btn btn-secondary'>Delete</button>
-					</div>";		
-				} else {
-					echo "<div class='d-flex justify-content-end mb-3'>
-					<button id='btn-write' class='btn btn-primary'>Write</button>
-					</div>";		
-				}
-			} 
-			include 'component/content_login.php';
+			searchbar_ui($sn, $sf);
 			?>
+			<!-- <div class='d-flex justify-content-end mb-3'>
+			<button id='btn-write' class='btn btn-primary'>Write</button>
+			</div> -->
+
       </div>
 			<div class="scroll mt-3 mb-2">
         <table class='table table-bordered table-hover 
@@ -95,26 +82,6 @@
 						<td class='text-center' style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'>
 							<?= $row['hit']; ?>
 						</td>
-            <?php
-            if($code == 'review') {
-              echo "<td class='text-center rate' >";
-                $rating = $row['rate'];
-                for ($i = 1; $i <= 5; $i++) {
-                    $starClass = $i <= $rating ? 'fas fa-star text-warning' : 'fas fa-star star-light';
-                    echo "<i class='$starClass'></i>";
-                }
-              echo "</td>";
-            }
-						if(isset($_SESSION['userId']) && $result['status'] == 1) {
-							echo "<td class='text-center'>";
-							if($row['active'] == 1) {
-								echo "<label class='label label-success'>active</label>";
-							} else {
-								echo "<label class='label label-danger'>deactive</label>";
-							}
-							echo "</td>";
-						}
-						?>
 						<td class='rdate text-center' style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'>
 						<?php
 						if(isset($_SESSION['userId']) && $result['status'] == 1) {
@@ -124,29 +91,6 @@
 						}
 						?>
 						</td>
-						<?php
-						if(isset($_SESSION['userId']) && $result['status'] == 1) {
-							echo "<td class='untouchable text-center'>
-							<div class='btn-group'>
-							<button class='btn-pin btn btn-danger' data-idx='{$row['idx']}_{$row['is_pinned']}'>";
-							if ($row['is_pinned'] == 1) {
-								echo "unpin";
-							} else {
-								echo "pin";
-							}
-							echo"</button>
-							<button class='btn-deactivate btn btn-secondary' data-idx='{$row['idx']}_{$row['active']}'>";
-							if ($row['active'] == 1) {
-								echo "Hide";
-							} else {
-								echo "Show";
-							}
-							echo "</button>
-							<button class='btn-delete btn btn-primary' data-idx='{$row['idx']}_{$row['active']}'>Delete</button>
-							</div>
-							</td>";
-						}
-						?>
 						</tr>
 						<?php
 					} 
@@ -175,10 +119,6 @@
         </div>
         <script>
         <?php 
-          echo "const btn_write = document.querySelector('#btn-write');";
-          echo "btn_write && btn_write.addEventListener('click', () => {";
-          echo "self.location.href='./write_list.php?code=$code';";
-          echo "});";
           echo "const view_detail = document.querySelectorAll('.view_detail');";
           echo "view_detail.forEach((box) => {";
           echo "box.addEventListener('click', (e) => {";

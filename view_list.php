@@ -4,7 +4,6 @@
 	include 'component/pagination.php'; 
 	$code = (isset($_GET['code']) && $_GET['code'] !== '') ? $_GET['code'] : '';
 	include 'component/config.php'; 
-
 	if(isset($_SESSION['userId'])) {
     $user_id = $_SESSION['userId'];
     $sql = "SELECT * FROM users WHERE user_id = {$user_id}";

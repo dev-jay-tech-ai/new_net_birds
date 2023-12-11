@@ -20,7 +20,7 @@ if($idx == '') {
 }
 $filelist = array();
 if (isset($_FILES['files'])) {
-  $folder = '../assets/images/test/';
+  $folder = "../assets/images/$code/";
   foreach ($_FILES['files']['tmp_name'] as $key => $temp_folder) {
     $file = $_FILES['files']['name'][$key];
     $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
@@ -67,13 +67,7 @@ if (isset($_FILES['files'])) {
 if (empty($response)) {
   $contentWithPaths = $content . implode('', $filelist);
   $imglist = '';
-  if($code == 'agent') {
-    $board = 'aboard';
-  } elseif ($code == 'private') {
-    $board = 'pboard';
-  } elseif ($code == 'review') {
-    $board = 'rboard';
-  }
+  include 'getBoard.php';
   if($code == 'agent') {
     $sql = "UPDATE $board SET name=?, subject=?, content=?, imglist=? WHERE idx=?";
   } elseif($code == 'review') {
@@ -91,7 +85,7 @@ if (empty($response)) {
     } elseif($code == 'review') {
       $stmt->bind_param('ssissii', $name, $title, $location, $contentWithPaths, $imglist, $rate, $idx);
     } else {
-      $stmt->bind_param('ssissii', $name, $title, $location, $contentWithPaths, $imglist, $idx);
+      $stmt->bind_param('ssissi', $name, $title, $location, $contentWithPaths, $imglist, $idx);
     }
     if(!$stmt->execute()) {
       $response = ['result' => 'error', 'message' => 'Execute failed: (' . $stmt->errno . ') ' . $stmt->error];

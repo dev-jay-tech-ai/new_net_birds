@@ -25,7 +25,7 @@ label {
 
 pre {
   background-color: unset;
-  color: #fff;
+  color: #f3f3f3 !important;
   border: 0;
   white-space: pre-wrap;
   font-family: Lato,Outfit,helvetica neue,Helvetica,Arial,sans-serif;
@@ -81,6 +81,16 @@ pre {
   font-size: 16px;
 }
 
+.btn-primary:focus, 
+.btn-primary:hover, 
+.btn-danger:focus, 
+.btn-danger:hover {
+  color: #333;
+  text-decoration: none;
+  background-color: #5c636a;
+  border-color: #5c636a;
+}
+
 .btn-w {
   color: #c0c0cf;
   background: transparent;
@@ -89,11 +99,6 @@ pre {
   border-collapse: collapse;
   text-shadow: none;
   font-size: 16px;
-}
-
-.btn-primary:focus, .btn-primary:hover {
-  background: #ffa105;
-  border-color: #ffa105;
 }
 
 #cookie-manager-button {
@@ -387,6 +392,10 @@ footer .copyright {
 
 .us-cursor {
   cursor: pointer;
+}
+
+#bbs_content pre span  {
+  color: #f3f3f3 !important;
 }
 
 #bbs_content img  {

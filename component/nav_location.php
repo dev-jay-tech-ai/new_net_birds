@@ -18,7 +18,7 @@
       const currentLocation = window.location.search.split('location=')[1];
       locationLinks.forEach(link => {
         link.classList.remove('selected');
-        if((!currentLocation && link.getAttribute('href') === '<?php echo $code; ?>.php') || 
+        if((!currentLocation && link.getAttribute('href') === 'list.php?code=<?php echo $code; ?>') || 
           (currentLocation && link.getAttribute('href').includes(currentLocation))) {
           link.classList.add('selected');
         }

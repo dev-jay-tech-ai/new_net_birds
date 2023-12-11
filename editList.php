@@ -1,9 +1,5 @@
 <?php 
 require_once 'php_action/db_connect.php';
-
-error_reporting(E_ALL); 
-ini_set('display_errors', '1'); 
-
 require_once 'includes/header.php'; 
 $code = (isset($_GET['code']) && $_GET['code'] !== '') ? $_GET['code'] : '';
 include 'component/config.php'; 
@@ -64,7 +60,7 @@ $row = $result->fetch_assoc();
 				value="<?=  $row['subject'] ?>" placeholder='Title' autocomplete='off'>
 			</div>
 			<div class='d-flex flex-row justify-content-between mt-3 mb-3'>
-					<input id="fileInput" type="file" name="files[]">
+					<input id="fileInput" type="file" name="files[]" multiple>
 				</div>
 				<div class="form-group">
 				<input type="hidden" id="id_content" class="form-control" rows="4" value="<?= htmlspecialchars($row['content']) ?>">
@@ -115,9 +111,11 @@ $row = $result->fetch_assoc();
 				formData.append('name', id_name.value)
 				formData.append('title', id_sub.value)
 				formData.append('content', id_content.value);
-				formData.append('rate', id_rate.value)
-				if(code == 'review') {
+				if(code !== 'agent') {
 					formData.append('location', id_location.value);
+				}
+				if(code === 'review') {
+					formData.append('rate', id_rate.value)
 				}
 				formData.append('code', code);
 				formData.append('idx', param['idx'])

@@ -18,6 +18,6 @@ btn_search.addEventListener('click', (e) => {
     return false;
   }
   //let params = getUrlParams();
-  // const search = window.location.search;
-  self.location.href='.'+pathname+search+'&sn=' + sn.value + '&sf=' + sf.value;
+  const code = search.split('&')[0];
+  self.location.href='.'+pathname+code+'&sn=' + sn.value + '&sf=' + sf.value;
 })

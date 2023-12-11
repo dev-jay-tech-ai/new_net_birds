@@ -1,8 +1,9 @@
 const xhr = new XMLHttpRequest();
 const url = window.location.href;
-const regex = /\/([^\/]+)\.php/;
-const match = url.match(regex);
-const board = match[1];
+const regexFilename = /\/([^\/]+)\.php/;
+const regexCode = /\?code=([^&]+)&?/;
+let board = url.match(regexFilename)[1];
+const code = url.match(regexCode)[1];
 const btnDelete = document.querySelector('#btn-delete');
 const checkboxes = document.querySelectorAll('.form-check-input');
 const editButtons = document.querySelectorAll('.editUserModalBtn');
@@ -10,6 +11,8 @@ const editUserModal = document.getElementById('editUserModal');
 const closeModalButtons = $('[data-dismiss="modal"]');
 const addUserBtn = document.querySelector('#addUserBtn');
 const editUserBtn = document.querySelector('#editUserBtn');
+
+if(board === 'list') board = code;
 
 /** Add user */
 addUserBtn && addUserBtn.addEventListener('click',(e) => {
@@ -196,15 +199,32 @@ btn_delete_user && btn_delete_user.forEach(button => {
 });
 
 let idx;
+const btn_pin = document.querySelectorAll('.btn-pin');
 const btn_deactivate = document.querySelectorAll('.btn-deactivate');
 const btn_delete = document.querySelectorAll('.btn-delete');
-btn_deactivate && btn_deactivate.forEach(button => {
-	button.addEventListener('click', async (e) => {
+
+btn_pin && btn_pin.forEach(button => {
+	button.addEventListener('click', async(e) => {
 		e.preventDefault();
-    const confirmDelete = confirm("Are you sure you want to hide?");
-    if(!confirmDelete) return;
 		idx = button.getAttribute('data-idx');
-		xhr.open('POST', './php_action/updateActivation.php', true);
+		xhr.open('POST', './php_action/updatePin.php', true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({ idx, board }));
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState === XMLHttpRequest.DONE) {
+				handleResponse(xhr, board, 'changed');
+			}
+		};
+	});
+});
+
+btn_deactivate && btn_deactivate.forEach(button => {
+	button.addEventListener('click', async(e) => {
+		e.preventDefault();
+    const confirmHide = confirm("Are you sure you want to hide?");
+    if(!confirmHide) return;
+		idx = button.getAttribute('data-idx');
+		xhr.open('POST', './php_action/updateActivity.php', true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({ idx, board }));
 		xhr.onreadystatechange = function () {
@@ -238,7 +258,7 @@ function handleResponse(xhr, board, action) {
     const data = JSON.parse(xhr.responseText);
     if (data.result == 'success') {
       alert(`${action} successfully!`);
-      self.location.href = `/${board}.php`;
+      self.location.href = `/list.php?code=${board}`;
     } else {
       alert(`Failed to : ${data.message}`);
     }

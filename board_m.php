@@ -10,9 +10,9 @@ foreach ($rs as $i => $row) {
 				echo "<td class='_checkbox text-center'><input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'></td>";
 		}
 		?>
-		<td>
+		<td style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'>
 			<div class='d-flex flex-column'>
-				<div class='fw-bold'><?= $row['subject']; ?></div>
+				<div class='fw-bold' style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'><?= $row['subject']; ?></div>
 				<div class='d-flex justify-content-between mt-2 cc-3'>
 					<div class='d-flex align-items-center flex-row' style='flex: 2'>
 						<div class='board_profile'>
