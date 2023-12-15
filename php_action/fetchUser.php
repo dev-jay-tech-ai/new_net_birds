@@ -2,7 +2,7 @@
 require_once 'core.php';
 
 if(isset($_POST['user_id'])) {
-  $user_id = $_POST['user_id'];
+    $user_id = $_POST['user_id'];
 	$sql = "SELECT * FROM users WHERE user_id = ?";
 	$stmt = $connect->prepare($sql);
 	$stmt->bind_param("s", $user_id);
@@ -58,7 +58,7 @@ if(isset($_POST['user_id'])) {
     </div>
     <div class="form-group">
         <div class="col-sm-8">
-            <input type="text" id="credit" class="form-control" id="credit" placeholder="Credit" name="credit" value="' . $credit . '" autocomplete="off">
+            <input type="text" id="credit" class="form-control" placeholder="Credit" name="credit" value="' . $credit . '" autocomplete="off">
         </div>
     </div>
 ';

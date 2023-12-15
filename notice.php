@@ -17,18 +17,18 @@
           <br>
           <b>The website solemnly declares:</b><br>
           <br>
-Posting any content related to sexual transactions on this website is strictly prohibited. <br>Violation will result in account suspension.<br>
+					Posting any content related to sexual transactions on this website is strictly prohibited. <br>Violation will result in account suspension.<br>
 
-The website does not take responsibility for the authenticity of the posted content. <br>Please exercise caution and discernment while browsing information to avoid falling victim to scams.
+					The website does not take responsibility for the authenticity of the posted content. <br>Please exercise caution and discernment while browsing information to avoid falling victim to scams.
 
-<br>If you believe that content posted on this website infringes upon your rights, please contact us. <br>We will proceed with post removal.
-<br>
-This website is only accessible and open for users with IP addresses located in the United Kingdom.
-<br>
-<br>
-<br>
-<br>
-</div>
+					<br>If you believe that content posted on this website infringes upon your rights, please contact us. <br>We will proceed with post removal.
+					<br>
+					This website is only accessible and open for users with IP addresses located in the United Kingdom.
+					<br>
+					<br>
+					<br>
+					<br>
+					</div>
 				</div>
 				<!-- /panel-body -->
 			</div>

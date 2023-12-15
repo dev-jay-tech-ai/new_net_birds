@@ -235,7 +235,7 @@ btn_deactivate && btn_deactivate.forEach(button => {
 	});
 });
 
-btn_delete && btn_delete.forEach(button => {
+btn_delete && btn_delete.forEach((button) => {
 	button.addEventListener('click', async (e) => {
 		e.preventDefault();
     const confirmDelete = confirm("Are you sure you want to delete?");

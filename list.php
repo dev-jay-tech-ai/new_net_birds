@@ -158,7 +158,25 @@
 						include 'board_m.php';
 					}
 				?>
-        <div class="mt-3 d-flex gap-2 justify-content-center">
+        <script>
+        <?php 
+          echo "const btn_write = document.querySelector('#btn-write');";
+          echo "btn_write && btn_write.addEventListener('click', () => {";
+          echo "self.location.href='./write_list.php?code=$code';";
+          echo "});";
+          echo "const view_detail = document.querySelectorAll('.view_detail');";
+          echo "view_detail.forEach((box) => {";
+          echo "box.addEventListener('click', (e) => {";
+          echo "const untouchable = box.querySelector('.untouchable');";
+          echo "if (!e.target.closest('.untouchable')) {";
+					echo "self.location.href='./view_list.php?code=" . $code . "&idx=' + box.dataset.idx;";
+          echo "}";
+          echo "});";
+          echo "});";
+        ?>
+			</script><!-- /table --> 
+      </div>
+			<div class="mt-3 d-flex gap-2 justify-content-center">
         <?php 
           $param = '&code='.$code;
           if($sn != '') {
@@ -173,29 +191,9 @@
           }
         ?> 
         </div>
-        <script>
-        <?php 
-          echo "const btn_write = document.querySelector('#btn-write');";
-          echo "btn_write && btn_write.addEventListener('click', () => {";
-          echo "self.location.href='./write_list.php?code=$code';";
-          echo "});";
-          echo "const view_detail = document.querySelectorAll('.view_detail');";
-          echo "view_detail.forEach((box) => {";
-          echo "box.addEventListener('click', (e) => {";
-          echo "const isCheckbox = e.target.type === 'checkbox';";
-          echo "const untouchable = box.querySelector('.untouchable');";
-          echo "if (!e.target.closest('.untouchable')) {";
-					echo "self.location.href='./view_list.php?code=" . $code . "&idx=' + box.dataset.idx;";
-          echo "}";
-          echo "});";
-          echo "});";
-        ?>
-			</script><!-- /table --> 
-      </div>
     </div> <!-- /col-md-12 -->
 	</div> <!-- /row -->
 </div><!-- /container -->
-
 <?php if($code == 'review') echo "<script src='custom/js/review.js'></script>"; ?>
 <script src='/custom/js/search.js?v=<?php echo time(); ?>'></script> 
 <script src='/custom/js/admin.js?v=<?php echo time(); ?>'></script> 

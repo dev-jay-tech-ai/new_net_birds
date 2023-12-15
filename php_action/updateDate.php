@@ -4,25 +4,19 @@ $jsonData = file_get_contents('php://input');
 $data = json_decode($jsonData, true);
 
 if(isset($data['idx'])) {
-    $arr = $data['idx'];
-    list($idx, $active) = explode("_", $arr);
-    if ($data['board'] == 'agent') {
+    if ($code == 'agent') {
 		$board = 'aboard';
-	} elseif ($data['board'] == 'private') {
+	} elseif ($code == 'private') {
 		$board = 'pboard';
-	} elseif ($data['board'] == 'review') {
+	} elseif ($code == 'review') {
 		$board = 'rboard';
-	} elseif ($data['board'] == 'jobs') {
+	} elseif ($code == 'jobs') {
 		$board = 'jboard';
-	} elseif ($data['board'] == 'property') {
+	} elseif ($code == 'property') {
 		$board = 'prboard';
 	}
 
-    if($active == 1) {
-        $sql = "UPDATE $board SET active=2 WHERE idx = ?";
-    } else {
-        $sql = "UPDATE $board SET active=1 WHERE idx = ?";
-    }
+    $sql = "UPDATE $board SET rdate=NOW() WHERE idx = ?";
     $stmt = $connect->prepare($sql);
     $stmt->bind_param('i', $idx);
     if ($stmt->execute()) {

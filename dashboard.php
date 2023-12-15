@@ -26,18 +26,12 @@
 			<div class="Hero_triangle__t_hGV"></div>
 		</div>
 		</div>
-
 	</div> <!--/row-->
 	</div>
 	<?php include_once 'component/banner.php' ?>
 	<div class="panel panel-default mt-5">
 		<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Latest Posts</font></font></h3></div>
-		<div class="panel-body">
-			<div class="global-text-box-wrapper">
-				<div class="global-text-box-1">
-				</div>
-			</div>
-		</div>
+		<?php include_once 'component/latestPosts.php' ?>
 	</div>
 	<div class="panel panel-default mt-5">
 		<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Welcome!</font></font></h3></div>
@@ -78,7 +72,6 @@
 </div>
 <script type="text/javascript">
 	$(function () {
-		// top bar active
 		$('#navDashboard').addClass('active');
   });
 </script>

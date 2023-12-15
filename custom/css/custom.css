@@ -55,7 +55,7 @@ pre {
 }
 /**  custom color  */
 .cc-3 {
-  color: #4A4A6A;
+  color: #a2a2b0;
 }
 
 .btn-primary {
@@ -442,10 +442,6 @@ footer .copyright {
   font-size: 12px;
 }
 
-.table-bordered {
-  border-color: #c0c0cf;
-}
-
 .table>:not(caption)>*>* {
   background-color: #181826;
   color: #f3f3f3;
@@ -672,7 +668,15 @@ table.dataTable thead th {
 }
 
 .table>:not(caption)>*>* {
-  border-bottom-width: 0;
+  border-bottom-width: 1px solid #4A4A6A;
+}
+
+.table-bordered>:not(caption)>* {
+  border-width: 1px solid #4A4A6A;
+}
+
+.panel .table-bordered>:not(caption)>* {
+  border-width: 0;
 }
 
 button.close {
