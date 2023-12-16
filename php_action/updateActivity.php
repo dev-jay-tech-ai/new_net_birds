@@ -1,23 +1,14 @@
 <?php
 require_once 'core.php';
+$response = [];
 $jsonData = file_get_contents('php://input');
 $data = json_decode($jsonData, true);
 
 if(isset($data['idx'])) {
     $arr = $data['idx'];
     list($idx, $active) = explode("_", $arr);
-    if ($data['board'] == 'agent') {
-		$board = 'aboard';
-	} elseif ($data['board'] == 'private') {
-		$board = 'pboard';
-	} elseif ($data['board'] == 'review') {
-		$board = 'rboard';
-	} elseif ($data['board'] == 'jobs') {
-		$board = 'jboard';
-	} elseif ($data['board'] == 'property') {
-		$board = 'prboard';
-	}
-
+    $code = $data['board'];  
+    include_once 'getBoard.php';
     if($active == 1) {
         $sql = "UPDATE $board SET active=2 WHERE idx = ?";
     } else {
@@ -27,12 +18,15 @@ if(isset($data['idx'])) {
     $stmt->bind_param('i', $idx);
     if ($stmt->execute()) {
         $stmt->close();
-        echo json_encode(['result' => 'success', 'message' => 'The activitiy updated successfully.']);
+        $response = ['result' => 'success', 'message' => 'The activitiy updated successfully.'];
     } else {
-        echo json_encode(['result' => 'error', 'message' => 'Error']);
+        $response = ['result' => 'error', 'message' => 'Error'];
     }
     $connect->close();
 } else {
-    echo json_encode(['result' => 'error', 'message' => 'idx not provided or empty.']);
+    $response = ['result' => 'error', 'message' => 'idx not provided or empty.'];
 }
+
+$j = json_encode($response);
+die($j);
 ?>

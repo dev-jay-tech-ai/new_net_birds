@@ -1,7 +1,8 @@
 <table class='table table-bordered table-hover desktop'> 
   <colgroup>
     <col width='7%' />
-    <col width='53%' />
+    <col width='43%' />
+    <col width='10%' />
     <col width='15%' />
     <col width='5%' />
     <col width='10%' />
@@ -10,6 +11,7 @@
   <tr>
     <th class='text-center'></th>
     <th class='text-center'>Title</th>
+    <th></th>
     <th>User</th>
     <th class='text-center'>Views</th>
     <th class='text-center'>Date</th>
@@ -18,7 +20,7 @@
   <tbody>
   <?php 
   require_once 'php_action/core.php';
-  $sqlData = "SELECT idx, code, subject, user_id, name, content, hit, active, rdate FROM ( SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM aboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM pboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM rboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM jboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM prboard ) AS combined WHERE row_num <= 5 ORDER BY rdate DESC LIMIT 7";
+  $sqlData = "SELECT idx, code, subject, user_id, name, content, hit, active, rdate FROM ( SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM aboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM pboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM rboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM jboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM prboard ) AS combined WHERE row_num <= 7 ORDER BY rdate DESC LIMIT 7";
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
     $stmtData->execute();
@@ -27,9 +29,10 @@
     while ($row = $result->fetch_assoc()) {
       $activeRowCount++;
       if ($row['active'] == 1) {
-        echo "<tr class='view_detail us-cursor' data-idx='{$row['idx']}'>
+        echo "<tr class='view_detail us-cursor' data-idx='{$row['idx']}' data-code='{$row['code']}'>
           <td class='text-center'>{$activeRowCount}</td>
           <td>{$row['subject']}</td>
+          <td class='text-center'>" . ucfirst($row['code']) . "</td>
           <td>{$row['name']}</td>
           <td class='text-right'>{$row['hit']}</td>
           <td class='text-right'>" . date('Y-m-d', strtotime($row['rdate'])) . "</td>

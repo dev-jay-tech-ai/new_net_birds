@@ -1,5 +1,4 @@
 <?php
-
 if($code == 'agent') {
   $board = 'aboard';
 } elseif ($code == 'private') {

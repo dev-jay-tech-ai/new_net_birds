@@ -29,7 +29,7 @@
 				$sqlData .= " AND a.active = 1";
 			}
 			$sqlData = searchQuery($sqlData, $sn, $sf);
-			$sqlData .= " ORDER BY is_pinned DESC, idx DESC LIMIT $start, $limit";
+			$sqlData .= " ORDER BY is_pinned DESC, rdate DESC LIMIT $start, $limit";
 			$rs = executeData($connect, $sqlData);
 			$sqlCount .= " AND location = $selectedLocation";
 		}
@@ -39,7 +39,7 @@
 			$sqlData .= " AND a.active = 1";
 		}
 		$sqlData = searchQuery($sqlData, $sn, $sf);
-		$sqlData .= " ORDER BY is_pinned DESC, idx DESC LIMIT $start, $limit";
+		$sqlData .= " ORDER BY is_pinned DESC, rdate DESC LIMIT $start, $limit";
 		$rs = executeData($connect, $sqlData); 
 	}
 

@@ -91,7 +91,7 @@
 							const confirmRenew = confirm("Are you sure you want to list up?");
     					if(!confirmRenew) return;
 							xhr.open('POST', './php_action/updateDate.php', true); 
-							xhr.setRequestHeader('Content-Type', 'application/json');
+						  xhr.setRequestHeader('Content-Type', 'application/json');
 							xhr.send(JSON.stringify({ idx, code }));
 							xhr.onreadystatechange = function () {
 								if(xhr.readyState === XMLHttpRequest.DONE) {
@@ -99,7 +99,8 @@
 										try {
 										const data = JSON.parse(xhr.responseText);
 										if (data.result == 'success') {
-											alert(`${action} successfully!`);
+											alert('Renewed successfully!');
+											location.reload();
 										} else {
 											alert(`Failed to : ${data.message}`);
 										}
