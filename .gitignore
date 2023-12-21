@@ -30,4 +30,11 @@ Thumbs.db
 
 /php_action/db_connect.php
 
-password_forgot.php
+write_private_video.php
+compress_video_multi.php
+compress_video.php
+video.php
+output_240p.mp4
+output_480p.mp4
+output_720p.mp4
+output_1080p.mp4

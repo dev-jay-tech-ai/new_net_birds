@@ -429,11 +429,6 @@ footer .copyright {
   border-color: #4A4A6A;
 }
 
-
-.breadcrumb a {
-  color: #17173a;
-}
-
 .rdate {
   font-size: 12px;
 }
@@ -500,13 +495,12 @@ td.text-center.rate {
   border: 1px solid #4A4A6A;
 }
 
-
-
 .breadcrumb {
   background-color: #212134;
 }
 
 .breadcrumb a {
+  font-weight: 600;
   color: #c0c0cf;
 }
 
