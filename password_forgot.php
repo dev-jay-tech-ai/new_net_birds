@@ -1,41 +1,63 @@
 <?php 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception; 
 
-require_once 'includes/header.php'; 
-include_once('core.php');
+require_once 'includes/header.php';
+require 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-error_reporting(E_ALL); 
-ini_set('display_errors', '1'); 
+$_EMAIL = $_ENV['EMAIL'];
+$_PASSWORD = $_ENV['PASSWORD'];
 
 if(isset($_REQUEST['pwdrst'])) {
   $email = $_REQUEST['email'];
-  $password = $_REQUEST['pwd'];
-  $confirmPassword = $_REQUEST['cpwd'];
-  if($password == $confirmPassword) {
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $reset_pwd = mysqli_query($connect,"UPDATE users SET password='$hashedPassword' WHERE email='$email'");
-    if($reset_pwd > 0) {
-      $msg = 'Your password updated successfully <a href="/login.php">Click here</a> to login';
+  $check_email = mysqli_query($connect, "SELECT email FROM users WHERE email = '$email'");
+  $res = mysqli_num_rows($check_email);
+  if($res>0) {
+    $message = '<div>
+    <p><b>Hello!</b></p>
+    <p>You are recieving this email because we recieved a password reset request for your account.</p>
+    <br>
+    <p><a href="https://newnetbirds.com/password_reset.php?secret='.base64_encode($email).'">Reset Password</a></p>
+    <br>
+    <p>If you did not request a password reset, no further action is required.</p>
+    <br>
+    <p>- Newnetbirds -</p>
+    </div>';
+    $email = $email; 
+    $mail = new PHPMailer;
+    $mail->IsSMTP();
+    $mail->SMTPAuth = true;                 
+    $mail->SMTPDebug = 0;     
+    $mail->Host = 'smtp.hostinger.com';
+    $mail->Port = 587;
+    $mail->Username = $_EMAIL;   //Enter your username/emailid
+    $mail->Password = $_PASSWORD;   //Enter your password
+    $mail->setFrom('info@newnetbirds.com', 'Newnetbirds');
+    $mail->AddAddress($email);
+    $mail->Subject = "Reset Password";
+    $mail->isHTML( TRUE );
+    $mail->Body =$message;
+    if($mail->send()) {
+      $msg = "We have e-mailed your password reset link!"; 
     } else {
-      $msg = "Error while updating password.";
+      echo 'Mailer Error: ' . $mail->ErrorInfo;
     }
   } else {
-    $msg = "Password and Confirm Password do not match";
+    $msg = "We can't find a user with that email address";
   }
 }
-
-if($_GET['secret']) {
-  $email = base64_decode($_GET['secret']);
-  $check_details = mysqli_query($connect,"SELECT email from users where email='$email'");
-  $res = mysqli_num_rows($check_details);
-  if($res>0)
-{ ?>
+?>
 
 <div class="container">  
-<div class="d-flex justify-content-center row vertical">
-  <div class="row col-lg-9 col-sm-12">
-		<div class="col-lg-offset-2 col-lg-8">
-    <div class="table-responsive">  
-      <h3 align="center">Reset Password</h3><br/>
+  <div class="d-flex justify-content-center row vertical">
+		<div class="row col-lg-9 col-sm-12">
+			<div class="col-lg-offset-2 col-lg-8">
+      <div class="table-responsive col-lg-offset-2 col-lg-8 border-0">  
+      <h3 align="center">Forgot Password</h3><br/>
       <div class="box">
       <div class="messages">
       <?php if(!empty($msg)){ echo '<div class="alert alert-warning" role="alert">
@@ -43,27 +65,19 @@ if($_GET['secret']) {
         '.$msg.'</div>'; } ?>
 			</div>
       <form id="validate_form" method="post" >  
-        <input type="hidden" name="email" value="<?php echo $email; ?>"/>
         <div class="form-group">
-        <label for="pwd">Password</label>
-        <input type="password" name="pwd" id="pwd" placeholder="Enter Password" required 
-        data-parsley-type="pwd" data-parsley-trigg
-        er="keyup" class="form-control"/>
+        <label for="email">Email Address</label>
+        <input type="text" name="email" id="email" placeholder="Enter Email" required 
+        data-parsley-type="email" data-parsley-trigg
+        er="keyup" class="form-control" />
         </div>
         <div class="form-group">
-        <label for="cpwd">Confirm Password</label>
-        <input type="password" name="cpwd" id="cpwd" placeholder="Enter Confirm Password" required data-parsley-type="cpwd" data-parsley-trigg
-        er="keyup" class="form-control"/>
-        </div>
-        <div class="form-group">
-        <input type="submit" id="login" name="pwdrst" value="Reset Password" class="btn btn-primary btn-lg btn-block" />
+        <input type="submit" id="login" name="pwdrst" value="Send Password Reset Link" class="btn btn-primary btn-lg btn-block" />
         </div>
       </form>
       </div>
+      </div>
      </div>
     </div>
-    </div>
-   </div>  
-  </div>
-
-<?php } } ?>
+  </div>  
+</div>
