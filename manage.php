@@ -23,7 +23,7 @@ if ($stmtData) {
 <div class="row">
 	<div class="col-md-12 mb-5">
 		<ol class="breadcrumb">
-		  <li><a href="dashboard.php">Home</a></li>		  
+		  <li><a href="dashboard.php">主页</a></li>		  
 		  <li class="active">Manage</li>
 		</ol>
 		<div class="div-action pull pull-right" style="padding-bottom:20px;">
@@ -43,7 +43,7 @@ if ($stmtData) {
 					<th></th>
 					<th>Image</th>
 					<th>Link</th>
-					<th>status</th>
+					<th>Status</th>
 					<th style="width:10%;"></th>
 					<th style="width:5%;"></th>
 				</tr>

@@ -33,12 +33,12 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 							</div>
 						</div>
             <div class="form-group">
-							<label for="username">Username</label>
+							<label for="username">用户名</label>
 							<input class="form-control" type="text" placeholder="Username" name="username" 
 							id="username" value="<?= $result['username'] ?>" autocorrect="off" autocapitalize="off" autocomplete="username">
 						</div>
             <div class="form-group">
-							<label for="username">Email</label>
+							<label for="username">电子邮箱</label>
 							<input class="form-control" type="text" placeholder="email" name="email" 
 							id="email" value="<?= $result['email'] ?>" autocorrect="off" autocapitalize="off">
 						</div>
@@ -106,7 +106,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		}
 		let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if(email == "") {
-			$("#email").after('<p class="text-danger">Email field is required</p>');
+			$("#email").after('<p class="text-danger">请输入电子邮箱</p>');
 			$('#email').closest('.form-group').addClass('has-error');
 			return false;
 		} else if (!emailRegex.test(email)) {
@@ -117,7 +117,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 			$("#email").find('.text-danger').remove();
 		}
 		if(password == "") {
-			$("#password").after('<p class="text-danger">Password field is required</p>');
+			$("#password").after('<p class="text-danger">请输入密码</p>');
 			$('#password').closest('.form-group').addClass('has-error');
 			return false;
 		} else {

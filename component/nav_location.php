@@ -2,12 +2,12 @@
   echo '
   <ul class="nav navbar-nav d-flex location justify-content-center mb-3 w-100">               
     <li><a href="list.php?code=' . $code . '">All</a></li>        
-    <li><a href="list.php?code=' . $code . '&location=london">London</a></li>        
-    <li><a href="list.php?code=' . $code . '&location=manchester">Manchester</a></li>       
-    <li><a href="list.php?code=' . $code . '&location=glasgow">Glasgow</a></li> 
-    <li><a href="list.php?code=' . $code . '&location=nottingham">Nottingham</a></li>        
-    <li><a href="list.php?code=' . $code . '&location=birmingham">Birmingham</a></li>        
-    <li><a href="list.php?code=' . $code . '&location=others">Others</a></li>    
+    <li><a href="list.php?code=' . $code . '&location=london">伦敦</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=manchester">曼城</a></li>       
+    <li><a href="list.php?code=' . $code . '&location=glasgow">格拉斯哥</a></li> 
+    <li><a href="list.php?code=' . $code . '&location=nottingham">诺丁汉</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=birmingham">伯明翰</a></li>        
+    <li><a href="list.php?code=' . $code . '&location=others">其他</a></li>    
   </ul>';
 ?>
 

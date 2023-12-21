@@ -30,7 +30,7 @@
 	<div class="row">
 		<div class="col-md-12 mb-3">
 			<ol class="breadcrumb">
-				<li><a href="dashboard.php">Home</a></li>		  
+				<li><a href="dashboard.php">主页</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
 			<div class="container border border-1 vstack">
@@ -109,7 +109,7 @@
 		})
 		const btn_delete = document.querySelector('#btn_delete'); 
 		btn_delete && btn_delete.addEventListener('click', () => {
-			alert('Are you sure you want to delete this?');
+			alert('Are you sure you want to delete?');
 			fetchView('delete');;
 		})
 		</script>  	

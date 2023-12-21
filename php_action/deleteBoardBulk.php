@@ -17,7 +17,7 @@ if (isset($data['items'])) {
         foreach ($idxArray as $idx) {
             $stmt->bind_param('s', $idx);
             if (!$stmt->execute()) {
-                echo json_encode(['result' => 'error', 'message' => 'Error deleting items.']);
+                echo json_encode(['result' => 'error', 'message' => 'Error deleting postings.']);
                 $stmt->close();
                 $connect->close();
                 exit;

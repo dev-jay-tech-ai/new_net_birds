@@ -53,12 +53,12 @@
     </div>
     <div class="collapse navbar-collapse in" id="navbar-collapse-1">      
       <ul class="nav navbar-nav">               
-        <li id="navAgent"><a href="list.php?code=agent">Club</a></li>        
-        <li id="navPrivate"><a href="list.php?code=private">Private</a></li>        
-        <li id="navReivew"><a href="list.php?code=review">Review</a></li> 
-        <li id="navJobs"><a href="list.php?code=jobs">Jobs</a></li> 
-        <li id="navProperty"><a href="list.php?code=property">Property</a></li>       
-        <li id="navContact"><a href="notice.php">Notice</a></li> 
+        <li id="navAgent"><a href="list.php?code=agent">伴游机构</a></li>        
+        <li id="navPrivate"><a href="list.php?code=private">私密约会</a></li>        
+        <li id="navReivew"><a href="list.php?code=review">评论区</a></li> 
+        <li id="navJobs"><a href="list.php?code=jobs">招聘求职</a></li> 
+        <li id="navProperty"><a href="list.php?code=property">房屋出租</a></li>       
+        <li id="navContact"><a href="notice.php">网站声明</a></li> 
       <?php
         if ($result['status'] == 1) {
         echo 
@@ -81,31 +81,31 @@
             <li>
               <a component="header/profilelink" href="/account.php?username=' . $result['username'] . '">
                 <span component="header/username"><font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">My Account</font></font></span>
+                <font style="vertical-align: inherit;">我的账户</font></font></span>
               </a>
             </li>
             <li role="presentation" class="divider"></li>
             <li>
               <a component="header/profilelink" href="/activity.php?username=' . $result['username'] . '">
                 <span component="header/username"><font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">My Activity</font></font></span>
+                <font style="vertical-align: inherit;">我的活动</font></font></span>
               </a>
             </li>
             <li role="presentation" class="divider"></li>
             <li>
               <a component="header/profilelink/edit" href="/editProfile.php?username=' . $result['username'] . '">
-              <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Edit Profile</font></font></span>
+              <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">编辑用户</font></font></span>
               </a>
             </li>
             <li role="presentation" class="divider"></li>
             <li component="user/logout">
-              <a href="logout.php">Log out</a>
+              <a href="logout.php">退出登录</a>
             </li>
           </ul>
           </li>';
         }  else  {
           // Display this link only when the user is not logged in
-          echo '<li id="navLogin"><a href="login.php">Login</a></li>';
+          echo '<li id="navLogin"><a href="login.php">会员登录</a></li>';
         }
       ?>
       </ul>

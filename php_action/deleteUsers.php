@@ -14,7 +14,7 @@ if (isset($data['items'])) {
     foreach ($userIdArray as $user_id) {
         $stmt->bind_param('s', $user_id);
         if (!$stmt->execute()) {
-            echo json_encode(['result' => 'error', 'message' => 'Error deleting items.']);
+            echo json_encode(['result' => 'error', 'message' => 'Error deleting users.']);
             $stmt->close();
             $connect->close();
             exit;
@@ -23,7 +23,7 @@ if (isset($data['items'])) {
     $stmt->close();
     echo json_encode(['result' => 'success', 'message' => 'Users deleted successfully.']);
 } else {
-    echo json_encode(['result' => 'error', 'message' => 'Items not provided.']);
+    echo json_encode(['result' => 'error', 'message' => 'Users not provided.']);
 }
 
 $connect->close();

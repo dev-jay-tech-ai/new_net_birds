@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col-md-12 mb-3">
 			<ol class="breadcrumb">
-				<li><a href="dashboard.php">Home</a></li>		  
+				<li><a href="dashboard.php">主页</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
 			<div class="mt-5">
@@ -39,12 +39,12 @@
 						echo "<div class='form-group'>
 							<select id='id_location' name='Location' class='form-control'>
 								<option value='-1'> - Select Your Location -</option>  
-								<option value='0'>London</option>
-								<option value='1'>Manchester</option>
-								<option value='2'>Glasgow</option>
-								<option value='3'>Nottingham</option>
-								<option value='4'>Birmingham</option>
-								<option value='5'>others</option>
+								<option value='0'>伦敦</option>
+								<option value='1'>曼城</option>
+								<option value='2'>格拉斯哥</option>
+								<option value='3'>诺丁汉</option>
+								<option value='4'>伯明翰</option>
+								<option value='5'>其他</option>
 							</select>
 						</div>";
 					}		
@@ -87,12 +87,12 @@
 						const fileInput = document.querySelector('#fileInput');
 						const user_id = <?= json_encode($result['user_id']); ?>;
 						if(id_sub.value == '') {
-							alert('Input the subject')
+							alert('Enter title')
 							id_sub.focus();
 							return false;
 						}
 						if(id_content.value.trim() === '') {
-							alert('Input the content');
+							alert('Enter content');
 							return false;
 						}
 						if(code !== 'agent') {

@@ -5,28 +5,38 @@ $(document).ready(function(){
 		$(".text-danger").remove();
 		// remove the form error
 		$('.form-group').removeClass('has-error');			
-		let userName = $("#username").val();
+		let username = $("#username").val();
 		let email = $("#email").val();
 		let password = $("#password").val();
 		let passwordConfirm = $("#passwordConfirm").val();
 
-		if(userName == "") {
-			$("#userName").after('<p class="text-danger">Username field is required</p>');
-			$('#userName').closest('.form-group').addClass('has-error');
+		let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		let usernameRegex = /^[a-z0-9\u4e00-\u9fa5]+$/;
+
+		if (username === "") {
+			$("#username").after('<p class="text-danger">Username field is required</p>');
+			$('#username').closest('.form-group').addClass('has-error');
+		} else if (!usernameRegex.test(username)) {
+			$("#username").after('<p class="text-danger">Please enter a valid username (lowercase, no spaces, and may include Chinese characters)</p>');
+			$('#username').closest('.form-group').addClass('has-error');
+			// If the username is not qualified by the regex, prevent form submission
+			e.preventDefault();
+			return false;
 		} else {
-			// remov error text field
 			$("#username").find('.text-danger').remove();
 		}
 
-		let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if(email == "") {
-				$("#email").after('<p class="text-danger">Email field is required</p>');
-				$('#email').closest('.form-group').addClass('has-error');
+		if (email == "") {
+			$("#email").after('<p class="text-danger">Email field is required</p>');
+			$('#email').closest('.form-group').addClass('has-error');
 		} else if (!emailRegex.test(email)) {
-				$("#email").after('<p class="text-danger">Please enter a valid email address</p>');
-				$('#email').closest('.form-group').addClass('has-error');
+			$("#email").after('<p class="text-danger">Please enter a valid email address</p>');
+			$('#email').closest('.form-group').addClass('has-error');
+			// If the email is not qualified by the regex, prevent form submission
+			e.preventDefault();
+			return false;
 		} else {
-				$("#email").find('.text-danger').remove();
+			$("#email").find('.text-danger').remove();
 		}
 
 		if(password == "") {

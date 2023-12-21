@@ -12,15 +12,15 @@ if (isset($data['user_id'])) {
     $stmt = $connect->prepare($sql);
     $stmt->bind_param('s', $user_id);
     if (!$stmt->execute()) {
-        echo json_encode(['result' => 'error', 'message' => 'Error deleting items.']);
+        echo json_encode(['result' => 'error', 'message' => 'Error deleting user.']);
         $stmt->close();
         $connect->close();
         exit;
     }
     $stmt->close();
-    echo json_encode(['result' => 'success', 'message' => 'Users deleted successfully.']);
+    echo json_encode(['result' => 'success', 'message' => 'User deleted successfully.']);
 } else {
-    echo json_encode(['result' => 'error', 'message' => 'Items not provided.']);
+    echo json_encode(['result' => 'error', 'message' => 'User not provided.']);
 }
 
 $connect->close();

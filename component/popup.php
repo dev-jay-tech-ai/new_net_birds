@@ -20,9 +20,9 @@
         and/or view sexually explicit material;<br>
 			</div>
 			<div class="modal-footer d-flex justify-content-center gap=3">
-        <div><a href="/dashboard.php" class="btn btn-secondary">Disagree</a></div>
+        <div><a href="/dashboard.php" class="btn btn-secondary">不同意</a></div>
 				<div style="cursor: pointer;"> 
-					<span class="btn btn-primary modal-today-close" data-dismiss="modal"> Agree </span> 
+					<span class="btn btn-primary modal-today-close" data-dismiss="modal">同意</span> 
 				</div>
 			</div>
 		</div>

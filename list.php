@@ -15,7 +15,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<ol class="breadcrumb">
-				<li><a href="dashboard.php">Home</a></li>		  
+				<li><a href="dashboard.php">主页</a></li>		  
 				<li class="active"><?= $board_title ?></li>
 			</ol>
       <?php 
@@ -31,7 +31,7 @@
 					</div>";		
 				} else {
 					echo "<div class='d-flex justify-content-end mb-3'>
-					<button id='btn-write' class='btn btn-primary'>Write</button>
+					<button id='btn-write' class='btn btn-primary'>编辑内容</button>
 					</div>";		
 				}
 			} 
@@ -57,9 +57,9 @@
               } 
             ?>
             <th class='text-center'></th>
-            <th class='text-center'>Title</th>
-            <th class='text-center'>User</th>
-            <th class='text-center'>Views</th>
+            <th class='text-center'>标题</th>
+            <th class='text-center'>用户名</th>
+            <th class='text-center'>流量</th>
             <?php 
               if($code == 'review') echo "<th class='text-center'>Rate</th>";
               if(isset($_SESSION['userId']) && $result['status'] == 1) {

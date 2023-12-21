@@ -20,7 +20,7 @@ $row = $result->fetch_assoc();
 <div class="row">
 	<div class="col-md-12 mb-5">
 		<ol class="breadcrumb">
-		  <li><a href="dashboard.php">Home</a></li>		  
+		  <li><a href="dashboard.php">主页</a></li>		  
 		  <li class="active"><?= $board_title ?></li>
 		</ol>
 		<div class="mb-3">
@@ -33,12 +33,12 @@ $row = $result->fetch_assoc();
 					echo '<div class="form-group">
 					<select id="id_location" name="Location" class="form-control">
 						<option value="-1">- Select Your Location -</option>
-						<option value="0"' . ($row['location'] == 0 ? ' selected' : '') . '>London</option>
-						<option value="1"' . ($row['location'] == 1 ? ' selected' : '') . '>Manchester</option>
-						<option value="2"' . ($row['location'] == 2 ? ' selected' : '') . '>Glasgow</option>
-						<option value="3"' . ($row['location'] == 3 ? ' selected' : '') . '>Nottingham</option>
-						<option value="4"' . ($row['location'] == 4 ? ' selected' : '') . '>Birmingham</option>
-						<option value="5"' . ($row['location'] == 5 ? ' selected' : '') . '>others</option>
+						<option value="0"' . ($row['location'] == 0 ? ' selected' : '') . '>伦敦</option>
+						<option value="1"' . ($row['location'] == 1 ? ' selected' : '') . '>曼城</option>
+						<option value="2"' . ($row['location'] == 2 ? ' selected' : '') . '>格拉斯哥</option>
+						<option value="3"' . ($row['location'] == 3 ? ' selected' : '') . '>诺丁汉</option>
+						<option value="4"' . ($row['location'] == 4 ? ' selected' : '') . '>伯明翰</option>
+						<option value="5"' . ($row['location'] == 5 ? ' selected' : '') . '>其他</option>
 					</select>
 				</div>';
 				}

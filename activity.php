@@ -13,8 +13,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<ol class="breadcrumb">
-				<li><a href="dashboard.php">Home</a></li>		  
-				<li class="active">My activity</li>
+				<li><a href="dashboard.php">主页</a></li>		  
+				<li class="active">我的活动</li>
 			</ol>
       <?php 
 			searchbar_ui($sn, $sf);
@@ -32,10 +32,10 @@
         <thead class='text-bg-primary text-center'>
           <tr>
             <th class='text-center'></th>
-            <th class='text-center'>Title</th>
+            <th class='text-center'>标题</th>
             <th class='text-center'>Board</th>
-            <th class='text-center'>Views</th>
-            <th class='text-center'>Date</th>
+            <th class='text-center'>流量</th>
+            <th class='text-center'>日期</th>
             <th class='text-center'></th>
           </tr>
         </thead>
@@ -62,7 +62,7 @@
 						<?= substr($row['post_date'], 0, 10); ?>
 					</td>
 					<td class='rdate text-center untouchable'>
-						<button class='btn btn-primary btn-small btn_renew'>Renew</button>
+						<button class='btn btn-primary btn-small btn_renew'>Refresh</button>
 					</td>
 				</tr>
 				<?php

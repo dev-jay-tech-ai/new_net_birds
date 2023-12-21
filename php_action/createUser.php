@@ -13,7 +13,7 @@ $credit = isset($_POST['credit']) ? $_POST['credit'] : '';
 $filelist = ''; 
 
 if (empty($username) || empty($email) || empty($password)) {
-  $response = ['result' => 'error', 'message' => 'Username, email, and password are required.'];
+  $response = ['result' => 'error', 'message' => '请输入用户名和密码'];
 } else {
   if(file_exists($_FILES['file']['tmp_name']) || is_uploaded_file($_FILES['file']['tmp_name'])) {
     $folder = '../assets/images/profile/';

@@ -1,20 +1,18 @@
 <?php 
     if($code == 'agent') {
-        $board_title = 'Club';
-    } else {
-        $board_title = ucfirst($code);
-    }
-
-    if($board_title == 'Club') {
         $board = 'aboard';
-    } elseif ($board_title == 'Private') {
+        $board_title = '伴游机构';
+    } elseif ($code == 'private') {
         $board = 'pboard';
-    } elseif ($board_title == 'Review') {
+        $board_title = '私密约会';
+    } elseif ($code == 'review') {
         $board = 'rboard';
-    } elseif ($board_title == 'Jobs') {
+        $board_title = '评论区';
+    } elseif ($code == 'jobs') {
         $board = 'jboard';
-    } elseif ($board_title == 'Property') {
+        $board_title = '招聘求职';
+    } elseif ($code == 'property') {
         $board = 'prboard';
+        $board_title = '房屋出租';
     }
-
 ?>

@@ -10,11 +10,11 @@
   <thead class='text-bg-primary text-center'>
   <tr>
     <th class='text-center'></th>
-    <th class='text-center'>Title</th>
+    <th class='text-center'>标题</th>
     <th></th>
-    <th>User</th>
-    <th class='text-center'>Views</th>
-    <th class='text-center'>Date</th>
+    <th>用户名</th>
+    <th class='text-center'>流量</th>
+    <th class='text-center'>日期</th>
   </tr>
   </thead>
   <tbody>
@@ -51,12 +51,14 @@ if($stmtData) {
   $stmtData->execute();
   $result = $stmtData->get_result();
   while($row = $result->fetch_assoc()) {
+    $code = $row['code'];
+    include 'config.php'; 
     if($row['active'] == 1) {
     ?>
     <tr class='view_detail us-cursor' data-idx='<?= $row['idx']; ?>' data-code='<?= $row['code'] ?>'>
       <td style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'>
         <div class='d-flex flex-column'>
-          <div class='fw-bold' style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'><span style='color: #a2a2b0;'><?= ucfirst($row['code']); ?> | </span><?= $row['subject']; ?></div>
+          <div class='fw-bold' style='<?= $row['is_pinned'] ? "background: #4A4A6A;" : "" ?>'><span style='color: #a2a2b0;'><?= $board_title ?> | </span><?= $row['subject']; ?></div>
           <div class='d-flex justify-content-between mt-2 cc-3'>
             <div class='d-flex align-items-center flex-row' style='flex: 2'>
               <div class='board_profile'>
