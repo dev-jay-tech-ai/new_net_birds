@@ -58,8 +58,8 @@
 				<div id='bbs_content' class='p-3'>
 					<?= $row['content'] ?><br>
 				</div>
-				<div class="mt-3 d-flex gap-2 p-3">
-					<button id='btn_list' class="btn btn-secondary me-auto">List</button>
+				<div class="mt-3 d-flex gap-2 p-3 justify-content-center">
+					<button id='btn_list' class="btn btn-secondary">List</button>
 					<?php 
 					if(isset($_SESSION['userId'])) {
 						if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
@@ -69,7 +69,11 @@
 					}?>
 				</div>
 				<div class="mt-3 mb-5 gap-1 d-flex justify-content-center">	
-					<?php include 'component/btn_prenext.php'; ?>
+					<?php 
+						if(!$row['is_pinned']) {
+							include 'component/btn_prenext.php'; 
+						}
+					?>
 				</div>
 			</div>
 		</div>
@@ -110,7 +114,7 @@
 		const btn_delete = document.querySelector('#btn_delete'); 
 		btn_delete && btn_delete.addEventListener('click', () => {
 			alert('Are you sure you want to delete?');
-			fetchView('delete');;
+			fetchView('delete');
 		})
 		</script>  	
 	</div> <!-- /col-md-12 -->

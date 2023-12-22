@@ -1,6 +1,6 @@
 <?php
 $limit = 20;
-$page_limit = 10;
+$page_limit = 5;
 $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
