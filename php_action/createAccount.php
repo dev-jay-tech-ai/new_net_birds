@@ -11,7 +11,7 @@ if ($_POST) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     if (empty($username) || empty($email) || empty($password)) {
-        $response['messages'] = "Username, email and Password are required.";
+        $response['messages'] = "用户名、电子邮件和密码是必填项。";
     } else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (username, password, user_image, email, active, status, ip, rdate) VALUES (?, ?, '', ?, 2, 2, ?, NOW())";
@@ -21,12 +21,13 @@ if ($_POST) {
             $stmt->bind_param("ssss", $username, $hashedPassword, $email, $ip); // Bind the parameters
             if ($stmt->execute()) {
                 $response['success'] = true;
-                $response['messages'] = "Successfully Added";
+                $response['messages'] = "添加成功";
             } else {
-                $response['messages'] = "Error while adding the member: " . $stmt->error;
+                $response['messages'] = "添加会员时出错: " . $stmt->error;
             }
         } else {
-            $response['messages'] = "Failed to prepare the SQL statement";
+            // $response['messages'] = "Failed to prepare the SQL statement";
+            $response['messages'] = "添加会员时出错";
         }
     }
     $connect->close();

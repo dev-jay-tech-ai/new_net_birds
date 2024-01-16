@@ -42,8 +42,8 @@ if(isset($_POST['user_id'])) {
         <div class="col-sm-8">
             <select id="active" class="form-control" name="active">
                 <option value="-1">Select</option>
-                <option value="1" ' . ($active == 1 ? 'selected' : "") . '>Paid</option>
-                <option value="2" ' . ($active == 2 ? 'selected' : "") . '>Unpaid</option>
+                <option value="1" ' . ($active == 1 ? 'selected' : "") . '>paid</option>
+                <option value="2" ' . ($active == 2 ? 'selected' : "") . '>unpaid</option>
             </select>
         </div>
     </div>
@@ -51,8 +51,8 @@ if(isset($_POST['user_id'])) {
         <div class="col-sm-8">
             <select id="status" class="form-control" name="status">
                 <option value="-1">Select</option>
-                <option value="1" ' . ($status == 1 ? 'selected' : "") . '>Admin</option>
-                <option value="2" ' . ($status == 2 ? 'selected' : "") . '>Guest</option>
+                <option value="1" ' . ($status == 1 ? 'selected' : "") . '>admin</option>
+                <option value="2" ' . ($status == 2 ? 'selected' : "") . '>guest</option>
             </select>
         </div>
     </div>
@@ -63,10 +63,10 @@ if(isset($_POST['user_id'])) {
     </div>
 ';
 	} else {
-        echo 'No data!';
+        echo '无数据';
 	}
 } else {
-    echo 'User not found!';
+    echo '未找到用户';
 }
 
 $stmt->close();

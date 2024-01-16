@@ -82,7 +82,7 @@ if(isset($_SESSION['userId'])) {
         die($connect->error);
     }
 } else {
-    echo 'User not found!';
+    echo '未找到用户';
 }
 
 $stmt->close();

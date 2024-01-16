@@ -104,7 +104,6 @@
           </ul>
           </li>';
         }  else  {
-          // Display this link only when the user is not logged in
           echo '<li id="navLogin"><a href="login.php">会员登录</a></li>';
         }
       ?>

@@ -22,7 +22,7 @@
 					<input id="id_name" class="form-control w-25" type="text" name="username" value="<?= $username ?>" readonly>
 					<?php 
 					if($code === 'review') {
-						echo "<div>Rating: </div>
+						echo "<div>评分: </div>
 						<h4 class='text-center'>
 							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_1' data-rating='1'></i>
 							<i class='fas fa-star star-light submit_star mr-1' id='submit_star_2' data-rating='2'></i>
@@ -38,7 +38,7 @@
 					if($code !== 'agent') {
 						echo "<div class='form-group'>
 							<select id='id_location' name='Location' class='form-control'>
-								<option value='-1'> - Select Your Location -</option>  
+								<option value='-1'> - 选择您的地区 -</option>  
 								<option value='0'>伦敦</option>
 								<option value='1'>曼城</option>
 								<option value='2'>格拉斯哥</option>
@@ -64,8 +64,8 @@
 						rows="4" contenteditable="true"></div>
 				</div>
 				<div class="mt-2 d-flex gap-2 justify-content-end">
-					<button id='btn_submit' class='btn btn-primary'>OK</button>
-					<button id='btn_list' class='btn btn-secondary'>LIST</button>
+					<button id='btn_submit' class='btn btn-primary'>确认</button>
+					<button id='btn_list' class='btn btn-secondary'>返回菜单</button>
 				</div>
 				<script>
 					const code = '<?php echo $code; ?>';
@@ -87,17 +87,17 @@
 						const fileInput = document.querySelector('#fileInput');
 						const user_id = <?= json_encode($result['user_id']); ?>;
 						if(id_sub.value == '') {
-							alert('Enter title')
+							alert('标题')
 							id_sub.focus();
 							return false;
 						}
 						if(id_content.value.trim() === '') {
-							alert('Enter content');
+							alert('联系方式');
 							return false;
 						}
 						if(code !== 'agent') {
 							if(id_location.value === '-1') {
-								alert('Please select a location');
+								alert('选择您的地区');
 								return false;
 							}
 						}

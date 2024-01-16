@@ -1,6 +1,7 @@
 <?php 
 	require_once 'php_action/core.php';
 	require_once 'includes/header.php';
+	include 'component/auth_session.php';
 	include 'component/pagination.php'; 
 	$code = (isset($_GET['code']) && $_GET['code'] !== '') ? $_GET['code'] : '';
 	include 'component/config.php'; 
@@ -33,7 +34,7 @@
           <tr>
             <th class='text-center'></th>
             <th class='text-center'>标题</th>
-            <th class='text-center'>Board</th>
+            <th class='text-center'>回到首页</th>
             <th class='text-center'>流量</th>
             <th class='text-center'>日期</th>
             <th class='text-center'></th>
@@ -62,7 +63,7 @@
 						<?= substr($row['post_date'], 0, 10); ?>
 					</td>
 					<td class='rdate text-center untouchable'>
-						<button class='btn btn-primary btn-small btn_renew'>Refresh</button>
+						<button class='btn btn-primary btn-small btn_renew'>刷新</button>
 					</td>
 				</tr>
 				<?php
@@ -88,7 +89,7 @@
 							const tr = button.parentNode.parentNode;
 							const idx = tr.getAttribute('data-idx');
 							const code = tr.getAttribute('data-code');
-							const confirmRenew = confirm("Are you sure you want to list up?");
+							const confirmRenew = confirm("你确定要再次列出吗？");
     					if(!confirmRenew) return;
 							xhr.open('POST', './php_action/updateDate.php', true); 
 						  xhr.setRequestHeader('Content-Type', 'application/json');
@@ -99,7 +100,7 @@
 										try {
 										const data = JSON.parse(xhr.responseText);
 										if (data.result == 'success') {
-											alert('Renewed successfully!');
+											alert('成功重新列出');
 											location.reload();
 										} else {
 											alert(`Failed to : ${data.message}`);

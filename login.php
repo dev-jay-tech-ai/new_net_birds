@@ -59,7 +59,7 @@ if ($_POST) {
 							<label for="password">密码</label>
 							<input class="form-control" type="password" placeholder="Password" name="password" id="password">
 							<p id="caps-lock-warning" class="text-danger hidden">
-								<i class="fa fa-exclamation-triangle"></i> Caps Lock is enabled
+								<i class="fa fa-exclamation-triangle"></i> 大写已开启
 							</p>
 						</div>
 						<div class="form-group">

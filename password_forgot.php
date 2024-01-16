@@ -56,7 +56,7 @@ if(isset($_REQUEST['pwdrst'])) {
 		<div class="row col-lg-9 col-sm-12">
 			<div class="col-lg-offset-2 col-lg-8">
       <div class="table-responsive col-lg-offset-2 col-lg-8 border-0">  
-      <h3 align="center">Forgot Password</h3><br/>
+      <h3 align="center">忘记密码</h3><br/>
       <div class="box">
       <div class="messages">
       <?php if(!empty($msg)){ echo '<div class="alert alert-warning" role="alert">
@@ -65,13 +65,13 @@ if(isset($_REQUEST['pwdrst'])) {
 			</div>
       <form id="validate_form" method="post" >  
         <div class="form-group">
-        <label for="email">Email Address</label>
+        <label for="email">电子邮件</label>
         <input type="text" name="email" id="email" placeholder="Enter Email" required 
         data-parsley-type="email" data-parsley-trigg
         er="keyup" class="form-control" />
         </div>
         <div class="form-group">
-        <input type="submit" id="login" name="pwdrst" value="Send Password Reset Link" class="btn btn-primary btn-lg btn-block" />
+        <input type="submit" id="login" name="pwdrst" value="发送密码重置链接" class="btn btn-primary btn-lg btn-block" />
         </div>
       </form>
       </div>

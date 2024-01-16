@@ -1,30 +1,30 @@
 <?php require_once 'includes/header.php'; ?>
 <div class='container'>
 	<div class="row">
-		<div class="main panel col-md-12 text-center">
+		<div class="main panel col-md-12 text-center mt-5 mb-5">
 			<div class='panel-heading text-data'>
-				<div class="Hero_wrapper">
-					<div class="Hero_innerWrapper">
-						<h1 class="heading_1 mt-5 mb-5">网鸟 您在英国的幸福源泉</h1> 
-						<div class="text_wrapper__1wumA text_hero___ByfE">
-							<h1 class="heading_1"></h1>
-							<p>广告位招租</p>
-						</div>
-						<div class="row">
-							<div class="col-12">网鸟，您在英国的幸福源泉
+				<div class="hero_wrapper">
+					<div class="hero_innerWrapper">
+						<div class="hero_banner">
+							<div class='banner_circle'>
+								<div class='banner_image'>
+									<img src='assets/images/logo/bird_img.png' />
+								</div>
+							</div>
+							<div class="banner_content">
+								<h1 class="heading_1 mb-5">网鸟 您在英国的幸福源泉</h1> 
+								<div class="text_wrapper__1wumA text_hero___ByfE">
+									<h1 class="heading_1"></h1>
+									<p style="color: #f9dbef;">广告位招租</p>
+								</div>
+								<div class="row">
+									<div class="col-12" style="color: #f9f1c7;"><span style="color: #fcdfbf">网鸟</span>您在英国的幸福源泉
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="FullSuiteHeroSection_icon__3bxSb"><div class="Intersection_wrapper" data-intersect="boxShadow" style="transition-delay: 0ms;">
-						<div class="LogoCube_wrapper__1zRZD LogoCube_lg__MMKJu LogoCube_suite__1PiP7"></div>
-					</div>
-				
-					<div class="Hero_dots__e1Tsv">
-						<!-- <img src="https://d2oupip9s5ltdo.cloudfront.net/cdn/webassets/img/hero-dots.png" alt=""> -->
-					</div>
-				</div>
-			</div>
-			<div class="Hero_triangle__t_hGV"></div>
-		</div>
+			    </div>
+		    </div>
 		</div>
 	</div> <!--/row-->
 	</div>

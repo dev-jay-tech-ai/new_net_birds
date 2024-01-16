@@ -20,7 +20,28 @@
   <tbody>
   <?php 
   require_once 'php_action/core.php';
-  $sqlData = "SELECT idx, code, subject, user_id, name, content, hit, active, rdate FROM ( SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM aboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM pboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM rboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM jboard UNION SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num FROM prboard ) AS combined WHERE row_num <= 7 ORDER BY rdate DESC LIMIT 7";
+  $sqlData = "SELECT c.idx, c.code, c.subject, c.user_id, c.name, c.content, c.hit, c.active, c.rdate, u.user_image
+  FROM (
+    SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num
+    FROM aboard
+    UNION
+    SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num
+    FROM pboard
+    UNION
+    SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num
+    FROM rboard
+    UNION
+    SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num
+    FROM jboard
+    UNION
+    SELECT idx, code, subject, user_id, name, content, hit, active, rdate, ROW_NUMBER() OVER (ORDER BY rdate DESC) as row_num
+    FROM prboard
+  ) AS c
+  JOIN users AS u ON c.user_id = u.user_id
+  WHERE c.row_num <= 7
+  ORDER BY c.rdate DESC
+  LIMIT 7";
+
   $stmtData = $connect->prepare($sqlData);
   if($stmtData) {
     $stmtData->execute();
@@ -62,6 +83,7 @@ if($stmtData) {
           <div class='d-flex justify-content-between mt-2 cc-3'>
             <div class='d-flex align-items-center flex-row' style='flex: 2'>
               <div class='board_profile'>
+                <!-- issue -->
                 <?php if($row['user_image'] !== '' && $row['user_image'] !== NULL): ?>
                   <img src='<?= $row['user_image'] ?>' alt='profile image' />
                 <?php endif; ?>

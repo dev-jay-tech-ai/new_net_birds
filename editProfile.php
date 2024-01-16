@@ -14,7 +14,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		<div class="row col-lg-9 col-sm-12">
 			<div class="col-md-12">
 				<div class="spinner-border" role="status">
-					<span class="visually-hidden">Loading...</span>
+					<span class="visually-hidden">加载中…</span>
 				</div>
 				<div class="login-block">
 					<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" id="loginForm">
@@ -43,21 +43,21 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 							id="email" value="<?= $result['email'] ?>" autocorrect="off" autocapitalize="off">
 						</div>
 						<div class="form-group">
-							<label for="change_password">New password</label>
+							<label for="change_password">新密码</label>
 							<input class="form-control" type="password" placeholder="new password" name="change_password" id="password" autocomplete="new-password">
 							<p id="caps-lock-warning" class="text-danger hidden">
-								<i class="fa fa-exclamation-triangle"></i> Caps Lock is enabled
+								<i class="fa fa-exclamation-triangle"></i> 大写已开启
 							</p>
 						</div>
 						<div class="form-group">
-							<label for="password"> Confirm new password</label>
+							<label for="password">确认新密码</label>
 							<input class="form-control" type="password" placeholder="Confirm new password" name="passwordConfirm" id="passwordConfirm" autocomplete="new-password">
 							<p id="caps-lock-warning" class="text-danger hidden">
-								<i class="fa fa-exclamation-triangle"></i> Caps Lock is enabled
+								<i class="fa fa-exclamation-triangle"></i> 大写已开启
 							</p>
 						</div>
 						<div class="form-group">
-							<button id='btn_submit' class="btn btn-primary btn-lg btn-block mt-3" type="submit">Update</button>				
+							<button id='btn_submit' class="btn btn-primary btn-lg btn-block mt-3" type="submit">更新中</button>				
 						</div>
 					</form>
 				</div>
@@ -99,7 +99,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 		const password = document.querySelector('#password').value;
 		const passwordConfirm = document.querySelector('#passwordConfirm').value;
 		if(userName == "") {
-			$("#userName").after('<p class="text-danger">Username field is required</p>');
+			$("#userName").after('<p class="text-danger">用户名字段是必填项</p>');
 			$('#userName').closest('.form-group').addClass('has-error');
 		} else {
 			$("#username").find('.text-danger').remove();
@@ -110,7 +110,7 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 			$('#email').closest('.form-group').addClass('has-error');
 			return false;
 		} else if (!emailRegex.test(email)) {
-			$("#email").after('<p class="text-danger">Please enter a valid email address</p>');
+			$("#email").after('<p class="text-danger">请输入有效的电子邮件</p>');
 			$('#email').closest('.form-group').addClass('has-error');
 			return false;
 		} else {
@@ -124,14 +124,14 @@ $initial = strtoupper(mb_substr($result['username'], 0, 1, 'UTF-8'));
 			$("#password").find('.text-danger').remove();  	
 		}
 		if(passwordConfirm == "") {
-			$("#passwordConfirm").after('<p class="text-danger">Confirm Password field is required</p>');
+			$("#passwordConfirm").after('<p class="text-danger">请再次输入您的密码</p>');
 			$('#passwordConfirm').closest('.form-group').addClass('has-error');
 			return false;
 		} else {
 			$("#passwordConfirm").find('.text-danger').remove(); 	
 		}
     if (password !== passwordConfirm) {
-			$("#passwordConfirm").after('<p class="text-danger">Passwords do not match</p>');
+			$("#passwordConfirm").after('<p class="text-danger">密码不一致</p>');
 			$('#passwordConfirm').closest('.form-group').addClass('has-error');
 			return false;
 		} else {

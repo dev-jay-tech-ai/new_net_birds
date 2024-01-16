@@ -12,12 +12,12 @@ if (isset($_POST['user_id'])) {
         session_unset();
         session_destroy();
         session_write_close();
-        echo json_encode(['status' => 'success', 'message' => 'Your account deleted successfully.']);
+        echo json_encode(['status' => 'success', 'message' => '您的账户已成功删除。']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error deleting your account.']);
+        echo json_encode(['status' => 'error', 'message' => '删除账户错误。']);
     }
     $connect->close();
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'User ID not provided.']);
+    echo json_encode(['status' => 'error', 'message' => '未提供用户ID。']);
 }
 ?>

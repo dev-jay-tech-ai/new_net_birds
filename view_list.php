@@ -59,12 +59,12 @@
 					<?= $row['content'] ?><br>
 				</div>
 				<div class="mt-3 d-flex gap-2 p-3 justify-content-center">
-					<button id='btn_list' class="btn btn-secondary">List</button>
+					<button id='btn_list' class="btn btn-secondary">返回菜单</button>
 					<?php 
 					if(isset($_SESSION['userId'])) {
 						if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-							echo "<button id='btn_edit' class='btn btn-primary'>Update</button>
-							<button id='btn_delete' class='btn btn-danger'>Delete</button>";
+							echo "<button id='btn_edit' class='btn btn-primary'>更新中</button>
+							<button id='btn_delete' class='btn btn-danger'>删除</button>";
 						} 
 					}?>
 				</div>
@@ -113,7 +113,7 @@
 		})
 		const btn_delete = document.querySelector('#btn_delete'); 
 		btn_delete && btn_delete.addEventListener('click', () => {
-			alert('Are you sure you want to delete?');
+			alert('您确定要删除吗？');
 			fetchView('delete');
 		})
 		</script>  	

@@ -66,7 +66,7 @@
                 echo "<th class='text-center'>Active</th>";		
               } 
             ?>
-            <th class='text-center'>Date</th>
+            <th class='text-center'>日期</th>
             <?php 
               if(isset($_SESSION['userId']) && $result['status'] == 1) {
                 echo "<th class='text-center'></th>";		

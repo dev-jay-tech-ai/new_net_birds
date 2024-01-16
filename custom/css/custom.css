@@ -749,3 +749,111 @@ button.close {
     font-size: 24px;
   }
 } 
+
+.banner_circle {
+  position: relative;
+  width: 250px;
+  height:250px;
+  border-radius: 50%;
+  background-image: linear-gradient(45deg, #ffc00d,#ff9037,#c65ac2);
+  box-shadow:
+  /* 공 바깥쪽 그림자 */
+  0 0 20px 0 white,
+  10px 10px 20px 10px #181826,
+  -10px -10px 20px 0 #ffc00d,
+  /* 공 안쪽 그림자 */
+  inset 0 0 14px 0 white,
+  inset -40px -30px 60px 0 #181826,
+  inset -40px -30px 70px 0 #c65ac2,
+  inset -40px -30px 100px 0 #ffc00d,
+  inset -40px -30px 140px 0 powderblue;
+  animation: glow 2s linear infinite alternate;
+}
+
+@keyframes glow {
+  from {
+      box-shadow:
+      /* 공 바깥쪽 그림자 */
+      0 0 20px 0 white,
+      10px 10px 20px 10px #181826,
+      -10px -10px 20px 0 #ffc00d,
+      /* 공 안쪽 그림자 */
+      inset 0 0 14px 0 white,
+      inset -40px -30px 60px 0 #181826,
+      inset -40px -30px 70px 0 #c65ac2,
+      inset -40px -30px 100px 0 #ffc00d,
+      inset -40px -30px 140px 0 powderblue;
+  }
+
+  to {
+      box-shadow:
+      /* 공 바깥쪽 그림자 */
+      0 0 20px 0 white,
+      10px 10px 20px 10px #c65ac2,
+      -10px -10px 20px 0 #ffc00d,
+      /* 공 안쪽 그림자 */
+      inset 0 0 14px 0 white,
+      inset -40px -30px 60px 0 #c65ac2,
+      inset -40px -30px 70px 0 #c65ac2,
+      inset -40px -30px 100px 0 #ffc00d,
+      inset -40px -30px 140px 0 powderblue;
+    }
+  }
+  
+.banner_image, .banner_content {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 101%;
+  color: #fff;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 40px;
+}
+
+.banner_content {
+  width: 80%;
+}
+
+.banner_content h1 {
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.banner_image {
+  animation: clock 8s linear infinite;
+}
+
+.banner_image > img {
+  width: 100%;
+}
+
+@keyframes clock {
+  0% {   margin-left:10px; margin-top: 10px;}
+  25% {  margin-left:15px; margin-top:-5px;}
+  50% {  margin-left:25px; margin-top: 10px;}
+  75% {  margin-left:15px; margin-top:-5px;}
+  100% { margin-left:10px; margin-top: 10px;}
+}
+
+@media (min-width: 768px) {
+  .banner_circle {
+    margin-left: 150px;
+  }
+  .banner_circle {
+    width: 400px;
+    height:400px;
+  }
+  .banner_image, .banner_content {
+    font-size: 45px;
+    line-height: 55px;
+    width: 110%;
+  }
+  .banner_content {
+    left: 55%;
+  }
+  .banner_content h1 {
+    font-size: 55px;
+  }
+} 

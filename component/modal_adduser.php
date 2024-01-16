@@ -5,7 +5,7 @@ echo'
     <div class="modal-content">
     	<form class="form-horizontal" enctype="multipart/form-data">
 	      <div class="modal-header">
-					<h5 class="modal-title">Add User</h5>
+					<h5 class="modal-title">添加用户</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	      </div>
 	      <div class="modal-body" style="max-height:450px; overflow:auto;">
@@ -42,18 +42,18 @@ echo'
 	        <div class="form-group">
 				    <div class="col-sm-8">
 				      <select id="active" class="form-control" name="active">
-				      	<option value="-1">Select</option>
-				      	<option value="1">Paid</option>
-				      	<option value="2">Unpaid</option>
+				      	<option value="-1">选项</option>
+				      	<option value="1">有酬</option>
+				      	<option value="2">无酬</option>
 				      </select>
 				    </div>
 	        </div> <!-- /form-group-->	
 					<div class="form-group">
 				    <div class="col-sm-8">
 				      <select id="status" class="form-control" name="status">
-				      	<option value="-1">Select</option>
-				      	<option value="1">Admin</option>
-				      	<option value="2">Guest</option>
+				      	<option value="-1">选项</option>
+				      	<option value="1">管理员</option>
+				      	<option value="2">访客</option>
 				      </select>
 				    </div>
 	        </div> <!-- /form-group-->
@@ -64,8 +64,8 @@ echo'
 	        </div> <!-- /form-group-->	 	         	        
 	      </div> <!-- /modal-body -->
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="submit" id="addUserBtn" class="btn btn-primary" data-loading-text="Loading..." autocomplete="off">Add user</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+	        <button type="submit" id="addUserBtn" class="btn btn-primary" data-loading-text="Loading..." autocomplete="off">添加用户</button>
 	      </div> <!-- /modal-footer -->	      
      	</form> <!-- /form -->	     
     </div> <!-- /modal-content -->    
