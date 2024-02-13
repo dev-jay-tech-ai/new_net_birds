@@ -4,7 +4,10 @@ require_once 'includes/header.php';
 require_once 'component/auth_session.php'; 
 include 'component/pagination.php'; 
 
+$sf = (isset($_GET['sf']) && $_GET['sf'] !== '') ? $_GET['sf'] : '';
 $sqlCount = "SELECT COUNT(*) as cnt FROM users";
+
+
 $stmtCount = $connect->prepare($sqlCount);
 if ($stmtCount) {
 	$stmtCount->execute();
@@ -15,9 +18,18 @@ if ($stmtCount) {
 	die($connect->error);
 }
 
-$sqlData = "SELECT * FROM users ORDER BY user_id DESC LIMIT $start, $limit";
+$sqlData = "SELECT * FROM users";
+if (!empty($sf)) {
+  $sqlData .= " WHERE username LIKE ? OR email LIKE ?";
+}
+$sqlData .= " ORDER BY user_id DESC LIMIT $start, $limit";
+
 $stmtData = $connect->prepare($sqlData);
 if($stmtData) {
+	if(!empty($sf)) {
+		$sfParam = "%$sf%";
+		$stmtData->bind_param("ss", $sfParam, $sfParam);
+	}
 	$stmtData->execute();
 	$resultData = $stmtData->get_result();
 	$rs = [];
@@ -34,6 +46,11 @@ if($stmtData) {
 		  <li><a href="dashboard.php">Home</a></li>		  
 		  <li class="active">Users</li>
 		</ol>
+		<div class="searchbar d-flex div-action pull pull-left">
+			<input type="text" class="search form-control" id="sf" value="<?= $sf; ?>">
+			<button class="btn btn-secondary ms-1" id="btn_search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+		</div>
+		
 		<div class="div-action pull pull-right" style="padding-bottom:20px;">
 			<button class="btn btn-primary" data-toggle="modal" id="addUserModalBtn" data-target="#addUserModal">Add User</button>
 			<button id='btn-delete' class="btn btn-secondary">Delete</button>
@@ -42,7 +59,7 @@ if($stmtData) {
 			<table class='table table-bordered table-hover'>
 			<thead class='text-bg-primary text-center'>
 				<tr>
-					<th class='text-center'></th>
+					<th class='text-center'><input class='form-check-input' type='checkbox' value='' id='checkAll'></th>
 					<th></th>							
 					<th style="width:5%;">Profile</th>							
 					<th>Name</th>
@@ -52,7 +69,7 @@ if($stmtData) {
 					<th>Credit</th>
 					<th>Registered</th>
 					<th>IP</th>
-					<th style="width:10%;">Options</th>
+					<th>Options</th>
 				</tr>
 			</thead>
 			<?php 
@@ -94,7 +111,14 @@ if($stmtData) {
 					<td class='rdate text-center'><?= $row['ip']; ?></td>
 					<td class='text-center'>
 						<div class="btn-group">
-							<button type='button' class="btn btn-primary me-1 editUserModalBtn" data-user-id="<?= $row['user_id'] ?>">Edit</button>
+							<button type='button' class="btn btn-primary editUserModalBtn" data-user-id="<?= $row['user_id'] ?>">Edit</button>
+							<?php 
+								if($row['status'] === 0) {
+									echo '<button class="btn btn_block_user" data-user-id="' . $row['user_id'] . '_' . $row['status'] . '">Unblock</button>';
+								} else {
+									echo '<button class="btn btn-danger btn_block_user" data-user-id="' . $row['user_id'] . '_' . $row['status'] . '">Block</button>';
+								}
+							?>
 							<button class="btn btn-secondary btn_delete_user" data-user-id="<?= $row['user_id'] ?>">Delete</button>
 						</div>
 					</td>
@@ -107,7 +131,8 @@ if($stmtData) {
 	</div> <!-- /col-md-12 -->
 	<div class="mt-3 d-flex gap-2 justify-content-center">
 		<?php 
-			$param = '&code='.$code;
+			//$param = '&code='.$code;
+			$param = '';
 			$rs_str = my_pagination($total, $limit, $page_limit, $page, $param);
 			echo $rs_str;
 		?> 
@@ -135,9 +160,22 @@ if($stmtData) {
 	</div> <!-- /modal-dialog -->
 </div>
 
-
 <?php include 'component/modal_adduser.php'; ?>
 
 </div> 
+<script>
+const pathname = window.location.pathname;
+const search = window.location.search;
+const btn_search = document.querySelector('#btn_search');
+btn_search.addEventListener('click', (e) => {
+  e.preventDefault();
+  const sf = document.querySelector('#sf');
+  if(sf.value == '') {
+    self.location.href='.'+pathname+search;
+    return false;
+  }
+  self.location.href='.'+pathname+'?sf=' + sf.value;
+})
+</script> 
 <script src='/custom/js/admin.js?v=<?php echo time(); ?>'></script> 
 <?php require_once 'includes/footer.php'; ?>

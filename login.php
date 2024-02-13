@@ -24,7 +24,7 @@ if ($_POST) {
 				if (password_verify($password, $hashedPassword)) {
 						$_SESSION['userId'] = $user['user_id'];
 						// $errors[] = $user['user_id'];
-						echo "<script>alert('Login successful.');</script>";
+						echo "<script>alert('会员登录。');</script>";
 						echo "<script>window.location.href=' /dashboard.php'</script>";
 						exit;
 				} else {

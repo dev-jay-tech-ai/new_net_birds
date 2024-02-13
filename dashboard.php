@@ -1,5 +1,6 @@
 <?php require_once 'includes/header.php'; ?>
 <div class='container'>
+	<?php include_once 'component/banner.php' ?>
 	<div class="row">
 		<div class="main panel col-md-12 text-center mt-5 mb-5">
 			<div class='panel-heading text-data'>
@@ -28,7 +29,6 @@
 		</div>
 	</div> <!--/row-->
 	</div>
-	<?php include_once 'component/banner.php' ?>
 	<div class="panel panel-default mt-5">
 		<div class="panel-heading"><h3 class="panel-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最新发布</font></font></h3></div>
 		<?php include_once 'component/latestPosts.php' ?>

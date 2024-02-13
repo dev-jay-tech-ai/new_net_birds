@@ -1,11 +1,11 @@
 const xhr = new XMLHttpRequest();
 const url = window.location.href;
 const regexFilename = /\/([^\/]+)\.php/;
-const regexCode = /\?code=([^&]+)&?/;
+const regexCode = /code=([^&]+)/;
 let board = url.match(regexFilename)[1];
-const code = url.match(regexCode)[1];
+const code = url.match(regexCode) && url.match(regexCode)[1];
 const btnDelete = document.querySelector('#btn-delete');
-const checkboxes = document.querySelectorAll('.form-check-input');
+const checkboxes = document.querySelectorAll('.form-check-input:not(#checkAll)');
 const editButtons = document.querySelectorAll('.editUserModalBtn');
 const editUserModal = document.getElementById('editUserModal');
 const closeModalButtons = $('[data-dismiss="modal"]');
@@ -14,7 +14,6 @@ const editUserBtn = document.querySelector('#editUserBtn');
 
 if(board === 'list') board = code;
 
-/** Add user */
 addUserBtn && addUserBtn.addEventListener('click',(e) => {
   e.preventDefault();
   const username = document.getElementById('username').value;
@@ -89,7 +88,6 @@ addUserBtn && addUserBtn.addEventListener('click',(e) => {
   }
 });
 
-/** Edit user */
 editUserBtn && editUserBtn.addEventListener('click',(e) => {
   e.preventDefault();
   const user_id = document.getElementById('user_id').value;
@@ -140,6 +138,21 @@ editButtons && editButtons.forEach(function (button) {
   });
 });
 
+const checkAllCheckbox = document.getElementById('checkAll');
+checkAllCheckbox.addEventListener('change', () => {
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = checkAllCheckbox.checked;
+  });
+});
+
+checkboxes && checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      const idx = checkbox.closest('tr').dataset.idx;
+    }
+  });
+});
+
 btnDelete && btnDelete.addEventListener('click', function () {
   const selectedItems = [];
   checkboxes.forEach((checkbox) => {
@@ -171,14 +184,6 @@ btnDelete && btnDelete.addEventListener('click', function () {
   }
 });
 
-checkboxes && checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener('change', (e) => {
-    if (e.target.checked) {
-      const idx = checkbox.closest('tr').dataset.idx;
-    }
-  });
-});
-
 let user_id;
 const btn_delete_user = document.querySelectorAll('.btn_delete_user');
 btn_delete_user && btn_delete_user.forEach(button => {
@@ -193,6 +198,24 @@ btn_delete_user && btn_delete_user.forEach(button => {
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE) {
 				handleResponse(xhr, 'users', 'deleted');
+			}
+		};
+	});
+});
+
+const btn_block_user = document.querySelectorAll('.btn_block_user');
+btn_block_user && btn_block_user.forEach(button => {
+	button.addEventListener('click', async (e) => {
+		e.preventDefault();
+    const confirmBlock = confirm("Are you sure?");
+    if(!confirmBlock) return;
+		user_id = button.getAttribute('data-user-id');
+		xhr.open('POST', './php_action/blockUser.php', true); 
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(JSON.stringify({ user_id }));
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === XMLHttpRequest.DONE) {
+				handleResponse(xhr, 'users', 'updated');
 			}
 		};
 	});
@@ -258,7 +281,8 @@ function handleResponse(xhr, board, action) {
     const data = JSON.parse(xhr.responseText);
     if (data.result == 'success') {
       alert(`${action} successfully!`);
-      self.location.href = `/list.php?code=${board}`;
+      self.location.href = url;
+
     } else {
       alert(`Failed to : ${data.message}`);
     }

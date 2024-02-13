@@ -63,8 +63,10 @@
 					<?php 
 					if(isset($_SESSION['userId'])) {
 						if($user_result['username'] == $row['name'] || $user_result['status'] == 1) {
-							echo "<button id='btn_edit' class='btn btn-primary'>更新中</button>
-							<button id='btn_delete' class='btn btn-danger'>删除</button>";
+							if($user_result['status'] != 0) {
+								echo "<button id='btn_edit' class='btn btn-primary'>更新中</button>
+								<button id='btn_delete' class='btn btn-danger'>删除</button>";
+							}
 						} 
 					}?>
 				</div>
@@ -75,6 +77,11 @@
 						}
 					?>
 				</div>
+
+				<?php
+					include 'write_comment.php';
+					include 'view_comment.php';		
+				?>
 			</div>
 		</div>
 		<script>
@@ -116,6 +123,36 @@
 			alert('您确定要删除吗？');
 			fetchView('delete');
 		})
+		const btn_comment = document.querySelector('#btn_comment');
+		btn_comment.addEventListener('click',() => {
+			const comment_content = document.querySelector('#comment_content');
+			if(comment_content.value == '') {
+				alert('댓글 내용을 입력 바랍니다');
+				comment_content.focus();
+				return false;
+			}
+			// comment_content.value
+			// 작성자 아이디: 세션
+			// 글번호: params['idx']
+			// Get the current URL
+			const url = window.location.href;
+			const searchParams = new URLSearchParams(new URL(url).search);
+			const idx = searchParams.get('idx');
+			const f1 = new FormData();
+			f1.append('idx',idx);
+			f1.append('content', comment_content.value);
+			f1.append('mode','input');
+			// f1.append('session_id',$_SESSION[]);
+
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', './php_action/fetchComment.php', true);
+			xhr.send(f1)
+			xhr.onload = () => {
+				if(xhr.status == 200) alert('success!')
+				else if(xhr.status == 404) alert('fail')
+			}
+		})
+
 		</script>  	
 	</div> <!-- /col-md-12 -->
 </div> <!-- /row -->

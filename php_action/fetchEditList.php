@@ -88,7 +88,7 @@ if (empty($response)) {
       $stmt->bind_param('ssissi', $name, $title, $location, $contentWithPaths, $imglist, $idx);
     }
     if(!$stmt->execute()) {
-      $response = ['result' => 'error', 'message' => '执行失败: (' . $stmt->errno . ') ' . $stmt->error];
+      $response = ['result' => 'error', 'message' => '操作失败: (' . $stmt->errno . ') ' . $stmt->error];
     } else {
       $response = ['result' => 'success', 'message' => '更新成功'];
     }

@@ -100,7 +100,7 @@
 										try {
 										const data = JSON.parse(xhr.responseText);
 										if (data.result == 'success') {
-											alert('成功重新列出');
+											alert('贴子已更新。');
 											location.reload();
 										} else {
 											alert(`Failed to : ${data.message}`);

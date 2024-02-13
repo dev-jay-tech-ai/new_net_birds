@@ -8,12 +8,17 @@
 	include 'component/searchbar.php'; 
   $sn = (isset($_GET['sn']) && $_GET['sn'] !== '') ? $_GET['sn'] : '';
 	$sf = (isset($_GET['sf']) && $_GET['sf'] !== '') ? $_GET['sf'] : '';
-
   include 'php_action/fetchList.php'; 
 ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
+			<?php 
+			if(isset($result['status']) && $result['status'] == 0) {
+				echo "<div class='alert alert-danger' role='alert'>
+				你的账户被封
+				</div>";
+			} ?>
 			<ol class="breadcrumb">
 				<li><a href="dashboard.php">主页</a></li>		  
 				<li class="active"><?= $board_title ?></li>
@@ -29,7 +34,7 @@
 					<button id='btn-write' class='btn btn-primary'>Write</button>
 					<button id='btn-delete' class='btn btn-secondary'>Delete</button>
 					</div>";		
-				} else {
+			} else if ($result['status'] != 0) {
 					echo "<div class='d-flex justify-content-end mb-3'>
 					<button id='btn-write' class='btn btn-primary'>编辑内容</button>
 					</div>";		
@@ -53,7 +58,7 @@
           <tr>
             <?php 
               if(isset($_SESSION['userId']) && $result['status'] == 1) {
-                echo "<th class='text-center'></th>";		
+                echo "<th class='text-center'><input class='form-check-input' type='checkbox' value='' id='checkAll'></th>";		
               } 
             ?>
             <th class='text-center'></th>

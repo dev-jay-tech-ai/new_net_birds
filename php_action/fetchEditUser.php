@@ -57,7 +57,7 @@ if (empty($response)) {
         $sql = 'UPDATE users SET username=?, email=?, credit=?, active=?, status=? WHERE user_id=?';
     }
     $stmt = $connect->prepare($sql);
-    if (!$stmt) {
+    if(!$stmt) {
         $response = ['result' => 'error', 'message' => 'Prepare failed: (' . $connect->error . ') ' . $connect->error];
     } else {
         if($filelist !== '') {

@@ -56,7 +56,7 @@ if(isset($_REQUEST['pwdrst'])) {
 		<div class="row col-lg-9 col-sm-12">
 			<div class="col-lg-offset-2 col-lg-8">
       <div class="table-responsive col-lg-offset-2 col-lg-8 border-0">  
-      <h3 align="center">忘记密码</h3><br/>
+      <h3 class="center">忘记密码</h3><br/>
       <div class="box">
       <div class="messages">
       <?php if(!empty($msg)){ echo '<div class="alert alert-warning" role="alert">
