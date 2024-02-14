@@ -27,10 +27,10 @@ if (empty($username) || empty($email) || empty($password)) {
       $file_ext = array_search(
         $file_mime_type,
         [
-        'jpg' => 'image/jpeg',         
-        'png' => 'image/png',
-        'gif' => 'image/gif',
-        'jpeg' => 'image/jpeg'
+          'jpg' => 'image/jpeg',         
+          'png' => 'image/png',
+          'gif' => 'image/gif',
+          'jpeg' => 'image/jpeg'
         ],
         true
       );

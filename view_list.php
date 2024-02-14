@@ -18,6 +18,7 @@
 	$stmt = $connect->prepare($sql);
 	$stmt->bind_param('i', $idx);
 	$stmt->execute();
+	
   $sql = "SELECT * FROM $board WHERE idx=?";
   $stmt = $connect->prepare($sql);
   $stmt->bind_param('i', $idx); // 'i' represents the data type of the parameter (integer)

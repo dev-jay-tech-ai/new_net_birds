@@ -11,6 +11,10 @@ if (isset($data['items'])) {
             $board = 'pboard';
         } elseif ($data['board'] == 'review') {
             $board = 'rboard';
+        } elseif ($data['board'] == 'jobs') {
+            $board = 'jboard';
+        } elseif ($data['board'] == 'property') {
+            $board = 'prboard';
         }
         $sql = "DELETE FROM $board WHERE idx = ?";
         $stmt = $connect->prepare($sql);

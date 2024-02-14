@@ -160,6 +160,7 @@ btnDelete && btnDelete.addEventListener('click', function () {
       selectedItems.push(checkbox.closest('.view_detail').dataset.idx);
     }
   });
+  console.log(selectedItems);
   if(selectedItems.length > 0) {
     const confirmDelete = confirm("Are you sure you want to delete?");
     if(!confirmDelete) return;

@@ -6,12 +6,16 @@ $data = json_decode($jsonData, true);
 if (isset($data['idx'])) {
     $arr = $data['idx'];
     list($idx, $active) = explode("_", $arr);
-    if($data['board'] == 'agent') {
+    if ($data['board'] == 'agent') {
         $board = 'aboard';
-    } elseif($data['board'] == 'private') {
+    } elseif ($data['board'] == 'private') {
         $board = 'pboard';
-    } elseif($data['board'] == 'review') {
+    } elseif ($data['board'] == 'review') {
         $board = 'rboard';
+    } elseif ($data['board'] == 'jobs') {
+        $board = 'jboard';
+    } elseif ($data['board'] == 'property') {
+        $board = 'prboard';
     }
     $sql = "DELETE FROM $board WHERE idx = ?";
     $stmt = $connect->prepare($sql);
