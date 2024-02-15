@@ -78,7 +78,6 @@
 						}
 					?>
 				</div>
-
 				<?php
 					include 'write_comment.php';
 					include 'view_comment.php';		
@@ -124,35 +123,39 @@
 			alert('您确定要删除吗？');
 			fetchView('delete');
 		})
+
 		const btn_comment = document.querySelector('#btn_comment');
 		btn_comment.addEventListener('click',() => {
 			const comment_content = document.querySelector('#comment_content');
 			if(comment_content.value == '') {
-				alert('댓글 내용을 입력 바랍니다');
+				alert('댓글 내용을 입력 바랍니다'); // 중국어 변역 필요
 				comment_content.focus();
 				return false;
 			}
-			// comment_content.value
-			// 작성자 아이디: 세션
-			// 글번호: params['idx']
-			// Get the current URL
-			const url = window.location.href;
-			const searchParams = new URLSearchParams(new URL(url).search);
-			const idx = searchParams.get('idx');
-			const f1 = new FormData();
-			f1.append('idx',idx);
-			f1.append('content', comment_content.value);
-			f1.append('mode','input');
-			// f1.append('session_id',$_SESSION[]);
-
+			const user_id = <?= json_encode($_SESSION['userId']); ?>;
+			const formData = new FormData();
+			formData.append('user_id', user_id);
+			formData.append('idx', param['idx']);
+			formData.append('content', comment_content.value);
 			const xhr = new XMLHttpRequest();
 			xhr.open('post', './php_action/fetchComment.php', true);
-			xhr.send(f1)
+			xhr.send(formData)
 			xhr.onload = () => {
-				if(xhr.status == 200) alert('success!')
-				else if(xhr.status == 404) alert('fail')
+				if(xhr.status == 200) {
+					try {	
+						const data = JSON.parse(xhr.responseText)
+						if(data.result == 'success') {
+							alert('Success!')
+							self.location.href = '/list.php?code='+code;
+						} else alert('Failed'); // alert('Failed'+ data.message); // Display the error message
+					} catch(error) {
+						console.error('Error parsing JSON:', error);
+					}
+				} else alert('Error: ' + xhr.status);
 			}
 		})
+
+
 
 		</script>  	
 	</div> <!-- /col-md-12 -->

@@ -34,7 +34,7 @@
 					<button id='btn-write' class='btn btn-primary'>Write</button>
 					<button id='btn-delete' class='btn btn-secondary'>Delete</button>
 					</div>";		
-			} else if ($result['status'] != 0) {
+			} else if($result['status'] != 0) {
 					echo "<div class='d-flex justify-content-end mb-3'>
 					<button id='btn-write' class='btn btn-primary'>编辑内容</button>
 					</div>";		

@@ -140,7 +140,7 @@
 									if(data.result == 'success') {
 										alert('Success!')
 										self.location.href = '/list.php?code='+code;
-									} else alert('Failed'+ data.message); // Display the error message
+									} else alert('Failed'); // alert('Failed'+ data.message); // Display the error message
 								} catch(error) {
 									console.error('Error parsing JSON:', error);
 								}

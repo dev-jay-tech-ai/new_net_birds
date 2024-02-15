@@ -139,7 +139,7 @@ editButtons && editButtons.forEach(function (button) {
 });
 
 const checkAllCheckbox = document.getElementById('checkAll');
-checkAllCheckbox.addEventListener('change', () => {
+checkAllCheckbox && checkAllCheckbox.addEventListener('change', () => {
   checkboxes.forEach(function(checkbox) {
       checkbox.checked = checkAllCheckbox.checked;
   });
