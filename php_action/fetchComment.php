@@ -10,7 +10,7 @@ if ($content == '') {
 }
 
 $sql = '';
-if(!isset($parent_id)) {
+if(!isset($parent_id) && $parent_id !== 0) {
  $sql =  "INSERT INTO comments (post_id, user_id, title, content, likes, active, ip, create_at) VALUES (?, ?, '', ?, 0, 1, ?, NOW())";
 } else {
   $sql =  "INSERT INTO comments_re (post_id, user_id, parent_id, title, content, likes, active, ip, create_at) VALUES (?, ?, ?, '', ?, 0, 1, ?, NOW())";

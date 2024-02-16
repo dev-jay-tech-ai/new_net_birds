@@ -1,4 +1,12 @@
 <?php
+if (isset($_SESSION['userId'])) {
+  $user_id = $_SESSION['userId'];
+  $_sql = "SELECT * FROM users WHERE user_id = {$user_id}";
+  $_query = $connect->query($_sql);
+  $_result = $_query->fetch_assoc();
+  $initial = strtoupper(mb_substr($_result['username'], 0, 1, 'UTF-8'));
+}
+
 $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx']) ? $_GET['idx'] : '');
 if ($idx == '') {
     exit('Not allow to the abnormal access');
@@ -24,7 +32,7 @@ while ($row = $result->fetch_assoc()) {
         foreach ($comments as $comment) {
         ?>
         <div class='main d-flex mb-4'>
-          <div class='comment'>
+          <div class='comment' data-idx='<?= $comment['idx']; ?>'>
           <div class='username'>
             <div class='board_profile'>
               <img src='./assets/images/profile/20231204045642_656d4dfada8ac.jpeg' />
@@ -33,13 +41,21 @@ while ($row = $result->fetch_assoc()) {
           </div>
           <div class='mt-3 mb-2'><?= $comment['content']; ?></div>
           <div class='bottom'>
-            <button class='btn-unset reply-btn' data-idx='<?= $comment['idx']; ?>><i class="fa fa-comments-o" aria-hidden="true"></i> Reply</button>
+            <button class='btn-unset reply-btn'><i class="fa fa-comments-o" aria-hidden="true"></i> Reply</button>
             &nbsp; · &nbsp;<?= $comment['create_at']; ?>&nbsp; &nbsp;
-            <button class='btn-unset edit'> Edit</button>
-            <button class='btn-unset delete'> Delete</button>
+            <?php
+            if(isset($_SESSION['userId'])) {
+              if($_SESSION['userId'] === $comment['user_id'] || $_result['status'] == 1) {
+            ?>  
+                <button class='btn-unset edit'> Edit</button>
+                <button class='btn-unset delete'> Delete</button>
+            <?php  
+              }
+            }
+            ?>
           </div>
           <?php
-            $sqlSub = "SELECT cre.*, u.username 
+            $sqlSub = "SELECT cre.*, u.* 
             FROM comments_re cre 
             INNER JOIN comments c ON cre.parent_id = c.idx 
             INNER JOIN users u ON cre.user_id = u.user_id
@@ -62,8 +78,12 @@ while ($row = $result->fetch_assoc()) {
                 echo "</div>";
                 echo "<div class='mt-3 mb-2'>" . $sub['content'] . "</div>";
                 echo "<div class='bottom'>" . $sub['create_at'] . "&nbsp; &nbsp;";
-                echo "<button class='btn-unset edit'> Edit</button>";
-                echo "<button class='btn-unset delete'> Delete</button>";
+                if(isset($_SESSION['userId'])) {
+                  if($_SESSION['userId'] === $sub['user_id'] || $_result['status'] == 1) {
+                    echo "<button class='btn-unset edit'> Edit</button>";
+                    echo "<button class='btn-unset delete'> Delete</button>";
+                  }
+                } 
                 echo "</div></div>";
               }
             }
@@ -120,32 +140,29 @@ while ($row = $result->fetch_assoc()) {
         comment_content.focus();
         return false;
       }
-      console.log('부모노드',e.target.parentNode.lastElementChild);
-			// const user_id = <?= json_encode($_SESSION['userId']); ?>;
-			// const parent_id = '';
-			// console.log(user_id, parent_id)
-      // const formData = new FormData();
-			// formData.append('user_id', user_id);
-			// formData.append('parent_id', parent_id);
-			// formData.append('idx', param['idx']);
-			// formData.append('content', comment_content.value);
-			// const xhr = new XMLHttpRequest();
-			// xhr.open('post', './php_action/fetchComment.php', true);
-			// xhr.send(formData)
-			// xhr.onload = () => {
-			// 	if(xhr.status == 200) {
-			// 		try {	
-			// 			const data = JSON.parse(xhr.responseText)
-			// 			if(data.result == 'success') {
-			// 				alert('Success!')
-			// 				self.location.href = '/list.php?code='+code;
-			// 			} else alert('Failed'); // alert('Failed'+ data.message); // Display the error message
-			// 		} catch(error) {
-			// 			console.error('Error parsing JSON:', error);
-			// 		}
-			// 	} else alert('Error: ' + xhr.status);
-			// }
-
+			const parent_id = e.target.parentNode.parentNode.dataset.idx;
+			const user_id = <?= json_encode($_SESSION['userId']); ?>;
+      const formData = new FormData();
+			formData.append('user_id', user_id);
+			formData.append('parent_id', parent_id);
+			formData.append('idx', param['idx']);
+			formData.append('content', comment_content.value);
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', './php_action/fetchComment.php', true);
+			xhr.send(formData)
+			xhr.onload = () => {
+				if(xhr.status == 200) {
+					try {	
+						const data = JSON.parse(xhr.responseText)
+						if(data.result == 'success') {
+							alert('Success!')
+							self.location.href = '/list.php?code='+code+'&idx='+param['idx'];
+						} else alert('Failed'); // alert('Failed'+ data.message); // Display the error message
+					} catch(error) {
+						console.error('Error parsing JSON:', error);
+					}
+				} else alert('Error: ' + xhr.status);
+			}
 
     }
     

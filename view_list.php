@@ -78,10 +78,13 @@
 						}
 					?>
 				</div>
-				<?php
-					include 'write_comment.php';
-					include 'view_comment.php';		
-				?>
+				<?php 
+				if(isset($_SESSION['userId'])) {
+					if($user_result['status'] != 0) {
+						include 'write_comment.php';
+						include 'view_comment.php';	
+					}
+				}?>
 			</div>
 		</div>
 		<script>
@@ -125,7 +128,7 @@
 		})
 
 		const btn_comment = document.querySelector('#btn_comment');
-		btn_comment.addEventListener('click',() => {
+		btn_comment && btn_comment.addEventListener('click',() => {
 			const comment_content = document.querySelector('#comment_content');
 			if(comment_content.value == '') {
 				alert('댓글 내용을 입력 바랍니다'); // 중국어 변역 필요
@@ -146,7 +149,7 @@
 						const data = JSON.parse(xhr.responseText)
 						if(data.result == 'success') {
 							alert('Success!')
-							self.location.href = '/list.php?code='+code;
+							self.location.href = '/view_list.php?code='+code+'&idx='+param['idx'];
 						} else alert('Failed'); // alert('Failed'+ data.message); // Display the error message
 					} catch(error) {
 						console.error('Error parsing JSON:', error);
@@ -154,8 +157,6 @@
 				} else alert('Error: ' + xhr.status);
 			}
 		})
-
-
 
 		</script>  	
 	</div> <!-- /col-md-12 -->
